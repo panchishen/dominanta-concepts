@@ -205,6 +205,7 @@ const REVEAL_CSS = `
 @media (prefers-reduced-motion:reduce){.rv{translate:none}.rv.rv-in{transition:opacity .3s ease var(--rv-delay,0ms)}}`;
 const REVEAL_ATOMIC = 'p,h1,h2,h3,ul,ol,dl,a,form,figure,article,details,button,img,table,[data-carousel]';
 const REVEAL_STAGGER = 60;
+const REVEAL_LINE = 0.22;
 
 function collectRevealTargets(element, depth, targets) {
   const style = getComputedStyle(element);
@@ -232,23 +233,45 @@ function initReveal() {
   document.querySelectorAll('main > *, .page > *').forEach(root => collectRevealTargets(root, 0, targets));
   targets.forEach(target => target.classList.add('rv'));
 
+  const pending = new Set(targets);
   const finish = target => target.classList.remove('rv', 'rv-in');
+  const reveal = (target, order) => {
+    if (!pending.delete(target)) return;
+    const delay = Math.min(order, 8) * REVEAL_STAGGER;
+    target.style.setProperty('--rv-delay', delay + 'ms');
+    target.classList.add('rv-in');
+    observer.unobserve(target);
+    setTimeout(() => { finish(target); target.style.removeProperty('--rv-delay'); }, delay + 700);
+  };
+
+  /* On scroll an element starts only after it has risen REVEAL_LINE of the viewport height,
+     so the whole animation plays on screen, not at the bottom edge */
   const observer = new IntersectionObserver(entries => {
     let order = 0;
     entries.forEach(entry => {
-      const target = entry.target;
-      if (!entry.isIntersecting) {
-        if (entry.boundingClientRect.top < 0) { finish(target); observer.unobserve(target); }
-        return;
+      if (entry.isIntersecting) { reveal(entry.target, order++); return; }
+      if (entry.boundingClientRect.top < 0 && pending.delete(entry.target)) {
+        finish(entry.target);
+        observer.unobserve(entry.target);
       }
-      const delay = Math.min(order++, 8) * REVEAL_STAGGER;
-      target.style.setProperty('--rv-delay', delay + 'ms');
-      target.classList.add('rv-in');
-      observer.unobserve(target);
-      setTimeout(() => { finish(target); target.style.removeProperty('--rv-delay'); }, delay + 700);
     });
-  }, { rootMargin: '0px 0px -6% 0px' });
-  targets.forEach(target => observer.observe(target));
+  }, { rootMargin: `0px 0px -${REVEAL_LINE * 100}% 0px` });
+
+  /* Load: everything already on the first screen plays right away, in order */
+  let order = 0;
+  targets.forEach(target => {
+    if (target.getBoundingClientRect().top < window.innerHeight) reveal(target, order++);
+    else observer.observe(target);
+  });
+
+  /* The last blocks of the page can never reach the line — show them when the page ends */
+  window.addEventListener('scroll', () => {
+    if (!pending.size || window.innerHeight + window.scrollY < document.documentElement.scrollHeight - 40) return;
+    let last = 0;
+    [...pending].forEach(target => {
+      if (target.getBoundingClientRect().top < window.innerHeight) reveal(target, last++);
+    });
+  }, { passive: true });
 }
 
 /* Small switcher between concepts (desktop only) */
