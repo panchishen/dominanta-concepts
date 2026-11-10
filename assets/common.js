@@ -2,6 +2,8 @@
    Each page defines window.TPL = { listName: item => html } and marks containers with data-list / data-t. */
 const SITE = 'https://dominanta74.ru';
 const img = p => SITE + p;
+/* Photos prepared from the client's originals, see assets/img */
+const local = name => 'assets/img/' + name;
 const thumb = (p, w) => `${SITE}/phpThumb/phpThumb.php?src=${p}&w=${w}&q=78`;
 
 const DATA = {
@@ -14,15 +16,17 @@ const DATA = {
 
   photos: {
     chief: img('/new_layout/img/v_main_photo.png'),
-    chiefFace: img('/netcat_files/5/4/Frame_1.png'),
-    macro: img('/netcat_files/multifile/29/2020_11_25_11_18_24_glebsavin_ru.jpg'),
+    chiefFace: local('doctor-01.jpg'),
+    macro: local('macro.jpg'),
+    family: local('family.jpg'),
+    girl: local('girl.jpg'),
     woman: img('/new_layout/img/video_about_clinic_image-2.png'),
-    video: img('/new_layout/img/video_about_clinic_cover.jpg'),
-    lab: img('/new_layout/img/index_bg_1.jpg'),
-    equipment: img('/new_layout/img/index_bg_2_002.jpg'),
-    lounge: img('/new_layout/img/index_bg_3_new.jpg'),
-    dsd: img('/netcat_files/userfiles/kompyuternoe-modelirovanie.jpg'),
-    tmj: img('/new_layout/img/article_2.jpg'),
+    video: local('team.jpg'),
+    lab: local('lab.jpg'),
+    equipment: local('equipment.jpg'),
+    lounge: local('lounge.jpg'),
+    dsd: local('dsd.jpg'),
+    tmj: local('tmj.jpg'),
     credit: img('/new_layout/img/credit/credit_girl-2.png'),
     sirona: img('/new_layout/img/sirona_logo.png'),
     rda: img('/new_layout/img/rda_logo.png')
@@ -78,12 +82,12 @@ const DATA = {
     ['Фокина Вера', 'Гигиенист', '3 года', 'Frame_1_0.png'],
     ['Алисов Данил', 'Гигиенист', '1 год', 'Frame_119_0.png'],
     ['Ризаева Анастасия', 'Стоматолог-ортопед', '10 лет', 'Frame_110_0.png']
-  ].map(([name, role, exp, file]) => ({ name, role, exp, photo: img('/netcat_files/5/4/' + file) })),
+  ].map(([name, role, exp], index) => ({ name, role, exp, photo: local(`doctor-${String(index + 1).padStart(2, '0')}.jpg`) })),
 
   cycle: [
-    { title: 'Компьютерная диагностика', text: 'Совмещаем 3D-томографию с 3D-сканированием и получаем точную цифровую модель челюсти: поверхности зубов, дёсны, анатомия кости.', photo: img('/new_layout/img/tech_1.jpg') },
-    { title: 'Моделирование операции', text: 'Планируем вмешательство на 3D-модели с учётом строения кости, корневой системы и формы дёсен.', photo: img('/new_layout/img/tech_2.jpg') },
-    { title: 'Изготовление на CAD/CAM', text: 'Вкладки, коронки, элайнеры, протезы и шаблоны для имплантации делаем на фрезерном станке или медицинском 3D-принтере. Точность в 20 раз выше стандартной.', photo: img('/new_layout/img/tech_3.jpg') }
+    { title: 'Компьютерная диагностика', text: 'Совмещаем 3D-томографию с 3D-сканированием и получаем точную цифровую модель челюсти: поверхности зубов, дёсны, анатомия кости.', photo: local('cycle-1.jpg') },
+    { title: 'Моделирование операции', text: 'Планируем вмешательство на 3D-модели с учётом строения кости, корневой системы и формы дёсен.', photo: local('cycle-2.jpg') },
+    { title: 'Изготовление на CAD/CAM', text: 'Вкладки, коронки, элайнеры, протезы и шаблоны для имплантации делаем на фрезерном станке или медицинском 3D-принтере. Точность в 20 раз выше стандартной.', photo: local('cycle-3.jpg') }
   ],
 
   equipment: ['Стоматологический микроскоп', '3D-томограф высокого разрешения Sirona', 'Цифровая лаборатория CEREC', 'Миограф «Колибри»', '3D-принтер ASIGA', 'Лазер LiteTouch'],
