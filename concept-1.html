@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Доминанта — концепт 1 «Сетка»</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#101314;--grey:#6A7073;--line:#DADDDF;--bg2:#F3F4F5;--teal:#00848A;--orange:#FF540F;--pad:48px}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:#fff;color:var(--ink);font:400 16px/1.5 'Onest',Arial,sans-serif;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-weight:600;letter-spacing:-.035em;line-height:1}
+h1{font-size:clamp(46px,8.4vw,132px)}
+h2{font-size:clamp(30px,4vw,60px)}
+h3{font-size:22px;letter-spacing:-.02em;line-height:1.15}
+.grey{color:var(--grey)}
+.cap{font-size:12.5px;text-transform:uppercase;letter-spacing:.08em;font-weight:500}
+.btn{display:inline-flex;align-items:center;justify-content:space-between;gap:28px;background:var(--orange);color:#fff;font-weight:500;font-size:16px;padding:18px 22px;border:0;cursor:pointer;font-family:inherit;transition:background .2s}
+.btn::after{content:'→'}
+.btn:hover{background:var(--ink)}
+.btn.dark{background:var(--ink)}
+.btn.dark:hover{background:var(--teal)}
+.lnk{font-weight:500;border-bottom:1px solid currentColor}
+.lnk:hover{color:var(--teal)}
+
+.shell{display:grid;grid-template-columns:232px 1fr}
+.rail{position:sticky;top:0;height:100vh;border-right:1px solid var(--ink);padding:28px 24px;display:flex;flex-direction:column}
+.rail img{height:34px;align-self:start}
+.rail nav{margin-top:44px;display:grid}
+.rail nav a{display:flex;gap:14px;padding:9px 0;border-top:1px solid var(--line);font-size:15px}
+.rail nav a span{color:var(--grey);font-size:12px;padding-top:3px;width:18px}
+.rail nav a:hover{color:var(--teal)}
+.rail .bottom{margin-top:auto;display:grid;gap:6px;font-size:14px}
+.rail .tel{font-size:18px;font-weight:600;letter-spacing:-.02em}
+.rail .btn{margin-top:14px;padding:15px 18px}
+.page{min-width:0}
+
+.hero{padding:40px var(--pad) 0}
+.hero .top{display:flex;justify-content:space-between;gap:24px}
+.hero .main{display:grid;grid-template-columns:1.65fr 1fr;gap:var(--pad);margin-top:28px}
+.hero .left{display:flex;flex-direction:column;justify-content:space-between;gap:40px}
+.hero h1{font-size:clamp(46px,6.2vw,112px);margin-top:12px}
+.hero h1 i{font-style:normal;color:var(--teal)}
+.hero .row{display:grid;grid-template-columns:1.2fr 1fr;gap:var(--pad);align-items:end}
+.hero .row p{font-size:19px;line-height:1.45}
+.hero .acts{display:grid;gap:10px}
+.hero .ph{background:var(--bg2);min-height:440px;overflow:hidden;position:relative}
+.hero .ph img{position:absolute;left:0;right:0;top:5%;height:118%;margin:0 auto;object-fit:contain;object-position:top}
+.hero .ph span{position:absolute;left:0;bottom:0;background:#fff;padding:12px 16px 0 0;font-size:13.5px;max-width:230px;line-height:1.35}
+.hero .ph b{display:block;font-size:16px}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);margin-top:var(--pad);border-top:1px solid var(--ink)}
+.facts div{padding:22px 20px 28px 0;border-right:1px solid var(--line)}
+.facts div+div{padding-left:20px}
+.facts div:last-child{border:0}
+.facts b{display:block;font-size:clamp(28px,3.2vw,48px);font-weight:600;letter-spacing:-.04em;line-height:1;margin-bottom:10px;white-space:nowrap}
+.facts span{font-size:14px;color:var(--grey)}
+
+section{border-top:1px solid var(--ink);margin-top:120px}
+.sh{display:grid;grid-template-columns:1fr 3fr;gap:var(--pad);padding:22px var(--pad) 56px}
+.sh .cap{padding-top:8px}
+.sh div{display:flex;justify-content:space-between;align-items:end;gap:32px;flex-wrap:wrap}
+.body{padding:0 var(--pad)}
+.off{margin-left:calc(25% + 12px)}
+
+.cg{display:grid;border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.cg>*{border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.c4{grid-template-columns:repeat(4,1fr)}.c3{grid-template-columns:repeat(3,1fr)}.c2{grid-template-columns:1fr 1fr}
+
+.prob a{display:grid;grid-template-columns:1fr auto;gap:8px 20px;padding:22px 24px;transition:.15s}
+.prob b{font-size:21px;font-weight:500;letter-spacing:-.02em}
+.prob span{grid-column:1;font-size:14px;color:var(--grey)}
+.prob i{grid-row:1/3;grid-column:2;font-style:normal;font-size:24px;align-self:center}
+.prob a:hover{background:var(--ink);color:#fff}
+.prob a:hover span{color:#B9C0C3}
+
+.serv a{padding:26px 24px 30px;min-height:290px;display:flex;flex-direction:column;transition:.15s}
+.serv img{width:72px;height:72px;margin-bottom:auto}
+.serv .cap{color:var(--grey);margin:28px 0 10px}
+.serv h3{margin-bottom:8px}
+.serv p{font-size:14.5px;color:var(--grey)}
+.serv a:hover{background:var(--bg2)}
+.serv a.all{background:var(--teal);color:#fff;justify-content:space-between}
+.serv a.all h3{font-size:30px}
+.serv a.all:hover{background:var(--ink)}
+
+.black{background:var(--ink);color:#fff;border:0}
+.black .sh{padding-top:56px}
+.black .grey{color:#9BA3A6}
+.g70{display:grid;grid-template-columns:1fr 1fr;gap:var(--pad);padding:0 var(--pad) 72px;align-items:end}
+.g70 .num{font-size:clamp(110px,17vw,270px);font-weight:600;letter-spacing:-.06em;line-height:.8}
+.g70 .num small{font-size:.35em;letter-spacing:-.02em}
+.g70 p{font-size:18px;color:#D5DADC;max-width:560px}
+.g70 .who{display:flex;gap:16px;align-items:center;margin-top:30px;padding-top:24px;border-top:1px solid #3A4144;font-size:14px;color:#9BA3A6}
+.g70 .who img{width:64px;height:64px;object-fit:cover}
+.g70 .who b{display:block;color:#fff;font-size:17px}
+.video{display:block;position:relative;aspect-ratio:21/8;background:center/cover;margin:0 var(--pad)}
+.video::before{content:'';position:absolute;inset:0;background:rgba(16,19,20,.35)}
+.video span{position:absolute;left:24px;bottom:22px;font-size:20px;font-weight:500;display:flex;align-items:center;gap:16px}
+.video span::before{content:'▶';width:60px;height:60px;background:var(--orange);display:grid;place-items:center;padding-left:4px}
+.black .body{padding-bottom:var(--pad)}
+
+.about{display:grid;grid-template-columns:1fr 1fr;gap:var(--pad)}
+.about p.big{font-size:26px;line-height:1.3;letter-spacing:-.02em;margin-bottom:28px}
+.adv>div{display:grid;grid-template-columns:44px 1fr;padding:18px 0;border-top:1px solid var(--line)}
+.adv>div>span{color:var(--teal);font-weight:500}
+.adv b{font-weight:600;font-size:18px;display:block;margin-bottom:2px}
+.adv p{color:var(--grey);font-size:15px}
+
+.team article{padding:0 0 22px}
+.team img{width:100%;aspect-ratio:1;object-fit:cover;filter:grayscale(1);transition:filter .3s;background:var(--bg2)}
+.team article:hover img{filter:none}
+.team h3{font-size:19px;margin:16px 18px 6px}
+.team p{font-size:13.5px;color:var(--grey);margin:0 18px;min-height:56px}
+.team .cap{margin:10px 18px 0;color:var(--teal);display:block}
+.team .cta{grid-column:span 3;padding:32px;background:var(--bg2);display:flex;flex-direction:column;justify-content:space-between;gap:24px;align-items:start}
+.team .cta h3{font-size:clamp(24px,2.6vw,38px);margin:0;max-width:640px;line-height:1.05}
+
+.cyc article{padding:0 0 26px}
+.cyc img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.cyc .cap{display:block;margin:20px 22px 10px;color:var(--teal)}
+.cyc h3{margin:0 22px 10px}
+.cyc p{margin:0 22px;font-size:14.5px;color:var(--grey)}
+.lab{display:grid;grid-template-columns:1.4fr 1fr;margin-top:var(--pad);border:1px solid var(--line)}
+.lab .ph{min-height:420px;background:center/cover}
+.lab .tx{padding:36px;border-left:1px solid var(--line)}
+.lab h3{font-size:30px;margin:14px 0 14px}
+.lab ul{list-style:none;padding:0;margin-top:26px}
+.lab li{padding:10px 0;border-top:1px solid var(--line);font-size:15px;display:flex;justify-content:space-between}
+.lab li::after{content:'●';color:var(--teal);font-size:9px;align-self:center}
+.status{display:flex;gap:32px;align-items:center;padding:24px 0;font-size:14.5px;color:var(--grey)}
+.status img{height:34px}
+
+.case article{padding:0 0 30px}
+.case img{width:100%;aspect-ratio:16/9;object-fit:cover}
+.case h3{font-size:28px;margin:26px 28px 12px;line-height:1.05}
+.case p{margin:0 28px 20px;color:var(--grey)}
+.case a{margin-left:28px}
+.lounge{display:grid;grid-template-columns:1fr 2fr;margin-top:var(--pad);background:var(--bg2)}
+.lounge .tx{padding:36px;display:flex;flex-direction:column;justify-content:space-between;gap:24px}
+.lounge h3{font-size:30px}
+.lounge .ph{min-height:420px;background:center/cover}
+
+.visit{display:grid;grid-template-columns:1.6fr 1fr;gap:var(--pad)}
+.steps article{padding:24px}
+.steps b{font-size:54px;font-weight:600;letter-spacing:-.05em;line-height:1;color:var(--line);display:block;margin-bottom:26px}
+.steps h3{margin-bottom:8px}
+.steps p{font-size:14.5px;color:var(--grey)}
+.price .row{display:flex;justify-content:space-between;gap:20px;padding:16px 0;border-top:1px solid var(--line);font-size:15px}
+.price .row:first-child{border-top-color:var(--ink)}
+.price .row b{white-space:nowrap;font-weight:600;font-size:18px}
+.price p{font-size:13.5px;color:var(--grey);margin:6px 0 22px}
+.price .btn{width:100%}
+
+.scans figure{padding:18px 18px 20px}
+.scans img{width:100%;aspect-ratio:400/500;object-fit:cover;object-position:top;border:1px solid var(--line)}
+.scans figcaption{margin-top:14px;font-weight:500}
+.scans figcaption span{display:block;font-weight:400;font-size:13px;color:var(--grey)}
+.plat{display:flex;gap:28px;flex-wrap:wrap;margin-top:28px}
+
+.pay article{padding:36px;display:flex;flex-direction:column;align-items:start}
+.pay h3{font-size:32px;margin:14px 0 16px;line-height:1.02}
+.pay p{color:var(--grey);margin-bottom:16px}
+.pay .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:22px}
+.pay .tags span{border:1px solid var(--line);padding:5px 10px;font-size:13.5px}
+.pay .btn{margin-top:auto}
+
+.feed{display:grid;grid-template-columns:1fr 2fr;gap:var(--pad)}
+.news a{display:block;padding:16px 0;border-top:1px solid var(--line);font-size:15.5px}
+.news time{display:block;font-size:13px;color:var(--grey);margin-bottom:4px}
+.news a:hover,.arts a:hover b{color:var(--teal)}
+.arts{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.arts img{width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--bg2);margin-bottom:14px}
+.arts b{font-size:18px;font-weight:600;letter-spacing:-.02em;line-height:1.15;display:block;margin-bottom:8px}
+.arts p{font-size:14px;color:var(--grey)}
+
+.faq details{border-top:1px solid var(--line);padding:22px 0}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{font-size:24px;font-weight:500;letter-spacing:-.02em;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:24px}
+.faq summary::after{content:'+';color:var(--teal)}
+.faq details[open] summary::after{content:'−'}
+.faq p{margin-top:12px;color:var(--grey);max-width:680px}
+
+.contact{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--ink);margin-top:120px}
+.contact>div{padding:var(--pad)}
+.contact .tel{display:block;font-size:clamp(34px,4.6vw,68px);font-weight:600;letter-spacing:-.04em;line-height:1;margin:22px 0 36px}
+.contact dl{display:grid;grid-template-columns:150px 1fr;font-size:15.5px}
+.contact dt,.contact dd{padding:13px 0;border-top:1px solid var(--line);margin:0}
+.contact dt{color:var(--grey)}
+form{background:var(--bg2);padding:var(--pad)}
+form h3{font-size:34px;margin-bottom:8px}
+form label{display:block;font-size:13px;color:var(--grey);margin-top:22px}
+form input[type=text],form input[type=tel],form select{width:100%;border:0;border-bottom:1px solid var(--ink);background:none;padding:10px 0;font:17px 'Onest',sans-serif;color:var(--ink);outline:0;border-radius:0}
+form input:focus,form select:focus{border-color:var(--teal)}
+form .agree{display:flex;gap:10px;margin:24px 0}
+form .btn{width:100%}
+.form-done{font-size:24px;font-weight:500;letter-spacing:-.02em}
+
+footer{background:var(--ink);color:#9BA3A6;padding:var(--pad);font-size:13.5px;display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:var(--pad)}
+footer a{display:block;padding:4px 0;color:#fff}
+footer .warn{grid-column:1/-1;border-top:1px solid #3A4144;padding-top:22px;text-transform:uppercase;letter-spacing:.1em;color:#fff;font-size:16px}
+
+@media(max-width:1000px){
+ :root{--pad:20px}
+ .shell{grid-template-columns:1fr}
+ .rail{position:sticky;height:auto;flex-direction:row;align-items:center;gap:14px;padding:12px 20px;background:#fff;z-index:9;border-right:0;border-bottom:1px solid var(--ink)}
+ .rail nav,.rail .bottom span,.rail .tel{display:none}
+ .rail .bottom{margin:0 0 0 auto}
+ .rail .btn{margin:0;padding:11px 14px}
+ .hero .top{display:none}
+ .hero .main,.hero .row,.sh,.g70,.about,.lab,.lounge,.visit,.feed,.contact,footer{grid-template-columns:1fr}
+ .facts,.c4,.c3,.arts{grid-template-columns:1fr 1fr}
+ .c2{grid-template-columns:1fr}
+ .facts div{padding:16px 10px 18px 0!important;border-bottom:1px solid var(--line)}
+ section,.contact{margin-top:72px}
+ .sh{padding-bottom:32px;gap:10px}
+ .off{margin-left:0}
+ .serv a{min-height:220px;padding:18px}
+ .lab .tx{border-left:0}
+ .team .cta{grid-column:span 2}
+ .video{aspect-ratio:16/10}
+ .contact dl{grid-template-columns:110px 1fr}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="rail">
+  <a href="#"><img data-logo></a>
+  <nav>
+    <a href="#problems"><span>01</span>С чем вы пришли</a><a href="#services"><span>02</span>Услуги</a><a href="#guarantee"><span>03</span>Гарантия</a><a href="#team"><span>04</span>Врачи</a><a href="#tech"><span>05</span>Технологии</a><a href="#visit"><span>06</span>Приём и цены</a><a href="#reviews"><span>07</span>Отзывы</a><a href="#pay"><span>08</span>Оплата</a><a href="#contact"><span>09</span>Контакты</a>
+  </nav>
+  <div class="bottom"><a class="tel" data-phone></a><span class="grey">Ежедневно 9:00–20:00</span><span class="grey">ул. Российская, 49</span><a class="btn" href="#contact">Записаться</a></div>
+</aside>
+
+<div class="page">
+<div class="hero">
+  <div class="top cap"><span>Семейная стоматология в Челябинске</span><span class="grey">Имплантация · Протезирование · Лечение · Ортодонтия · Детям</span></div>
+  <div class="main">
+    <div class="left">
+      <h1>Возвращаем <i>радость</i> жизни</h1>
+      <div class="row">
+        <p>Лечим взрослых и детей — от осмотра и консультации до хирургии и протезирования. Диагностика, планирование и изготовление реставраций проходят в одной клинике.</p>
+        <div class="acts"><a class="btn" href="#contact">Записаться на осмотр</a><a class="btn dark" href="#problems">С чем вы пришли?</a></div>
+      </div>
+    </div>
+    <div class="ph"><img data-photo="chief" alt="Борис Кузнецов"><span><b>Борис Кузнецов</b>Главный врач. Победитель чемпионата России по ортопедической стоматологии</span></div>
+  </div>
+  <div class="facts" data-list="facts"></div>
+</div>
+
+<section id="problems">
+  <header class="sh"><span class="cap">01 — С чего начать</span><div><h2>С чем вы пришли?</h2><span class="grey">Выберите ситуацию — подскажем направление</span></div></header>
+  <div class="body"><div class="cg c2 prob" data-list="problems"></div></div>
+</section>
+
+<section id="services">
+  <header class="sh"><span class="cap">02 — Услуги</span><div><h2>Инновация в каждой услуге</h2></div></header>
+  <div class="body"><div class="cg c4 serv" data-list="services"></div></div>
+</section>
+
+<section class="black" id="guarantee">
+  <header class="sh"><span class="cap">03 — Гарантия</span><div><h2>Наша гарантия на 70 % больше</h2></div></header>
+  <div class="g70">
+    <div class="num">+70<small>%</small></div>
+    <div><p data-t="guarantee"></p><div class="who"><img data-photo="chiefFace" alt=""><div><b>Борис Кузнецов</b>Главный врач стоматологии «Доминанта»</div></div></div>
+  </div>
+  <a class="video" data-photo="video" href="#"><span>Видео о клинике</span></a>
+  <div class="body"></div>
+</section>
+
+<section style="border:0">
+  <header class="sh"><span class="cap">О клинике</span><div><h2>Профессиональная стоматология для всей семьи</h2></div></header>
+  <div class="body about">
+    <div><p class="big" data-t="about"></p><a class="btn" href="#contact">Записаться на осмотр</a></div>
+    <div class="adv" data-list="advantages"></div>
+  </div>
+</section>
+
+<section id="team">
+  <header class="sh"><span class="cap">04 — Врачи</span><div><h2>Команда признанных профессионалов</h2><span class="grey">13 специалистов</span></div></header>
+  <div class="body"><div class="cg c4 team" data-list="doctors"></div></div>
+</section>
+
+<section id="tech">
+  <header class="sh"><span class="cap">05 — Технологии</span><div><h2>Будущее уже в нашей клинике</h2></div></header>
+  <div class="body">
+    <p class="off" style="font-size:20px;max-width:720px;margin-bottom:48px" data-t="cycle"></p>
+    <div class="cg c3 cyc" data-list="cycle"></div>
+    <div class="status"><img data-photo="sirona" alt="Dentsply Sirona"><img data-photo="rda" alt="Стоматологическая ассоциация России"><span data-t="status"></span></div>
+    <div class="lab"><div class="ph" data-photo="lab"></div><div class="tx"><span class="cap grey">Собственная цифровая лаборатория</span><h3>Посмотрите, как делают ваш зуб</h3><p class="grey" data-t="lab"></p><ul data-list="equipment"></ul></div></div>
+  </div>
+</section>
+
+<section>
+  <header class="sh"><span class="cap">Сложные случаи</span><div><h2>Подходим к проблеме комплексно</h2></div></header>
+  <div class="body">
+    <p class="off" style="font-size:20px;max-width:720px;margin-bottom:48px" data-t="complex"></p>
+    <div class="cg c2 case">
+      <article><img data-photo="dsd" alt=""><h3>Моделирование улыбки — Digital Smile Design</h3><p data-t="dsd"></p><a class="lnk" href="#">Узнать больше о DSD</a></article>
+      <article><img data-photo="tmj" alt=""><h3>Лечение ВНЧС — частой причины головных болей</h3><p data-t="tmj"></p><a class="lnk" href="#">Подробнее про ВНЧС</a></article>
+    </div>
+    <div class="lounge"><div class="tx"><span class="cap grey">Атмосфера</span><div><h3 style="margin-bottom:14px">Домашняя обстановка и экспозиция древних зубов</h3><p class="grey" data-t="lounge"></p></div></div><div class="ph" data-photo="lounge"></div></div>
+  </div>
+</section>
+
+<section id="visit">
+  <header class="sh"><span class="cap">06 — Первый приём</span><div><h2>Как проходит визит и сколько стоит</h2><a class="lnk" href="#">Весь прайс</a></div></header>
+  <div class="body visit">
+    <div class="cg c2 steps" data-list="steps"></div>
+    <div class="price"><div data-list="prices"></div><p>Цены включают материалы, работу и контрольные осмотры. Скрытых платежей нет.</p><a class="btn" href="#contact">Записаться на консультацию</a></div>
+  </div>
+</section>
+
+<section id="reviews">
+  <header class="sh"><span class="cap">07 — Отзывы</span><div><h2>Пациенты пишут нам от руки</h2><a class="lnk" href="#">Все отзывы</a></div></header>
+  <div class="body"><div class="cg c4 scans" data-list="reviews" data-limit="4"></div>
+  <div class="plat"><span class="grey">Мы на площадках:</span><a class="lnk" href="#">Яндекс Карты</a><a class="lnk" href="#">2ГИС</a><a class="lnk" href="#">ПроДокторов</a></div></div>
+</section>
+
+<section id="pay">
+  <header class="sh"><span class="cap">08 — Оплата</span><div><h2>Кредит, ДМС и налоговый вычет</h2></div></header>
+  <div class="body"><div class="cg c2 pay">
+    <article><span class="cap grey">Кредит</span><h3>Улыбка сегодня — оплата потом</h3><p data-t="credit"></p><div class="tags" data-list="banks"></div><p style="margin:0">Вопросы по кредиту: <a class="lnk" href="tel:+73517009568">+7 351 700-95-68</a></p></article>
+    <article><span class="cap grey">ДМС</span><h3>Лечим по страховому полису</h3><p data-t="insurance"></p><p>Поможем оформить налоговый вычет за лечение.</p><a class="btn dark" href="#contact">Записаться по ДМС</a></article>
+  </div></div>
+</section>
+
+<section>
+  <header class="sh"><span class="cap">Журнал</span><div><h2>Новости и статьи</h2><a class="lnk" href="#">Все материалы</a></div></header>
+  <div class="body feed"><div class="news" data-list="news"></div><div class="arts" data-list="articles"></div></div>
+</section>
+
+<section>
+  <header class="sh"><span class="cap">Вопросы</span><div><h2>Спрашивают чаще всего</h2></div></header>
+  <div class="body"><div class="faq off" data-list="faq"></div></div>
+</section>
+
+<div class="contact" id="contact">
+  <div><span class="cap">09 — Контакты</span><a class="tel" data-phone></a>
+    <dl><dt>Адрес</dt><dd>г. Челябинск, ул. Российская, 49</dd><dt>Время работы</dt><dd>Ежедневно 9:00–20:00</dd><dt>На авто</dt><dd data-t="car"></dd><dt>На транспорте</dt><dd data-t="transit"></dd><dt>E-mail</dt><dd>info@dominanta74.ru</dd></dl></div>
+  <form data-booking>
+    <h3>Записаться на осмотр</h3><p class="grey">Перезвоним и подберём удобное время.</p>
+    <label>Как к вам обращаться<input type="text" name="name" required></label>
+    <label>Телефон<input type="tel" name="phone" placeholder="+7" required></label>
+    <label>Что беспокоит<select name="reason"><option>Нужен осмотр</option><option>Болит зуб</option><option>Имплантация или протезирование</option><option>Исправление прикуса</option><option>Запись ребёнка</option><option>Лечение по ДМС</option></select></label>
+    <label class="agree"><input type="checkbox" required><span>Согласен на обработку персональных данных</span></label>
+    <button class="btn">Отправить заявку</button>
+  </form>
+</div>
+
+<footer>
+  <div><p data-t="legal"></p><p style="margin-top:10px">© 2006–2026 ООО «Доминанта»</p></div>
+  <div><a href="#">О клинике</a><a href="#">Услуги</a><a href="#">Врачи</a><a href="#">Цены</a><a href="#">Акции</a><a href="#">Вакансии</a></div>
+  <div><a href="#">Отзывы</a><a href="#">Статьи</a><a href="#">Налоговый вычет</a><a href="#">Юридическая информация</a><a href="#">Политика конфиденциальности</a></div>
+  <p class="warn" data-t="warning"></p>
+</footer>
+</div>
+</div>
+
+<script>
+const pad = i => String(i + 1).padStart(2, '0');
+window.TPL = {
+  facts: f => `<div><b>${f.value}</b><span>${f.label}</span></div>`,
+  problems: p => `<a href="#contact"><b>${p.title}</b><span>${p.to}</span><i>→</i></a>`,
+  services: (s, i) => `<a href="#"><img src="${s.icon}" alt="" loading="lazy"><span class="cap">${pad(i)}</span><h3>${s.title}</h3><p>${s.text}</p></a>`,
+  advantages: (a, i) => `<div><span>${pad(i)}</span><div><b>${a.title}</b><p>${a.text}</p></div></div>`,
+  doctors: d => `<article><img src="${d.photo}" alt="${d.name}" loading="lazy"><h3>${d.name}</h3><p>${d.role}</p><span class="cap">${d.exp ? 'Стаж ' + d.exp : '&nbsp;'}</span></article>`,
+  cycle: (c, i) => `<article><img src="${c.photo}" alt="" loading="lazy"><span class="cap">Этап ${pad(i)}</span><h3>${c.title}</h3><p>${c.text}</p></article>`,
+  equipment: e => `<li>${e}</li>`,
+  steps: (s, i) => `<article><b>${pad(i)}</b><h3>${s.title}</h3><p>${s.text}</p></article>`,
+  prices: p => `<div class="row"><span>${p.title}</span><b>${p.price}</b></div>`,
+  reviews: r => `<figure><img src="${r.scan}" alt="Отзыв: ${r.name}" loading="lazy"><figcaption>${r.name}<span>${r.date}</span></figcaption></figure>`,
+  banks: b => `<span>${b}</span>`,
+  news: n => `<a href="#"><time>${n.date}</time>${n.title}</a>`,
+  articles: a => `<a href="#"><img src="${a.photo}" alt="" loading="lazy"><b>${a.title}</b><p>${a.text}</p></a>`,
+  faq: f => `<details><summary>${f.q}</summary><p>${f.a}</p></details>`
+};
+</script>
+<script src="assets/common.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelector('.serv').insertAdjacentHTML('beforeend', '<a class="all" href="#"><span class="cap">Каталог</span><h3>Все услуги клиники →</h3></a>');
+  document.querySelector('.team').insertAdjacentHTML('beforeend', '<div class="cta"><h3>Не знаете, к какому врачу идти? Начните с осмотра — дальше подскажем.</h3><a class="btn" href="#contact">Записаться на осмотр</a></div>');
+});
+</script>
+</body>
+</html>

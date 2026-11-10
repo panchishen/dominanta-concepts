@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Доминанта — концепт 6 «Сервис»</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1B2430;--muted:#687385;--line:#E4E8EE;--bg:#F5F7FA;--teal:#00848A;--tint:#E8F4F4;--orange:#FF540F;--r:16px}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.55 'Geologica',Arial,sans-serif;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-weight:600;line-height:1.12;letter-spacing:-.025em}
+h1{font-size:clamp(34px,4.2vw,58px)}
+h2{font-size:clamp(24px,2.6vw,34px)}
+h3{font-size:18px;line-height:1.25;letter-spacing:-.01em}
+.muted{color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--orange);color:#fff;font-weight:500;font-size:15.5px;padding:14px 22px;border-radius:12px;border:0;cursor:pointer;font-family:inherit;transition:filter .15s}
+.btn:hover{filter:brightness(.93)}
+.btn.sec{background:var(--tint);color:var(--teal)}
+.btn.sm{padding:9px 14px;font-size:14px;border-radius:10px}
+.link{color:var(--teal);font-weight:500}
+.link:hover{text-decoration:underline}
+
+header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--line)}
+header .in{max-width:1400px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:24px;height:64px}
+header img{height:32px}
+nav{display:flex;gap:2px;overflow-x:auto;margin-right:auto}
+nav a{padding:8px 12px;border-radius:8px;font-size:14.5px;white-space:nowrap;color:var(--muted)}
+nav a:hover{background:var(--bg);color:var(--ink)}
+header .open{font-size:13.5px;color:var(--muted);white-space:nowrap}
+header .open::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;background:#22B573;margin-right:8px}
+header .tel{font-weight:600;white-space:nowrap}
+
+.layout{max-width:1400px;margin:0 auto;padding:24px;display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:24px;align-items:start}
+.col{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;min-width:0}
+nav,.filter{scrollbar-width:none}
+.panel{background:#fff;border-radius:var(--r);padding:32px;border:1px solid var(--line)}
+.ph2{display:flex;justify-content:space-between;align-items:baseline;gap:20px;margin-bottom:22px;flex-wrap:wrap}
+.ph2 p{color:var(--muted);font-size:15px;max-width:520px}
+
+aside{position:sticky;top:88px;display:grid;gap:16px}
+.book h2{font-size:22px;margin-bottom:4px}
+.book label{display:block;font-size:13px;color:var(--muted);margin-top:14px}
+.book input[type=text],.book input[type=tel],.book select{width:100%;margin-top:5px;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font:inherit;color:var(--ink);outline:0;background:#fff}
+.book input:focus,.book select:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--tint)}
+.book .agree{display:flex;gap:8px;font-size:12.5px;margin:14px 0;line-height:1.35}
+.book .btn{width:100%}
+.form-done{font-weight:500;font-size:17px;padding:10px 0}
+.mini{padding:20px 24px;font-size:14.5px;display:grid;gap:10px}
+.mini a.tel{font-size:22px;font-weight:600;letter-spacing:-.02em}
+.mini div{display:flex;justify-content:space-between;gap:16px;border-top:1px solid var(--line);padding-top:10px}
+.mini div span:first-child{color:var(--muted)}
+.mini div span:last-child{text-align:right}
+
+.hero{padding:40px;display:grid;grid-template-columns:1.1fr 1fr;gap:32px;align-items:center}
+.hero .badge{display:inline-block;background:var(--tint);color:var(--teal);border-radius:8px;padding:5px 12px;font-size:13.5px;font-weight:500}
+.hero h1{margin:16px 0 16px}
+.hero p{font-size:18px;color:var(--muted);font-weight:300}
+.hero .cta{display:flex;gap:10px;margin-top:26px;flex-wrap:wrap}
+.mosaic{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:170px 170px;gap:10px}
+.mosaic div{border-radius:12px;background:center/cover}
+.mosaic div:first-child{grid-row:span 2}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.stats .panel{padding:20px}
+.stats b{display:block;font-size:28px;font-weight:600;letter-spacing:-.03em;color:var(--teal);line-height:1.1;margin-bottom:6px;white-space:nowrap}
+.stats span{font-size:13.5px;color:var(--muted);line-height:1.35;display:block}
+
+.opts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.opts button{text-align:left;background:var(--bg);border:1.5px solid transparent;border-radius:12px;padding:14px 16px;font:inherit;color:var(--ink);cursor:pointer;display:flex;flex-direction:column;gap:8px;justify-content:space-between;min-height:98px;transition:.15s}
+.opts b{font-weight:500;line-height:1.25}
+.opts span{font-size:13px;color:var(--muted)}
+.opts button:hover{border-color:var(--teal)}
+.opts button.on{background:var(--tint);border-color:var(--teal)}
+.opts button.on span{color:var(--teal)}
+
+.slist{display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+.slist a{display:grid;grid-template-columns:52px 1fr 16px;gap:16px;align-items:center;padding:16px 0;border-top:1px solid var(--line)}
+.slist img{width:52px;height:52px}
+.slist p{font-size:14px;color:var(--muted);font-weight:300}
+.slist span{color:var(--muted)}
+.slist a:hover h3{color:var(--teal)}
+
+.guar{display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center;background:var(--ink);color:#fff;border:0}
+.guar .n{width:190px;height:190px;border-radius:50%;background:var(--orange);display:grid;place-content:center;text-align:center;font-size:14px;line-height:1.2}
+.guar .n b{font-size:52px;font-weight:600;letter-spacing:-.04em;display:block;line-height:1}
+.guar h2{margin-bottom:12px}
+.guar p{color:#C4CCD8;font-weight:300;font-size:15.5px}
+.guar .sig{display:flex;align-items:center;gap:14px;margin-top:20px;font-size:13.5px;color:#9BA6B6}
+.guar .sig img{width:48px;height:48px;border-radius:50%;object-fit:cover}
+.guar .sig b{display:block;color:#fff;font-size:15.5px;font-weight:500}
+.guar .sig a{margin-left:auto;background:rgba(255,255,255,.12);border-radius:10px;padding:10px 16px;color:#fff;white-space:nowrap}
+
+.about{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.about p.big{font-size:17px;font-weight:300;color:var(--muted);margin-top:12px}
+.adv{display:grid;gap:14px}
+.adv>div{display:grid;grid-template-columns:28px 1fr;gap:12px;font-size:15px}
+.adv>div::before{content:'✓';width:28px;height:28px;border-radius:8px;background:var(--tint);color:var(--teal);display:grid;place-items:center;font-weight:600;font-size:14px}
+.adv b{font-weight:500;display:block}
+.adv span{color:var(--muted);font-size:14px;font-weight:300}
+
+.filter{display:flex;gap:8px;overflow-x:auto;margin-bottom:20px;padding-bottom:4px}
+.filter button{flex:none;background:var(--bg);border:0;border-radius:999px;padding:9px 16px;font:inherit;font-size:14.5px;color:var(--ink);cursor:pointer}
+.filter button.on{background:var(--ink);color:#fff}
+.docs{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.doc{border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;grid-template-columns:72px 1fr;gap:14px;align-content:start}
+.doc img{width:72px;height:72px;border-radius:12px;object-fit:cover;background:var(--bg)}
+.doc p{font-size:13px;color:var(--muted);line-height:1.35;margin-top:4px;font-weight:300}
+.doc .row{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--line);padding-top:12px;font-size:13px;color:var(--muted)}
+.doc[hidden]{display:none}
+
+.cyc{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.cyc img{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:12px;margin-bottom:14px}
+.cyc span{font-size:12.5px;font-weight:500;color:var(--teal);text-transform:uppercase;letter-spacing:.06em}
+.cyc h3{margin:6px 0 6px}
+.cyc p{font-size:14px;color:var(--muted);font-weight:300}
+.trust{display:flex;align-items:center;gap:24px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line);font-size:13.5px;color:var(--muted)}
+.trust img{height:28px}
+.lab{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:12px}
+.lab .pic{border-radius:12px;min-height:320px;background:center/cover}
+.lab .tx{padding:20px 20px 20px 0}
+.lab h2{margin:6px 0 10px}
+.lab .eq{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
+.lab .eq span{background:var(--bg);border-radius:8px;padding:6px 12px;font-size:13.5px}
+.eyebrow{font-size:12.5px;font-weight:500;color:var(--teal);text-transform:uppercase;letter-spacing:.06em}
+
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.duo .panel{padding:12px 12px 26px}
+.duo img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px}
+.duo h3{font-size:20px;margin:20px 16px 8px}
+.duo p{margin:0 16px 14px;font-size:14.5px;color:var(--muted);font-weight:300}
+.duo a{margin-left:16px}
+.cozy{padding:12px;display:grid;grid-template-columns:1.3fr 1fr;gap:24px;align-items:center}
+.cozy .pic{border-radius:12px;min-height:280px;background:center/cover}
+.cozy .tx{padding-right:20px}
+.cozy h2{margin:6px 0 10px}
+
+.visit{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.steps{display:grid;gap:0}
+.steps>div{display:grid;grid-template-columns:36px 1fr;gap:16px;padding-bottom:22px;position:relative}
+.steps>div::before{content:'';position:absolute;left:17px;top:36px;bottom:0;width:2px;background:var(--line)}
+.steps>div:last-child::before{display:none}
+.steps i{font-style:normal;width:36px;height:36px;border-radius:50%;background:var(--tint);color:var(--teal);display:grid;place-items:center;font-weight:600;font-size:15px}
+.steps b{font-weight:500;display:block;padding-top:6px}
+.steps span{font-size:14px;color:var(--muted);font-weight:300}
+.price{background:var(--bg);border-radius:12px;padding:8px 20px 20px}
+.price .row{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+.price .row b{font-weight:600;white-space:nowrap}
+.price p{font-size:13px;color:var(--muted);margin:12px 0 14px}
+
+.scans{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.scans img{width:100%;aspect-ratio:400/500;object-fit:cover;object-position:top;border-radius:12px;border:1px solid var(--line)}
+.scans figcaption{font-size:14px;font-weight:500;margin-top:10px}
+.scans figcaption span{display:block;font-weight:300;font-size:12.5px;color:var(--muted)}
+.plat{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+.plat a{background:var(--bg);border-radius:999px;padding:8px 16px;font-size:14px}
+.plat a:hover{background:var(--tint);color:var(--teal)}
+
+.pay{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.pay h3{font-size:20px;margin:6px 0 10px}
+.pay p{font-size:14.5px;color:var(--muted);font-weight:300;margin-bottom:12px}
+.pay .banks{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.pay .banks span{background:var(--bg);border-radius:8px;padding:5px 10px;font-size:13px}
+
+.feed{display:grid;grid-template-columns:1.4fr 1fr;gap:32px}
+.arts{display:grid;gap:14px}
+.arts a{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:center}
+.arts img{width:120px;height:84px;object-fit:cover;border-radius:10px;background:var(--bg)}
+.arts b{font-weight:500;display:block;line-height:1.3;margin-bottom:4px}
+.arts p{font-size:13px;color:var(--muted);font-weight:300;line-height:1.4}
+.arts a:hover b,.news a:hover{color:var(--teal)}
+.news a{display:block;padding:12px 0;border-top:1px solid var(--line);font-size:14.5px;line-height:1.4}
+.news a:first-child{border:0;padding-top:0}
+.news time{display:block;font-size:12.5px;color:var(--muted)}
+
+.faq details{border-top:1px solid var(--line);padding:16px 0}
+.faq details:first-child{border:0;padding-top:0}
+.faq summary{font-weight:500;font-size:17px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:20px}
+.faq summary::after{content:'+';color:var(--teal);font-size:20px;line-height:1.2}
+.faq details[open] summary::after{content:'−'}
+.faq p{margin-top:8px;color:var(--muted);font-size:15px;font-weight:300;max-width:680px}
+
+.where{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.where div{background:var(--bg);border-radius:12px;padding:16px 18px;font-size:14.5px}
+.where b{display:block;font-weight:500;margin-bottom:4px}
+footer{max-width:1400px;margin:0 auto;padding:8px 24px 40px;font-size:13px;color:var(--muted)}
+footer .panel{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:40px;padding:28px 32px}
+footer a{display:block;padding:3px 0;color:var(--ink)}
+footer .warn{grid-column:1/-1;text-align:center;text-transform:uppercase;letter-spacing:.1em;color:var(--ink);border-top:1px solid var(--line);padding-top:18px;font-size:14px;font-weight:500}
+.mobilebar{display:none}
+
+@media(max-width:1100px){
+ .layout{grid-template-columns:1fr;padding:12px;gap:12px}
+ .col{gap:12px}
+ aside{position:static;order:5}
+ nav,header .open{display:none}
+ header .tel{margin-left:auto}
+ .panel{padding:20px}
+ .hero,.about,.lab,.duo,.cozy,.visit,.pay,.feed,.where,footer .panel,.guar{grid-template-columns:1fr;gap:20px}
+ .stats,.opts,.scans{grid-template-columns:1fr 1fr;gap:10px}
+ .slist,.docs,.cyc{grid-template-columns:1fr}
+ .guar .n{width:130px;height:130px}.guar .n b{font-size:36px}
+ .lab .tx,.cozy .tx{padding:0 8px 12px}
+ .trust{flex-wrap:wrap}
+ body{padding-bottom:72px}
+ .mobilebar{display:block;position:fixed;left:10px;right:10px;bottom:10px;z-index:20}
+ .mobilebar .btn{width:100%;box-shadow:0 10px 30px -8px rgba(255,84,15,.6)}
+}
+</style>
+</head>
+<body>
+<header><div class="in">
+  <a href="#"><img data-logo></a>
+  <nav><a href="#problems">С чего начать</a><a href="#services">Услуги</a><a href="#team">Врачи</a><a href="#tech">Технологии</a><a href="#visit">Приём и цены</a><a href="#reviews">Отзывы</a><a href="#pay">Оплата</a><a href="#faq">Вопросы</a></nav>
+  <span class="open">Ежедневно 9:00–20:00</span>
+  <a class="tel" data-phone></a>
+</div></header>
+
+<div class="layout">
+<main class="col">
+  <div class="panel hero">
+    <div>
+      <span class="badge">Семейная стоматология в Челябинске</span>
+      <h1>Возвращаем радость жизни</h1>
+      <p>Лечим взрослых и детей — от осмотра до имплантации и протезирования. Выберите, что беспокоит, и оставьте заявку: администратор перезвонит и подберёт врача и время.</p>
+      <div class="cta"><a class="btn" href="#booking">Записаться на осмотр</a><a class="btn sec" href="#problems">Подобрать врача</a></div>
+    </div>
+    <div class="mosaic"><div data-photo="equipment"></div><div data-photo="lounge"></div><div data-photo="lab"></div></div>
+  </div>
+  <div class="stats" data-list="facts"></div>
+
+  <div class="panel" id="problems">
+    <div class="ph2"><h2>Что вас беспокоит?</h2><p>Нажмите на вариант — он попадёт в заявку справа.</p></div>
+    <div class="opts" data-list="problems"></div>
+  </div>
+
+  <div class="panel" id="services">
+    <div class="ph2"><h2>Инновация в каждой услуге</h2><a class="link" href="#">Все услуги →</a></div>
+    <div class="slist" data-list="services"></div>
+  </div>
+
+  <div class="panel guar">
+    <div class="n"><b>+70 %</b>к сроку<br>гарантии</div>
+    <div><h2>Наша гарантия на 70 % больше</h2><p data-t="guarantee"></p>
+      <div class="sig"><img data-photo="chiefFace" alt=""><div><b>Борис Кузнецов</b>Главный врач клиники</div><a href="#">▶ Видео о клинике</a></div></div>
+  </div>
+
+  <div class="panel about">
+    <div><h2>Профессиональная стоматология для всей семьи</h2><p class="big" data-t="about"></p></div>
+    <div class="adv" data-list="advantages"></div>
+  </div>
+
+  <div class="panel" id="team">
+    <div class="ph2"><h2>Команда признанных профессионалов</h2><p>13 специалистов. Выберите направление и запишитесь к конкретному врачу.</p></div>
+    <div class="filter" id="doctor-filter"></div>
+    <div class="docs" data-list="doctors"></div>
+  </div>
+
+  <div class="panel" id="tech">
+    <div class="ph2"><h2>Будущее уже в нашей клинике</h2><p data-t="cycle"></p></div>
+    <div class="cyc" data-list="cycle"></div>
+    <div class="trust"><img data-photo="sirona" alt="Dentsply Sirona"><img data-photo="rda" alt="Стоматологическая ассоциация России"><span data-t="status"></span></div>
+  </div>
+  <div class="panel lab">
+    <div class="pic" data-photo="lab"></div>
+    <div class="tx"><span class="eyebrow">Собственная цифровая лаборатория</span><h2>Посмотрите, как делают ваш зуб</h2><p class="muted" style="font-weight:300" data-t="lab"></p><div class="eq" data-list="equipment"></div></div>
+  </div>
+
+  <div class="panel" style="background:none;border:0;padding:8px 8px 0"><div class="ph2" style="margin:0"><h2>Подходим к проблеме комплексно</h2><p data-t="complex"></p></div></div>
+  <div class="duo">
+    <div class="panel"><img data-photo="dsd" alt=""><h3>Моделирование улыбки — Digital Smile Design</h3><p data-t="dsd"></p><a class="link" href="#">Узнать больше о DSD →</a></div>
+    <div class="panel"><img data-photo="tmj" alt=""><h3>Лечение ВНЧС — частой причины головных болей</h3><p data-t="tmj"></p><a class="link" href="#">Подробнее про ВНЧС →</a></div>
+  </div>
+  <div class="panel cozy"><div class="pic" data-photo="lounge"></div><div class="tx"><span class="eyebrow">Атмосфера</span><h2>Домашняя обстановка и экспозиция древних зубов</h2><p class="muted" style="font-weight:300" data-t="lounge"></p></div></div>
+
+  <div class="panel" id="visit">
+    <div class="ph2"><h2>Первый приём и цены</h2><a class="link" href="#">Весь прайс →</a></div>
+    <div class="visit">
+      <div class="steps" data-list="steps"></div>
+      <div class="price"><div data-list="prices"></div><p>Цены включают материалы, работу и контрольные осмотры. Скрытых платежей нет.</p><a class="btn sm" href="#booking">Записаться на консультацию</a></div>
+    </div>
+  </div>
+
+  <div class="panel" id="reviews">
+    <div class="ph2"><h2>Отзывы пациентов</h2><a class="link" href="#">Все отзывы →</a></div>
+    <div class="scans" data-list="reviews" data-limit="4"></div>
+    <div class="plat"><a href="#">Яндекс Карты</a><a href="#">2ГИС</a><a href="#">ПроДокторов</a></div>
+  </div>
+
+  <div class="pay" id="pay">
+    <div class="panel"><span class="eyebrow">Кредит</span><h3>Улыбка сегодня — оплата потом</h3><p data-t="credit"></p><div class="banks" data-list="banks"></div><p style="margin:0">Вопросы: <a class="link" href="tel:+73517009568">+7 351 700-95-68</a></p></div>
+    <div class="panel"><span class="eyebrow">ДМС и вычет</span><h3>Лечим по страховому полису</h3><p data-t="insurance"></p><p>Поможем оформить налоговый вычет за лечение.</p><a class="btn sec sm" href="#booking">Записаться по ДМС</a></div>
+  </div>
+
+  <div class="panel">
+    <div class="ph2"><h2>Статьи и новости</h2><a class="link" href="#">Все материалы →</a></div>
+    <div class="feed"><div class="arts" data-list="articles"></div><div class="news" data-list="news"></div></div>
+  </div>
+
+  <div class="panel" id="faq">
+    <div class="ph2"><h2>Частые вопросы</h2></div>
+    <div class="faq" data-list="faq"></div>
+  </div>
+
+  <div class="panel" id="contact">
+    <div class="ph2"><h2>Как добраться</h2><p>г. Челябинск, ул. Российская, 49</p></div>
+    <div class="where"><div><b>На авто</b><span data-t="car"></span></div><div><b>На транспорте</b><span data-t="transit"></span></div></div>
+  </div>
+</main>
+
+<aside id="booking">
+  <form class="panel book" data-booking style="padding:24px">
+    <h2>Запись на приём</h2><p class="muted" style="font-size:14px">Перезвоним и подберём время</p>
+    <label>Что беспокоит<select name="reason" id="reason-select"></select></label>
+    <label>Врач<select name="doctor" id="doctor-select"></select></label>
+    <label>Ваше имя<input type="text" name="name" required></label>
+    <label>Телефон<input type="tel" name="phone" placeholder="+7" required></label>
+    <label class="agree"><input type="checkbox" required><span>Согласен на обработку персональных данных</span></label>
+    <button class="btn">Отправить заявку</button>
+  </form>
+  <div class="panel mini">
+    <a class="tel" data-phone></a>
+    <div><span>Адрес</span><span>ул. Российская, 49</span></div>
+    <div><span>Режим</span><span>Ежедневно 9:00–20:00</span></div>
+    <div><span>Парковка</span><span>У входа, места есть</span></div>
+    <div><span>E-mail</span><span>info@dominanta74.ru</span></div>
+  </div>
+</aside>
+</div>
+
+<footer><div class="panel">
+  <div><p data-t="legal"></p><p style="margin-top:8px">© 2006–2026 ООО «Доминанта»</p></div>
+  <div><a href="#">О клинике</a><a href="#">Услуги</a><a href="#">Врачи</a><a href="#">Цены</a><a href="#">Акции</a><a href="#">Вакансии</a></div>
+  <div><a href="#">Отзывы</a><a href="#">Статьи</a><a href="#">Налоговый вычет</a><a href="#">Юридическая информация</a><a href="#">Политика конфиденциальности</a></div>
+  <p class="warn" data-t="warning"></p>
+</div></footer>
+<div class="mobilebar"><a class="btn" href="#booking">Записаться на приём</a></div>
+
+<script>
+const GROUPS = [['Все', /./], ['Терапия', /терапевт|общей/i], ['Хирургия и имплантация', /хирург/i], ['Ортопедия', /ортопед/i], ['Ортодонтия', /ортодонт/i], ['Детям', /детский/i], ['Гигиена', /гигиенист/i], ['Остеопатия', /остеопат/i]];
+window.TPL = {
+  facts: f => `<div class="panel"><b>${f.value}</b><span>${f.label}</span></div>`,
+  problems: (p, i) => `<button type="button" data-index="${i}"><b>${p.title}</b><span>${p.to}</span></button>`,
+  services: s => `<a href="#"><img src="${s.icon}" alt="" loading="lazy"><div><h3>${s.title}</h3><p>${s.text}</p></div><span>→</span></a>`,
+  advantages: a => `<div><div><b>${a.title}</b><span>${a.text}</span></div></div>`,
+  doctors: (d, i) => `<article class="doc" data-role="${d.role}"><img src="${d.photo}" alt="${d.name}" loading="lazy"><div><h3>${d.name}</h3><p>${d.role}</p></div><div class="row"><span>${d.exp ? 'Стаж ' + d.exp : ''}</span><button type="button" class="btn sec sm" data-doctor="${i}">Записаться</button></div></article>`,
+  cycle: (c, i) => `<article><img src="${c.photo}" alt="" loading="lazy"><span>Этап ${i + 1}</span><h3>${c.title}</h3><p>${c.text}</p></article>`,
+  equipment: e => `<span>${e}</span>`,
+  steps: (s, i) => `<div><i>${i + 1}</i><div><b>${s.title}</b><span>${s.text}</span></div></div>`,
+  prices: p => `<div class="row"><span>${p.title}</span><b>${p.price}</b></div>`,
+  reviews: r => `<figure><img src="${r.scan}" alt="Отзыв: ${r.name}" loading="lazy"><figcaption>${r.name}<span>${r.date}</span></figcaption></figure>`,
+  banks: b => `<span>${b}</span>`,
+  articles: a => `<a href="#"><img src="${a.photo}" alt="" loading="lazy"><div><b>${a.title}</b><p>${a.text}</p></div></a>`,
+  news: n => `<a href="#"><time>${n.date}</time>${n.title}</a>`,
+  faq: f => `<details><summary>${f.q}</summary><p>${f.a}</p></details>`
+};
+</script>
+<script src="assets/common.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const reasonSelect = document.getElementById('reason-select');
+  const doctorSelect = document.getElementById('doctor-select');
+  reasonSelect.innerHTML = '<option>Нужен осмотр</option>' + DATA.problems.map(p => `<option>${p.title}</option>`).join('');
+  doctorSelect.innerHTML = '<option>Любой подходящий</option>' + DATA.doctors.map(d => `<option>${d.name}</option>`).join('');
+
+  const options = document.querySelector('.opts');
+  options.addEventListener('click', event => {
+    const button = event.target.closest('button');
+    if (!button) return;
+    options.querySelectorAll('button').forEach(b => b.classList.toggle('on', b === button));
+    reasonSelect.selectedIndex = Number(button.dataset.index) + 1;
+  });
+
+  const filter = document.getElementById('doctor-filter');
+  filter.innerHTML = GROUPS.map(([label], i) => `<button type="button" data-group="${i}" class="${i ? '' : 'on'}">${label}</button>`).join('');
+  filter.addEventListener('click', event => {
+    const button = event.target.closest('button');
+    if (!button) return;
+    const pattern = GROUPS[button.dataset.group][1];
+    filter.querySelectorAll('button').forEach(b => b.classList.toggle('on', b === button));
+    document.querySelectorAll('.doc').forEach(card => { card.hidden = !pattern.test(card.dataset.role); });
+  });
+
+  document.querySelector('.docs').addEventListener('click', event => {
+    const button = event.target.closest('[data-doctor]');
+    if (!button) return;
+    doctorSelect.selectedIndex = Number(button.dataset.doctor) + 1;
+    document.getElementById('booking').scrollIntoView({ block: 'nearest' });
+    doctorSelect.focus();
+  });
+});
+</script>
+</body>
+</html>
