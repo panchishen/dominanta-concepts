@@ -88,7 +88,7 @@ section{padding:96px 0 0}
 .bar div{height:34px;border-radius:10px;background:var(--bg);width:58.8%}
 .bar.us div{width:100%;background:var(--ink)}
 .bar.us span{color:var(--ink)}
-.ctrl{display:grid;gap:8px;margin:28px 0}
+.ctrl{display:grid;gap:8px;margin:28px 0 0}
 .ctrl div{display:grid;grid-template-columns:36px 150px 1fr;gap:12px;align-items:center;background:var(--bg);border-radius:12px;padding:14px 16px;font-size:15px}
 .ctrl b{font-weight:700}
 .ctrl div>span:last-child{color:var(--muted);font-weight:400}
@@ -225,6 +225,8 @@ footer .warn{grid-column:1/-1;font-family:var(--mono);text-transform:uppercase;l
  .serv .card{min-height:180px;padding:18px}
  .proof .card,.about,.money .card,.contact .info,form.card{padding:24px!important}
  .duo article,.news a,.arts a{grid-template-columns:1fr}
+ .ctrl div{grid-template-columns:36px 1fr}
+ .ctrl div>span:last-child{grid-column:2}
  .duo .txt{padding:18px 10px}
  .arts div{padding:0 10px 10px}
  .badge{flex-wrap:wrap}
@@ -277,7 +279,6 @@ footer .warn{grid-column:1/-1;font-family:var(--mono);text-transform:uppercase;l
     <div class="card">
       <p data-t="digital" style="font-weight:400"></p>
       <div class="ctrl"><div><span class="mono">01</span><b>Диагностика</b><span>3D-томография и сканирование полости рта</span></div><div><span class="mono">02</span><b>Планирование</b><span>Лечение и операции — сначала на 3D-модели</span></div><div><span class="mono">03</span><b>Изготовление</b><span>Фрезерный станок и 3D-принтер в клинике</span></div></div>
-      <div class="x50"><b>2009</b><span class="muted">С этого года клиника работает по цифровым технологиям и одной из первых перешла на полный цифровой цикл.</span></div>
     </div>
     <div class="card chief">
       <div class="ph"><img data-photo="chief" alt="Борис Кузнецов"></div>
