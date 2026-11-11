@@ -279,7 +279,7 @@ function initReveal() {
 }
 
 /* Small switcher between concepts (desktop only) */
-const CONCEPT_COUNT = 6;
+const CONCEPT_COUNT = 7;
 function initSwitcher() {
   const match = location.pathname.match(/concept-(\d)\.html/);
   if (!match) return;

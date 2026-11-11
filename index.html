@@ -19,7 +19,7 @@ h1{font-size:clamp(34px,4.6vw,64px);font-weight:600;letter-spacing:-.035em;line-
 header p.note{max-width:420px;color:var(--grey)}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding-bottom:72px}
 .card{background:#fff;border-radius:20px;padding:12px 12px 22px;display:block;opacity:0;translate:0 18px;animation:enter .6s var(--ease-out) forwards;transition:box-shadow .2s ease}
-.card:nth-child(2){animation-delay:60ms}.card:nth-child(3){animation-delay:120ms}.card:nth-child(4){animation-delay:180ms}.card:nth-child(5){animation-delay:240ms}.card:nth-child(6){animation-delay:300ms}
+.card:nth-child(2){animation-delay:60ms}.card:nth-child(3){animation-delay:120ms}.card:nth-child(4){animation-delay:180ms}.card:nth-child(5){animation-delay:240ms}.card:nth-child(6){animation-delay:300ms}.card:nth-child(7){animation-delay:360ms}
 @keyframes enter{to{opacity:1;translate:0 0}}
 .shot{position:relative;aspect-ratio:16/10;border-radius:12px;overflow:hidden;background:var(--bg);container-type:inline-size}
 .shot iframe{position:absolute;left:0;top:0;width:1440px;height:900px;border:0;transform-origin:0 0;pointer-events:none}
@@ -41,7 +41,7 @@ footer{border-top:1px solid var(--line);padding:24px 0 40px;font-size:13.5px;col
 <body>
 <div class="wrap">
   <header>
-    <div><p class="cap">Стоматология «Доминанта» · редизайн сайта</p><h1>Шесть концептов<br>главной страницы</h1></div>
+    <div><p class="cap">Стоматология «Доминанта» · редизайн сайта</p><h1>Семь концептов<br>главной страницы</h1></div>
     <p class="note">Во&nbsp;всех вариантах один набор блоков и&nbsp;текстов&nbsp;— отличаются дизайн и&nbsp;вёрстка. Откройте любой, внутри можно переключаться между концептами.</p>
   </header>
   <main class="grid" id="concept-grid"></main>
@@ -54,7 +54,8 @@ const CONCEPTS = [
   ['Семейная', 'Белый с мятным, крупные скругления, дружелюбная подача, запись под первым экраном.'],
   ['Фото', 'Полноэкранные снимки клиники, лёгкая типографика, форма записи поверх фото.'],
   ['Яркий', 'Фирменный оранжевый как главный цвет, плакатные заголовки, бегущая строка.'],
-  ['Сервис', 'Как приложение: запись закреплена сбоку, фильтр врачей, выбор проблемы в один клик.']
+  ['Сервис', 'Как приложение: запись закреплена сбоку, фильтр врачей, выбор проблемы в один клик.'],
+  ['Бенто во всю ширину', 'Плитка из концепта 2, растянутая на весь экран, с крупным масштабом блоков из концепта 1.']
 ];
 document.getElementById('concept-grid').innerHTML = CONCEPTS.map(([name, text], i) => `
   <a class="card" href="concept-${i + 1}.html">
