@@ -286,6 +286,8 @@ dialog.modal[open]::backdrop{opacity:1}
 dialog.modal form.card{padding:48px;max-height:calc(100vh - 24px);overflow:auto}
 dialog.modal h3{font-size:clamp(26px,3vw,36px);margin:12px 44px 10px 0;line-height:1.1}
 dialog.modal .note{color:var(--muted);font-size:16px}
+dialog.modal form.card .pair{grid-template-columns:1fr;gap:0}
+dialog.modal{width:min(520px,calc(100vw - 24px))}
 dialog.modal .x{position:absolute;right:18px;top:18px;width:44px;height:44px;border-radius:50%;border:0;background:var(--bg);color:var(--ink);font-size:22px;line-height:1;cursor:pointer;transition:background .15s ease}
 dialog.modal .x:hover{background:var(--line)}
 @media(prefers-reduced-motion:reduce){dialog.modal,dialog.modal[open]{scale:1}}
