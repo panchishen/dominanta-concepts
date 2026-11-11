@@ -15,10 +15,10 @@ const DATA = {
   address: 'г. Челябинск, ул. Российская, 49',
   hours: 'Ежедневно 9:00–20:00',
   email: 'info@dominanta74.ru',
-  logo: img('/new_layout/img/dominanta_logo.svg'),
+  logo: local('logo.svg'),
 
   photos: {
-    chief: img('/new_layout/img/v_main_photo.png'),
+    chief: local('chief.png'),
     chiefFace: local('doctor-01.jpg'),
     macro: local('macro.jpg'),
     family: local('family.jpg'),
@@ -31,8 +31,8 @@ const DATA = {
     dsd: local('dsd.jpg'),
     tmj: local('tmj.jpg'),
     credit: img('/new_layout/img/credit/credit_girl-2.png'),
-    sirona: img('/new_layout/img/sirona_logo.png'),
-    rda: img('/new_layout/img/rda_logo.png')
+    sirona: local('sirona.png'),
+    rda: local('rda.png')
   },
 
   facts: [
