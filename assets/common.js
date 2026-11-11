@@ -117,6 +117,14 @@ const DATA = {
     ['4 февраля 2026', 'Кузнецова Светлана', 'review-08.jpg']
   ].map(([date, name, file]) => ({ date, name, scan: local(file) })),
 
+  /* Official logos (Wikimedia Commons). Vostochny and Home Credit are omitted: both were merged into Sovcombank */
+  bankLogos: [
+    { name: 'Т-Банк', file: 'tbank.svg', height: 30 },
+    { name: 'Совкомбанк', file: 'sovcombank.svg', height: 22 },
+    { name: 'МТС Банк', file: 'mtsbank.png', height: 30 },
+    { name: 'Кредит Европа Банк', file: 'crediteurope.svg', height: 22 }
+  ],
+
   banks: ['Тинькофф Банк', 'Кредит Европа Банк', 'ХКФ Банк', 'Совкомбанк', 'МТС-Банк', 'Восточный'],
 
   news: [
