@@ -5,25 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Доминанта — концепт 2 «Бенто»</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#ECEEF0;--card:#fff;--ink:#15191B;--muted:#667075;--line:#E1E4E7;--teal:#00848A;--orange:#FF540F;--r:22px;--g:10px;--mono:'JetBrains Mono',monospace}
+:root{--bg:#ECEEF0;--card:#fff;--ink:#141A1E;--muted:#515C64;--soft:#6E7A82;--line:#E1E4E7;--teal:#00848A;--orange:#FF540F;--r:22px;--g:10px;--mono:'Onest',system-ui,sans-serif}
 *{box-sizing:border-box;margin:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--ink);font:500 16px/1.55 'Manrope',Arial,sans-serif;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.55 'Onest',Arial,sans-serif;-webkit-font-smoothing:antialiased}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
 .wrap{max-width:1360px;margin:0 auto;padding:0 20px}
-h1,h2,h3{font-weight:800;line-height:1.05;letter-spacing:-.035em}
+h1,h2,h3{font-weight:600;line-height:1.1;letter-spacing:-.01em}
+h1{font-weight:500;letter-spacing:-.015em}
 h1{font-size:clamp(36px,4.6vw,68px)}
 h2{font-size:clamp(28px,3.2vw,46px)}
-h3{font-size:20px;line-height:1.2;letter-spacing:-.02em;font-weight:700}
-.mono{font-family:var(--mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);font-weight:400}
+h3{font-size:20px;line-height:1.2;letter-spacing:0;font-weight:600}
+.mono{font-size:13px;line-height:16px;letter-spacing:.08em;text-transform:uppercase;color:var(--soft);font-weight:600}
 .muted{color:var(--muted)}
 .card{background:var(--card);border-radius:var(--r);padding:28px}
 .dark{background:var(--ink);color:#fff}
-.dark .mono,.dark .muted{color:#99A3A8}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--orange);color:#fff;font-weight:700;font-size:15px;padding:16px 24px;border-radius:14px;border:0;cursor:pointer;font-family:inherit;transition:transform .15s}
+.dark .mono,.dark .muted{color:#9FAAB1}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--orange);color:#fff;font-weight:600;font-size:15px;padding:16px 24px;border-radius:14px;border:0;cursor:pointer;font-family:inherit;transition:transform .15s}
 .btn:hover{transform:translateY(-2px)}
 .btn.ink{background:var(--ink)}
 .btn.soft{background:var(--bg);color:var(--ink)}
@@ -53,7 +54,7 @@ header .btn{padding:12px 18px;font-size:14px;border-radius:12px}
 .hero .ph span{position:absolute;left:14px;bottom:14px;background:rgba(255,255,255,.92);border-radius:12px;padding:10px 14px;font-size:13.5px;font-weight:600}
 .facts{display:grid;grid-template-columns:1fr 1fr;gap:var(--g)}
 .facts .card{padding:22px}
-.facts b{display:block;font-size:34px;font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:10px;white-space:nowrap}
+.facts b{display:block;font-size:34px;font-weight:600;letter-spacing:-.04em;line-height:1;margin-bottom:10px;white-space:nowrap}
 .facts span{font-size:13.5px;color:var(--muted);line-height:1.35;display:block}
 .facts .card:first-child{background:var(--orange);color:#fff}
 .facts .card:first-child span{color:#FFE3D6}
@@ -65,7 +66,7 @@ section{padding:96px 0 0}
 .c4{grid-template-columns:repeat(4,1fr)}.c3{grid-template-columns:repeat(3,1fr)}.c2{grid-template-columns:1fr 1fr}
 
 .pills{display:flex;flex-wrap:wrap;gap:8px}
-.pills a{display:flex;align-items:center;gap:12px;background:var(--bg);border-radius:999px;padding:11px 12px 11px 20px;font-weight:700;transition:.15s}
+.pills a{display:flex;align-items:center;gap:12px;background:var(--bg);border-radius:999px;padding:11px 12px 11px 20px;font-weight:600;transition:.15s}
 .pills i{font-style:normal;font-family:var(--mono);font-size:11.5px;font-weight:400;background:#fff;border-radius:999px;padding:5px 11px;color:var(--muted)}
 .pills a:hover{background:var(--ink);color:#fff}
 
@@ -90,21 +91,21 @@ section{padding:96px 0 0}
 .bar.us span{color:var(--ink)}
 .ctrl{display:grid;gap:8px;margin:28px 0 0}
 .ctrl div{display:grid;grid-template-columns:36px 150px 1fr;gap:12px;align-items:center;background:var(--bg);border-radius:12px;padding:14px 16px;font-size:15px}
-.ctrl b{font-weight:700}
+.ctrl b{font-weight:600}
 .ctrl div>span:last-child{color:var(--muted);font-weight:400}
 .x50{display:flex;align-items:center;gap:20px;padding-top:24px;border-top:1px solid var(--line);font-size:15px}
-.x50 b{font-size:58px;font-weight:800;letter-spacing:-.05em;color:var(--orange);white-space:nowrap;line-height:1}
+.x50 b{font-size:58px;font-weight:600;letter-spacing:-.05em;color:var(--orange);white-space:nowrap;line-height:1}
 .chief{padding:0!important;overflow:hidden;display:flex;flex-direction:column;background:#DFE3E6}
 .chief .ph{flex:1;min-height:340px}
 .chief .ph img{height:430px;margin:24px auto -70px;object-fit:contain;object-position:top}
 .chief .cap{position:relative;background:#fff;margin:var(--g);border-radius:16px;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:13.5px;color:var(--muted);font-weight:400}
-.chief .cap b{display:block;color:var(--ink);font-size:17px;font-weight:700}
+.chief .cap b{display:block;color:var(--ink);font-size:17px;font-weight:600}
 .play{flex:none;width:52px;height:52px;border-radius:14px;background:var(--orange);display:grid;place-items:center;color:#fff}
 
 .about{grid-template-columns:1fr 1fr;gap:56px;padding:44px!important}
 .about p.big{font-size:21px;line-height:1.45;margin:20px 0 26px;font-weight:500}
 .adv>div{display:grid;grid-template-columns:40px 1fr;padding:15px 0;border-top:1px solid var(--line);font-size:15px}
-.adv b{font-weight:700;display:block}
+.adv b{font-weight:600;display:block}
 .adv p{color:var(--muted);font-weight:400}
 
 .stage{padding:0!important;overflow:hidden}
@@ -143,7 +144,7 @@ section{padding:96px 0 0}
 .lounge p{font-size:14.5px;color:var(--muted);font-weight:400}
 
 .visit{grid-template-columns:1.3fr 1fr}
-.flow b{font-size:38px;font-weight:800;letter-spacing:-.04em;color:var(--line);display:block;margin-bottom:22px;line-height:1}
+.flow b{font-size:38px;font-weight:600;letter-spacing:-.04em;color:var(--line);display:block;margin-bottom:22px;line-height:1}
 .flow h3{margin-bottom:8px}
 .flow p{font-size:14.5px;color:var(--muted);font-weight:400}
 .tariff{padding:34px!important;display:flex;flex-direction:column}
@@ -155,10 +156,10 @@ section{padding:96px 0 0}
 
 .scans figure{padding:10px 10px 18px!important}
 .scans img{width:100%;aspect-ratio:400/500;object-fit:cover;object-position:top;border-radius:14px}
-.scans figcaption{font-size:15px;font-weight:700;margin:14px 8px 0}
+.scans figcaption{font-size:15px;font-weight:600;margin:14px 8px 0}
 .scans figcaption span{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);font-weight:400}
 .plat{display:flex;gap:8px;margin-top:var(--g);flex-wrap:wrap}
-.plat a{background:#fff;border-radius:999px;padding:11px 20px;font-weight:700;font-size:14px}
+.plat a{background:#fff;border-radius:999px;padding:11px 20px;font-weight:600;font-size:14px}
 .plat a:hover{background:var(--ink);color:#fff}
 
 .money{grid-template-columns:1.3fr 1fr}
@@ -180,12 +181,12 @@ section{padding:96px 0 0}
 .news a:hover{color:var(--teal)}
 .arts a{padding:10px!important;display:grid;grid-template-columns:170px 1fr;gap:20px;align-items:center}
 .arts img{width:100%;height:100%;min-height:110px;object-fit:cover;border-radius:14px;background:var(--bg)}
-.arts b{font-size:17px;font-weight:700;display:block;margin-bottom:6px;letter-spacing:-.01em}
+.arts b{font-size:17px;font-weight:600;display:block;margin-bottom:6px;letter-spacing:-.01em}
 .arts p{font-size:13.5px;color:var(--muted);font-weight:400;padding-right:14px}
 
 .faq{align-items:start}
 .faq details{background:#fff;border-radius:18px;padding:20px 24px}
-.faq summary{font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:20px}
+.faq summary{font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:20px}
 .faq summary::after{content:'+';font-family:var(--mono);color:var(--teal)}
 .faq details[open] summary::after{content:'−'}
 .faq p{margin-top:10px;color:var(--muted);font-size:15px;font-weight:400}
@@ -193,18 +194,18 @@ section{padding:96px 0 0}
 .contact .info{padding:44px}
 .contact .info{container-type:inline-size}
 .contact .info h2{margin:14px 0 28px;font-size:clamp(22px,6.3cqw,46px);white-space:nowrap}
-.contact .tel{font-size:clamp(26px,2.8vw,40px);font-weight:800;letter-spacing:-.03em;display:block;margin-bottom:26px;color:#7FD3CE}
+.contact .tel{font-size:clamp(26px,2.8vw,40px);font-weight:600;letter-spacing:-.03em;display:block;margin-bottom:26px;color:#7FD3CE}
 .contact dl{display:grid;grid-template-columns:120px 1fr;row-gap:14px;font-size:15px;font-weight:400}
 .contact dt{font-family:var(--mono);font-size:12px;color:#99A3A8;text-transform:uppercase;padding-top:3px}
 .contact dd{margin:0;color:#DDE2E4}
 form.card{padding:36px}
 form.card h3{font-size:26px;margin-top:10px}
 form.card label{display:block;font-family:var(--mono);font-size:12px;color:var(--muted);text-transform:uppercase;margin-top:16px;font-weight:400}
-form.card input[type=text],form.card input[type=tel],form.card select{width:100%;margin-top:8px;background:var(--bg);border:2px solid transparent;border-radius:14px;padding:14px 16px;color:var(--ink);font:500 15px 'Manrope',sans-serif;outline:0}
+form.card input[type=text],form.card input[type=tel],form.card select{width:100%;margin-top:8px;background:var(--bg);border:2px solid transparent;border-radius:14px;padding:14px 16px;color:var(--ink);font:400 15px 'Onest',sans-serif;outline:0}
 form.card input:focus,form.card select:focus{border-color:var(--ink)}
 form.card .agree{display:flex;gap:10px;text-transform:none;font-family:inherit;font-size:13px;margin:18px 0}
 form.card .btn{width:100%}
-.form-done{font-size:20px;font-weight:700}
+.form-done{font-size:20px;font-weight:600}
 .quick .form-done{padding:14px;color:#fff}
 
 footer{margin:var(--g) 0 20px}
