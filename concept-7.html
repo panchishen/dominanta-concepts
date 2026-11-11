@@ -84,7 +84,7 @@ section{padding:140px 0 0}
 
 .serv .card{min-height:330px;display:flex;flex-direction:column;transition:box-shadow .2s}
 .serv .card:hover{box-shadow:0 0 0 2px var(--ink) inset}
-.serv img{width:84px;height:84px;margin-bottom:clamp(64px,6.4vw,112px)}
+.serv .ico{display:block;width:clamp(112px,9vw,150px);height:clamp(112px,9vw,150px);margin:-8px 0 clamp(36px,4.2vw,72px) -10px;color:var(--ink)}
 .serv .mono{margin:24px 0 8px}
 .serv h3{font-size:clamp(21px,1.6vw,28px);margin-bottom:8px}
 .serv p{font-size:16px;line-height:1.5;color:var(--muted);font-weight:400}
@@ -459,11 +459,12 @@ dialog.modal .x:hover{background:var(--line)}
 </dialog>
 
 <script>
+const SERVICE_ICONS = ['diagnostics', 'gums', 'implant', 'prosthetics', 'tmj', 'smile', 'braces'];
 const pad = i => String(i + 1).padStart(2, '0');
 window.TPL = {
   facts: f => `<div class="card"><b>${f.value}</b><span>${f.label}</span></div>`,
   problems: p => `<button type="button" data-book="${p.to}" data-book-note="${p.title}">${p.title}<i>${p.to}</i></button>`,
-  services: (s, i) => `<a class="card" href="#"><img src="${s.icon}" alt="" loading="lazy"><span class="mono">${pad(i)}</span><h3>${s.title}</h3><p>${s.text}</p></a>`,
+  services: (s, i) => `<a class="card" href="#" data-service-icon-area><span class="ico" data-service-icon="${SERVICE_ICONS[i]}"></span><span class="mono">${pad(i)}</span><h3>${s.title}</h3><p>${s.text}</p></a>`,
   advantages: (a, i) => `<div><span class="mono">${pad(i)}</span><div><b>${a.title}</b><p>${a.text}</p></div></div>`,
   cycle: (c, i) => `<article class="card stage"><img src="${c.photo}" alt="" loading="lazy"><div><span class="mono">Этап ${pad(i)}</span><h3>${c.title}</h3><p>${c.text}</p></div></article>`,
   equipment: e => `<li>${e}</li>`,
@@ -479,8 +480,10 @@ window.TPL = {
 };
 </script>
 <script src="assets/common.js"></script>
+<script src="assets/icons/service-icons.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  window.ServiceIcons.mountAll();
   document.querySelector('.serv').insertAdjacentHTML('beforeend', '<a class="card dark all" href="#"><h3>Все услуги клиники</h3><span class="mono">Перейти →</span></a>');
 });
 </script>
