@@ -6,6 +6,9 @@ const img = p => SITE + p;
 const local = name => 'assets/img/' + name;
 const thumb = (p, w) => `${SITE}/phpThumb/phpThumb.php?src=${p}&w=${w}&q=78`;
 
+/* doctor index in DATA.doctors -> number of the video file taken from the landing */
+const DOCTOR_VIDEOS = { 0: 1, 1: 2, 3: 3, 2: 4, 7: 5, 12: 6 };
+
 const DATA = {
   phone: '+7 (351) 225-15-05',
   phoneHref: 'tel:+73512251505',
@@ -82,7 +85,13 @@ const DATA = {
     ['Фокина Вера', 'Гигиенист', '3 года', 'Frame_1_0.png'],
     ['Алисов Данил', 'Гигиенист', '1 год', 'Frame_119_0.png'],
     ['Ризаева Анастасия', 'Стоматолог-ортопед', '10 лет', 'Frame_110_0.png']
-  ].map(([name, role, exp], index) => ({ name, role, exp, photo: local(`doctor-${String(index + 1).padStart(2, '0')}.jpg`) })),
+  ].map(([name, role, exp], index) => ({
+    name, role, exp,
+    photo: local(`doctor-${String(index + 1).padStart(2, '0')}.jpg`),
+    /* Video portraits from the landing exist for six doctors only */
+    video: DOCTOR_VIDEOS[index] ? `assets/video/doctor-${DOCTOR_VIDEOS[index]}.mp4` : '',
+    poster: DOCTOR_VIDEOS[index] ? `assets/video/doctor-${DOCTOR_VIDEOS[index]}.jpg` : ''
+  })),
 
   cycle: [
     { title: 'Компьютерная диагностика', text: 'Совмещаем 3D-томографию с 3D-сканированием и получаем точную цифровую модель челюсти: поверхности зубов, дёсны, анатомия кости.', photo: local('cycle-1.jpg') },
@@ -206,6 +215,7 @@ function renderPage() {
   fixTypography(document.body);
   initForms();
   initCarousels();
+  initAutoVideos();
   if (window.self === window.top) {
     initSwitcher();
     setTimeout(initReveal, 0);
@@ -289,6 +299,20 @@ function initReveal() {
   }, { passive: true });
 }
 
+/* Video portraits: play only while on screen; with reduced motion the poster stays */
+function initAutoVideos() {
+  const videos = document.querySelectorAll('video[data-autovideo]');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!videos.length || reduced || !('IntersectionObserver' in window)) return;
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const video = entry.target;
+      if (entry.isIntersecting) { video.preload = 'auto'; video.play().catch(() => {}); } else video.pause();
+    });
+  }, { threshold: 0.3 });
+  videos.forEach(video => observer.observe(video));
+}
+
 /* Small switcher between concepts (desktop only) */
 const CONCEPT_COUNT = 7;
 function initSwitcher() {
@@ -315,7 +339,7 @@ function initSwitcher() {
 const CAROUSEL_CSS = `
 [data-carousel]{scrollbar-width:none;cursor:grab;user-select:none;-webkit-user-select:none}
 [data-carousel]::-webkit-scrollbar{display:none}
-[data-carousel] img{pointer-events:none}
+[data-carousel] img,[data-carousel] video{pointer-events:none}
 [data-carousel].dragging{cursor:grabbing;scroll-snap-type:none!important;scroll-behavior:auto!important}
 .car-nav{display:flex;gap:8px;justify-content:flex-end;margin-top:20px}
 .car-nav button{width:52px;height:52px;border-radius:50%;border:1.5px solid currentColor;background:none;color:inherit;font:inherit;font-size:20px;line-height:1;cursor:pointer;transition:opacity .2s,transform .15s}
