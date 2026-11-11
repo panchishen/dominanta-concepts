@@ -30,6 +30,12 @@ h3{font-size:24px;line-height:1.15;letter-spacing:0;font-weight:600}
 .btn.soft{background:var(--bg);color:var(--ink)}
 .more{font-family:var(--mono);font-size:13px;color:var(--teal);white-space:nowrap}
 .more:hover{text-decoration:underline}
+.ic{display:inline-block;width:1.2em;height:1.2em;flex:none;vertical-align:-.22em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ic-xl{width:32px;height:32px}
+.more .ic{transition:translate .2s cubic-bezier(0.23,1,0.32,1)}
+@media(hover:hover) and (pointer:fine){.more:hover .ic,.serv .all:hover .ic{translate:4px 0}}
+.serv .all .ic{transition:translate .2s cubic-bezier(0.23,1,0.32,1)}
+@media(prefers-reduced-motion:reduce){.more:hover .ic,.serv .all:hover .ic{translate:none}}
 
 header{position:sticky;top:10px;z-index:10;margin:10px 0}
 header .bar{display:flex;align-items:center;gap:28px;min-height:76px;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-radius:18px;padding:10px 10px 10px 22px}
@@ -293,6 +299,12 @@ dialog.modal .x:hover{background:var(--line)}
 </style>
 </head>
 <body>
+<!-- Icons: Lucide (https://lucide.dev/icons/) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+</svg>
 <header><div class="wrap"><div class="bar">
   <a href="#"><img data-logo></a>
   <nav><a href="#">Услуги</a><a href="#">Технологии</a><a href="#">Врачи</a><a href="#">Цены</a><a href="#">Отзывы</a><a href="#">Контакты</a></nav>
@@ -343,7 +355,7 @@ dialog.modal .x:hover{background:var(--line)}
     </div>
     <div class="card chief">
       <div class="ph"><img data-photo="chief" alt="Борис Кузнецов"></div>
-      <div class="cap"><div><b>Борис Кузнецов</b>Главный врач. Победитель чемпионата России по ортопедической стоматологии</div><a class="play" href="#" title="Видео о клинике">▶</a></div>
+      <div class="cap"><div><b>Борис Кузнецов</b>Главный врач. Победитель чемпионата России по ортопедической стоматологии</div><a class="play" href="#" title="Видео о клинике"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg></a></div>
     </div>
   </div>
 </section>
@@ -373,14 +385,14 @@ dialog.modal .x:hover{background:var(--line)}
 <section>
   <div class="head"><div><p class="mono">Сложные случаи</p><h2>Подходим к проблеме комплексно</h2></div><p class="muted" style="max-width:480px;font-weight:400" data-t="complex"></p></div>
   <div class="g c2 duo">
-    <article class="card"><div class="pic" data-photo="dsd"></div><div class="txt"><p class="mono">Digital Smile Design</p><h3>Компьютерное моделирование улыбки</h3><p data-t="dsd"></p><a class="more" href="#">Узнать больше о DSD →</a></div></article>
-    <article class="card"><div class="pic" data-photo="tmj"></div><div class="txt"><p class="mono">ВНЧС</p><h3>Лечение дисфункции височно-нижнечелюстного сустава</h3><p data-t="tmj"></p><a class="more" href="#">Подробнее про ВНЧС →</a></div></article>
+    <article class="card"><div class="pic" data-photo="dsd"></div><div class="txt"><p class="mono">Digital Smile Design</p><h3>Компьютерное моделирование улыбки</h3><p data-t="dsd"></p><a class="more" href="#">Узнать больше о DSD <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div></article>
+    <article class="card"><div class="pic" data-photo="tmj"></div><div class="txt"><p class="mono">ВНЧС</p><h3>Лечение дисфункции височно-нижнечелюстного сустава</h3><p data-t="tmj"></p><a class="more" href="#">Подробнее про ВНЧС <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div></article>
   </div>
   <div class="lounge" data-photo="lounge"><div class="card"><p class="mono">Атмосфера</p><h3>Домашняя обстановка и экспозиция древних зубов</h3><p data-t="lounge"></p></div></div>
 </section>
 
 <section id="visit">
-  <div class="head"><div><p class="mono">Первый приём</p><h2>Как проходит первый визит и сколько он стоит</h2></div><a class="more" href="#">Весь прайс →</a></div>
+  <div class="head"><div><p class="mono">Первый приём</p><h2>Как проходит первый визит и сколько он стоит</h2></div><a class="more" href="#">Весь прайс <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div>
   <div class="g visit">
     <div class="g c2 flow" data-list="steps"></div>
     <div class="card dark tariff"><p class="mono">Цены</p><h3>Без скрытых платежей</h3><div data-list="prices"></div><p>Цены включают материалы, работу и контрольные осмотры.</p><button type="button" class="btn" data-book="Запись на консультацию">Записаться на консультацию</button></div>
@@ -388,7 +400,7 @@ dialog.modal .x:hover{background:var(--line)}
 </section>
 
 <section id="reviews">
-  <div class="head"><div><p class="mono">Отзывы</p><h2>Пациенты пишут нам от руки</h2></div><a class="more" href="#">Все отзывы →</a></div>
+  <div class="head"><div><p class="mono">Отзывы</p><h2>Пациенты пишут нам от руки</h2></div><a class="more" href="#">Все отзывы <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div>
   <div class="g c6 scans" data-list="reviews" data-limit="6"></div>
   <div class="plat"><a href="#">Яндекс Карты</a><a href="#">2ГИС</a><a href="#">ПроДокторов</a></div>
 </section>
@@ -404,7 +416,7 @@ dialog.modal .x:hover{background:var(--line)}
 </section>
 
 <section>
-  <div class="head"><div><p class="mono">Журнал</p><h2>Новости и статьи</h2></div><a class="more" href="#">Все материалы →</a></div>
+  <div class="head"><div><p class="mono">Журнал</p><h2>Новости и статьи</h2></div><a class="more" href="#">Все материалы <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div>
   <div class="g feed"><div class="card news" data-list="news"></div><div class="g arts" data-list="articles"></div></div>
 </section>
 
@@ -442,7 +454,7 @@ dialog.modal .x:hover{background:var(--line)}
 </main>
 
 <dialog class="modal" data-booking-modal aria-labelledby="modal-title">
-  <button type="button" class="x" data-modal-close aria-label="Закрыть">×</button>
+  <button type="button" class="x" data-modal-close aria-label="Закрыть"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
   <form class="card" data-booking>
     <p class="mono">Запись</p>
     <h3 id="modal-title" data-modal-title></h3>
@@ -484,7 +496,7 @@ window.TPL = {
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   window.ServiceIcons.mountAll();
-  document.querySelector('.serv').insertAdjacentHTML('beforeend', '<a class="card dark all" href="#"><h3>Все услуги клиники</h3><span class="mono">Перейти →</span></a>');
+  document.querySelector('.serv').insertAdjacentHTML('beforeend', '<a class="card dark all" href="#"><h3>Все услуги клиники</h3><svg class="ic ic-xl" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>');
 });
 </script>
 </body>
