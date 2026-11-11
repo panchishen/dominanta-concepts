@@ -45,13 +45,22 @@ header .btn{padding:16px 26px;font-size:16px;border-radius:14px}
 .hero h1{margin:clamp(20px,2.4vh,32px) 0 clamp(20px,2.4vh,32px)}
 .hero h1 em{font-style:normal;color:#7FD3CE}
 .hero p.lead{font-size:clamp(18px,1.5vw,24px);line-height:1.45;color:#CBD3D8;max-width:680px;font-weight:400;margin-bottom:clamp(32px,5vh,72px)}
-.quick{display:flex;align-items:center;gap:0;margin-top:auto;background:#252D32;border-radius:22px;padding:10px;max-width:860px;transition:box-shadow .15s ease}
+.quickform{margin-top:auto;max-width:860px}
+.quick{display:flex;align-items:center;gap:0;background:#252D32;border-radius:22px;padding:10px;max-width:860px;transition:box-shadow .15s ease}
 .quick:focus-within{box-shadow:0 0 0 2px #7FD3CE}
 .quick input{flex:1;min-width:0;height:56px;background:none;border:0;color:#fff;font:inherit;font-size:17px;padding:0 22px;outline:0}
 .quick input+input{border-left:1px solid #3B454C}
 .quick .btn{margin-left:10px;white-space:nowrap}
 .quick input::placeholder{color:#9FAAB1}
-.hero small{display:block;color:#9FAAB1;font-size:13px;line-height:1.4;margin-top:16px;font-weight:400;max-width:860px}
+.agrees{display:grid;grid-template-columns:1.2fr 1fr;gap:12px 28px;margin-top:18px}
+.hero .agree{display:flex;align-items:flex-start;gap:12px;font-size:13.5px;line-height:1.4;color:#9FAAB1;cursor:pointer}
+.hero .agree a{color:#CBD3D8;text-decoration:underline;text-underline-offset:3px}
+.hero .agree a:hover{color:#fff}
+.hero .agree input{appearance:none;-webkit-appearance:none;flex:none;width:24px;height:24px;margin:0;border:1.5px solid #6E7A82;border-radius:7px;background:none;cursor:pointer;display:grid;place-content:center;transition:background .15s ease,border-color .15s ease}
+.hero .agree input::after{content:'';width:10px;height:6px;border-left:2.5px solid #141A1E;border-bottom:2.5px solid #141A1E;transform:translateY(-1.5px) rotate(-45deg);opacity:0}
+.hero .agree input:checked{background:#7FD3CE;border-color:#7FD3CE}
+.hero .agree input:checked::after{opacity:1}
+.hero .agree input:focus-visible{outline:2px solid #7FD3CE;outline-offset:2px}
 .hero .side{display:grid;grid-template-rows:1fr auto;gap:var(--g)}
 .hero .ph{border-radius:var(--r);background:center/cover;min-height:200px;position:relative;overflow:hidden}
 .hero .ph span{position:absolute;left:14px;bottom:14px;background:rgba(255,255,255,.92);border-radius:12px;padding:10px 14px;font-size:13.5px;font-weight:600}
@@ -224,7 +233,7 @@ form.card .agree input:focus-visible{outline:2px solid var(--teal);outline-offse
 form.card .agree+.btn{margin-top:28px}
 form.card .btn{width:100%}
 .form-done{font-size:20px;font-weight:600}
-.quick .form-done{padding:14px;color:#fff}
+.quickform .form-done{padding:14px 0;color:#fff}
 
 footer{margin:var(--g) 0 20px}
 footer .card{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:64px;font-size:15px;color:var(--muted);padding:48px;font-weight:400}
@@ -246,7 +255,7 @@ footer .warn{grid-column:1/-1;font-family:var(--mono);text-transform:uppercase;l
  header .btn{margin-left:auto}
  .hero,.c3,.c2,.proof,.about,.labrow,.visit,.money,.feed,footer .card,.three{grid-template-columns:1fr}
  .c4,.c6{grid-template-columns:1fr 1fr}
- .faqrow,form.card .pair{grid-template-columns:1fr}
+ .faqrow,form.card .pair,.agrees{grid-template-columns:1fr}
  form.card .pair{gap:0}
  .faqrow .head{position:static;padding:0 10px 14px}
  .hero .main{padding:26px;min-height:0}
@@ -283,12 +292,17 @@ footer .warn{grid-column:1/-1;font-family:var(--mono);text-transform:uppercase;l
     <p class="mono">Семейная стоматология · Челябинск · Российская, 49</p>
     <h1>Технологичная стоматология. <em>Под компьютерным контролем</em></h1>
     <p class="lead">Полный цифровой цикл в одной клинике: 3D-диагностика, компьютерное планирование и собственная лаборатория. Лечим взрослых и детей.</p>
-    <form class="quick" data-booking>
-      <input type="text" name="name" placeholder="Ваше имя" required>
-      <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required>
-      <button class="btn">Записаться на осмотр</button>
+    <form class="quickform" data-booking>
+      <div class="quick">
+        <input type="text" name="name" placeholder="Ваше имя" required>
+        <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required>
+        <button class="btn">Записаться на осмотр</button>
+      </div>
+      <div class="agrees">
+        <label class="agree"><input type="checkbox" name="consent" required><span>Я даю <a href="#">согласие на обработку моих персональных данных</a> и ознакомлен с <a href="#">политикой конфиденциальности</a></span></label>
+        <label class="agree"><input type="checkbox" name="mailing"><span>Я даю <a href="#">согласие на получение информационных и рекламных рассылок</a></span></label>
+      </div>
     </form>
-    <small>Перезвоним и подберём время. Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</small>
   </div>
   <div class="side">
     <div class="ph" data-photo="macro"><span>Собственная цифровая лаборатория</span></div>
