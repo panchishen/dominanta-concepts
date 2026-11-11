@@ -6,7 +6,7 @@
  * The stage keeps the kernel's 400 x 320 box, so the pointer maths is the
  * kernel's own; the wrapper only shows the square of it the figures are drawn in.
  */
-var CROP = { x: 80, y: 40, size: 240, pad: 30 };
+var CROP = { x: 80, y: 40, size: 240, pad: 30, inset: 6, nudge: 10 };
 var STYLE = [
   ".service-icon{display:inline-block;position:relative;width:var(--service-icon-size,120px);aspect-ratio:1;overflow:hidden;vertical-align:top;line-height:0;-webkit-tap-highlight-color:transparent}",
   ".service-icon>[data-hairline]{position:absolute;left:-33.3333%;top:-16.6667%;width:166.6667%;aspect-ratio:5/4;" +
@@ -15,6 +15,7 @@ var STYLE = [
     "--hairline-lo:color-mix(in srgb,currentColor 30%,var(--service-icon-surface,#fff));" +
     "--hairline-stroke:var(--service-icon-stroke,1.25)}",
   ".service-icon>[data-hairline] .hi{stroke-width:calc(var(--service-icon-stroke,1.25)*1.3)}",
+  ".service-icon>[data-hairline] .dash{stroke-dasharray:1.5 3.5}",
   "@media (prefers-reduced-motion:reduce){.service-icon>[data-hairline]{pointer-events:none}}",
 ].join("");
 var mounted = new WeakMap();
@@ -69,6 +70,22 @@ function bindArea(stage, area) {
   };
 }
 
+/*
+ * Optical alignment: every figure is drawn centred in the kernel's frame, but they differ in width and height.
+ * The resting figure's left edge is brought to one line, so icons line up with the text under them, and its
+ * middle is brought to the middle of the square, within a small nudge so no answer is cut off.
+ */
+function alignRest(stage, svg) {
+  var box;
+  try { box = svg.getBBox(); } catch (error) { return; }
+  if (!box.width || !box.height) return;
+  var left = box.x - CROP.inset;
+  var top = box.y + box.height / 2 - CROP.size / 2;
+  top = Math.min(CROP.y + CROP.nudge, Math.max(CROP.y - CROP.nudge, top));
+  stage.style.left = (-left / CROP.size * 100) + "%";
+  stage.style.top = (-top / CROP.size * 100) + "%";
+}
+
 function unmount(el) {
   var entry = mounted.get(el);
   if (!entry) return;
@@ -108,6 +125,7 @@ function mount(el, name, options) {
   stage.addEventListener("pointerleave", guard);
 
   var handle = figure.mount({ stage: stage, svg: svg, read: { textContent: "" } }, figure.range[1]);
+  alignRest(stage, svg);
   var release = area ? bindArea(stage, area) : function () {};
   mounted.set(el, { stage: stage, handle: handle, release: release });
   return { destroy: function () { unmount(el); } };

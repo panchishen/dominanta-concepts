@@ -877,78 +877,78 @@ var HL = (() => {
 </script>
 <script type="module" id="hl-figure">
 /**
- * TMJ: two jaws seen from the side, cut from one thick plate each. The upper
- * one is fixed; the lower one hangs from a round joint and swings open as the
- * pointer goes down, on a spring. The joint is the one bright mark. At rest
- * the jaw is a little open. The slider is how far it can open, in degrees.
+ * TMJ: a lower jaw. A horseshoe of gum with ten teeth along it, and at its two
+ * back ends a post rising to a ball: the two joints, which stay where they are.
+ * The jaw hangs from them and swings open as the pointer goes down, on a
+ * spring. The two balls are the one bright mark. The slider is how far the jaw
+ * can open, in degrees.
  *
  * The pattern: a continuous scrub. The pointer's height is read against the
- * bite line of the fixed jaw, so the moving jaw cannot pull the answer away.
+ * jaw's closed pose, so the moving jaw cannot pull the answer away.
  */
 const {
-  Cam, clamp, fillet, fit, hull, lerp, poly, proj, rad, seg,
-  spring, stepS, disposer, mk, pointer, register,
+  Cam, circ, clamp, fit, hull, poly, proj, rad,
+  spring, stepS, disposer, mk, place, pointer, register,
 } = HL;
 
-const Y0 = -8, Y1 = 8, PX = -30, PZ = 28, BALL = 8.5, REST = 8, TRAVEL = 84;
-const UPPER = [[-44, 50], [41, 50], [41, 27], [32, 27], [32, 34], [27, 34], [27, 27], [18, 27], [18, 34], [13, 34], [13, 27], [4, 27], [4, 38], [-44, 38]];
-const UPPER_R = [6, 6, 2.5, 2.5, 1.5, 1.5, 2.5, 2.5, 1.5, 1.5, 2.5, 2.5, 3, 6];
-const LOWER = [[-38, 33], [-22, 33], [-22, 18], [4, 18], [4, 27], [13, 27], [13, 20], [18, 20], [18, 27], [27, 27], [27, 20], [32, 20], [32, 27], [41, 27], [41, 4], [-38, 4]];
-const LOWER_R = [6, 6, 6, 1.5, 2.5, 2.5, 1.5, 1.5, 2.5, 2.5, 1.5, 1.5, 2.5, 2.5, 11, 11];
-
-/** Whether the side face along an edge of a clockwise outline faces the camera: tops and +x sides do. */
-const seen = (ex, ez) => ex * 0.5 - ez * 0.61 > 0;
-/** The lower jaw's outline swung open by deg about the joint. */
-const swing = (deg) => {
-  const s = Math.sin(rad(deg)), c = Math.cos(rad(deg));
-  return LOWER.map(([x, z]) => [PX + (x - PX) * c + (z - PZ) * s, PZ - (x - PX) * s + (z - PZ) * c]);
-};
-
-/** An outline standing in the x-z plane, pushed from y0 to y1: far face, the sweep, the edges between, near face. */
-function slab(P, raw, radii) {
-  const pts = fillet(raw, radii), m = raw.length;
-  const face = (y) => pts.map((p) => P(p[0], y, p[1]));
-  const far = face(Y0), near = face(Y1);
-  let sweep = "", sil = "", lo = "";
-  for (let k = 1; k < 9; k++) sweep += poly(face(lerp(Y0, Y1, k / 9)));
-  for (let j = 0; j < m; j++) {
-    const a = raw[(j + m - 1) % m], p = raw[j], b = raw[(j + 1) % m];
-    const e1 = [p[0] - a[0], p[1] - a[1]], e2 = [b[0] - p[0], b[1] - p[1]];
-    if (e1[0] * e2[1] - e1[1] * e2[0] >= 0) continue; // a hollow corner: its edge is behind the plate
-    const n = seen(e1[0], e1[1]) + seen(e2[0], e2[1]), i = j * 5 + 2;
-    if (n === 1) sil += seg(far[i], near[i]); else if (n === 2) lo += seg(far[i], near[i]);
-  }
-  return { far: poly(far), sweep, lo, sil, near: poly(near) };
-}
-const plate = (g) => ({
-  far: mk("path", { class: "sil" }, g), sweep: mk("path", { class: "fo" }, g), lo: mk("path", { class: "nf lo" }, g),
-  sil: mk("path", { class: "nf sil" }, g), near: mk("path", { class: "sil" }, g),
-});
-const lay = (el, s) => { for (const k in s) el[k].setAttribute("d", s[k]); };
+const R2 = Math.SQRT1_2, HALF = 34, BACK = -26, NOSE = 30, GUM = 9, DEEP = -10, JD = -32, JZ = 36, BALL = 6.5, REST = 3, TRAVEL = 80;
+/** The figure's own axes, as a world point: s runs across the screen, d comes towards the viewer, z is up. */
+const at = (s, d, z) => [(s + d) * R2, (d - s) * R2, z];
+/** The horseshoe's centre line, from the right back end round the front to the left back end. */
+const LINE = [[HALF, BACK], [HALF, -13]];
+for (let a = 0; a <= 180; a += 15) LINE.push([HALF * Math.cos(rad(a)), NOSE * Math.sin(rad(a))]);
+LINE.push([-HALF, -13], [-HALF, BACK]);
+/** The teeth of one side, back to front: [s, d, radius]; the other side mirrors them. */
+const SIDE = [[HALF, -17, 8.6], [33.2, 4, 8.2], [26.4, 19, 7.2], [15, 27, 6.2], [5.4, 29.8, 5.4]];
+const TEETH = SIDE.flatMap(([s, d, r]) => [[s, d, r], [-s, d, r]]).sort((a, b) => a[1] - b[1]);
+const BARREL = [[0, 0.8], [0.3, 1], [0.7, 1], [1, 0.8]];
+const disc = (s, d, r) => circ(r, 20).map((q) => [s + q.u, d + q.v]);
 
 function mount({ stage, svg, read }, value) {
   const bag = disposer();
-  let max = value, drawn = NaN;
+  let max = value, drawn = NaN, over = null;
 
-  const C = Cam(45, 0.5, 2.5);
-  const open = swing(34).map(([x, z]) => [x, Y1, z]);
-  fit(C, open.concat([[-44, Y0, 50], [41, Y0, 50], [-44, Y1, 38], [41, Y1, 27]]), 200, 160);
-  const P = proj(C);
+  const C = Cam(45, 0.5, 2.1);
+  /** The jaw's own points, swung open by deg about the line through the two joints. */
+  const swing = (deg, W) => {
+    const sn = Math.sin(rad(deg)), cs = Math.cos(rad(deg));
+    return (s, d, z) => W(s, JD + (d - JD) * cs + (z - JZ) * sn, JZ - (d - JD) * sn + (z - JZ) * cs);
+  };
+  const wide = swing(32, at);
+  fit(C, [at(-HALF - BALL, JD, JZ + BALL), at(HALF + BALL, JD, JZ + BALL), wide(0, NOSE + GUM, DEEP), wide(-HALF - GUM, 0, DEEP), wide(HALF + GUM, 0, DEEP)], 200, 160);
+  const P = proj(C), W = (s, d, z) => P(...at(s, d, z));
 
   const g = mk("g", {}, svg);
-  const lower = plate(g), upper = plate(g);
-  lay(upper, slab(P, UPPER, UPPER_R));
-  // the joint: a round pin through both plates, painted last so it sits on their near faces
-  const ring = Array.from({ length: 28 }, (_, k) => [PX + BALL * Math.cos(k / 28 * 2 * Math.PI), PZ + BALL * Math.sin(k / 28 * 2 * Math.PI)]);
-  const pin = (y) => ring.map((p) => P(p[0], y, p[1]));
-  mk("path", { class: "sil hi", d: poly(hull(pin(Y0 - 2).concat(pin(Y1 + 2)))) }, g);
-  mk("path", { class: "sil hi", d: poly(pin(Y1 + 2)) }, g);
+  // back to front: the two posts and their balls, the gum, then the teeth from the back of the mouth forward
+  const posts = [HALF, -HALF].map((s) => ({ s, el: mk("path", { class: "sil" }, g) }));
+  for (const p of posts) place(mk("ellipse", { rx: BALL * C.S, ry: BALL * C.S, class: "hi" }, g), W(p.s, JD, JZ));
+  const order = LINE.slice(0, -1).map((_, i) => i).sort((a, b) => LINE[a][1] + LINE[a + 1][1] - LINE[b][1] - LINE[b + 1][1]);
+  const edge = order.map(() => mk("path", { class: "sil" }, g)), fill = order.map(() => mk("path", { class: "fo" }, g));
+  const teeth = TEETH.map(() => ({ sil: mk("path", { class: "sil" }, g), cr: mk("path", { class: "nf lo" }, g) }));
+
+  /** A length of gum between two points of the centre line, r wide: the hull of its two ends, top and bottom. */
+  const length = (T, i, r) => {
+    const ends = disc(LINE[i][0], LINE[i][1], r).concat(disc(LINE[i + 1][0], LINE[i + 1][1], r));
+    return poly(hull(ends.map((p) => T(p[0], p[1], DEEP)).concat(ends.map((p) => T(p[0], p[1], 0)))));
+  };
 
   const as = spring(REST);
   function draw() {
     if (as.x === drawn) return;
     drawn = as.x;
-    lay(lower, slab(P, swing(drawn), LOWER_R));
+    const T = swing(drawn, W);
+    for (const p of posts) {
+      const foot = disc(p.s, BACK, 8).map((q) => T(q[0], q[1], -2)), head = disc(p.s, JD, 5.5).map((q) => T(q[0], q[1], JZ - 3));
+      p.el.setAttribute("d", poly(hull(foot.concat(head))));
+    }
+    // every length outlined, then every length filled a little inside its outline: the joins between them go, the outline stays
+    order.forEach((i, k) => { edge[k].setAttribute("d", length(T, i, GUM)); fill[k].setAttribute("d", length(T, i, GUM - 0.8)); });
+    TEETH.forEach(([s, d, r], k) => {
+      const tall = r * 1.5;
+      teeth[k].sil.setAttribute("d", poly(hull(BARREL.flatMap(([z, f]) => disc(s, d, r * f).map((q) => T(q[0], q[1], z * tall))))));
+      // only the molars are wide enough to show the hollow of their biting surface
+      teeth[k].cr.setAttribute("d", r < 7 ? "" : poly(disc(s, d, r * 0.45).map((q) => T(q[0], q[1], tall))));
+    });
   }
   const B = register(stage, (dt) => {
     const moving = stepS(as, dt);
@@ -957,10 +957,9 @@ function mount({ stage, svg, read }, value) {
   });
   bag.add(B.unregister);
 
-  const bite = P(22, 0, 27)[1];
-  let over = null;
+  const bite = W(0, NOSE, 8)[1];
   function retarget() {
-    as.t = over === null ? REST : clamp((over - bite + 12) / TRAVEL, 0, 1) * max;
+    as.t = over === null ? REST : clamp((over - bite + 30) / TRAVEL, 0, 1) * max;
     read.textContent = over === null ? "rest" : `open ${Math.round(as.t)}°`;
     B.wake();
   }
@@ -979,10 +978,10 @@ function mount({ stage, svg, read }, value) {
 
 hairline({
   name: "tmj",
-  means: "The lower jaw hangs from its joint and swings open as the pointer goes down; the joint is the bright mark.",
+  means: "A lower jaw hangs from its two joints and swings open as the pointer goes down; the joints are the bright mark.",
   rules: [1, 3, 4, 8],
-  range: [16, 26, 34],
-  tour: [[220, 150], [220, 235], [220, 185], null],
+  range: [14, 26, 32],
+  tour: [[200, 150], [200, 250], [200, 195], null],
   mount,
 });
 </script>

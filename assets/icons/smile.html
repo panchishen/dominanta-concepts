@@ -877,67 +877,61 @@ var HL = (() => {
 </script>
 <script type="module" id="hl-figure">
 /**
- * Smile: four upper front teeth hanging from a bar of gum, and a thin veneer
+ * Smile: three teeth, each a crown on its two roots, and a thin veneer
  * floating in front of each. The pointer picks a tooth; its veneer seats first
  * and the others follow, staggered outwards from it. The picked veneer is the
- * bright one. At rest the veneers hang off at uneven distances. The slider is
- * the stagger, in ms.
+ * bright one. At rest the veneers wait at uneven distances. The slider is the
+ * stagger, in ms.
  *
  * The pattern: discrete items. Tweens, a stagger by distance, and a pick by
- * the teeth's own resting centres, which never move.
+ * the teeth's own centres, which never move.
  */
 const {
-  Cam, fillet, fit, lerp, poly, proj, seg,
+  Cam, circ, fit, hull, open, poly, proj, rrect, run, seg,
   tdone, tset, tval, tween, disposer, mk, pointer, register,
 } = HL;
 
-const ZT = 44, DEPTH = 5, WIDE = [19, 25, 25, 19], TALL = [35, 42, 42, 35], AWAY = [15, 10, 13, 17], GAP = 3, FIRST = 1;
-const X0 = WIDE.map((_, i) => WIDE.slice(0, i).reduce((a, b) => a + b + GAP, 0)), END = X0[3] + WIDE[3];
-
-const seen = (ex, ez) => ex * 0.5 - ez * 0.61 > 0;
-/** An outline standing in the x-z plane, pushed from y0 to y1: far face, the sweep, the edges between, near face. */
-function slab(P, raw, radii, y0, y1) {
-  const pts = fillet(raw, radii), m = raw.length;
-  const face = (y) => pts.map((p) => P(p[0], y, p[1]));
-  const far = face(y0), near = face(y1);
-  let sweep = "", sil = "", lo = "";
-  for (let k = 1; k < 6; k++) sweep += poly(face(lerp(y0, y1, k / 6)));
-  for (let j = 0; j < m; j++) {
-    const a = raw[(j + m - 1) % m], p = raw[j], b = raw[(j + 1) % m];
-    const n = seen(p[0] - a[0], p[1] - a[1]) + seen(b[0] - p[0], b[1] - p[1]), i = j * 5 + 2;
-    if (n === 1) sil += seg(far[i], near[i]); else if (n === 2) lo += seg(far[i], near[i]);
-  }
-  return { far: poly(far), sweep, lo, sil, near: poly(near) };
-}
-const plate = (g) => ({
-  far: mk("path", { class: "sil" }, g), sweep: mk("path", { class: "fo" }, g), lo: mk("path", { class: "nf lo" }, g),
-  sil: mk("path", { class: "nf sil" }, g), near: mk("path", { class: "sil" }, g),
+const R2 = Math.SQRT1_2, TALL = 27, ROOT = -24, FACE = 14.6, THIN = 1.6, FIRST = 1;
+const SPOTS = [-34, 0, 34], AWAY = [22, 15, 26];
+/** The molar of the set, a little smaller: [height, ring]. */
+const CROWN = [[0, 17], [5, 20.4], [11, 22.5], [17, 23], [23, 22.4], [29, 21], [34, 19]].map(([z, w]) => {
+  const h = w * 0.62;
+  return { z: z * TALL / 34, ring: rrect(-h, -h, h, h, h * 0.62, 6) };
 });
-const lay = (el, s) => { for (const k in s) el[k].setAttribute("d", s[k]); };
-
-/** Tooth i: narrower at the gum, rounder at the biting edge. */
-const tooth = (i) => [[X0[i] + 2, ZT], [X0[i] + WIDE[i] - 2, ZT], [X0[i] + WIDE[i], ZT - TALL[i]], [X0[i], ZT - TALL[i]]];
-/** Its veneer: the same outline, a little inside it. */
-const shell = (i) => [[X0[i] + 3.5, ZT - 6], [X0[i] + WIDE[i] - 3.5, ZT - 6], [X0[i] + WIDE[i] - 1.5, ZT - TALL[i] + 1.5], [X0[i] + 1.5, ZT - TALL[i] + 1.5]];
+const top = rrect(-8.4, -8.4, 8.4, 8.4, 5, 6);
+/** Two roots, side by side: each [ring under the neck, ring at its tip]. */
+const ROOTS = [-1, 1].map((k) => [circ(6.3, 20).map((q) => [q.u + k * 5.6, q.v]), circ(3, 14).map((q) => [q.u + k * 8, q.v])]);
+/** A veneer's outline on the crown's front face: the crown seen from the front, a little inside its edge. */
+const SHELL = rrect(-13.2, 2, 13.2, TALL - 0.5, 9, 6);
+/** The figure's own axes, as a world point: s runs across the screen, d comes towards the viewer, z is up. */
+const at = (s, d, z) => [(s + d) * R2, (d - s) * R2, z];
 
 function mount({ stage, svg, read }, value) {
   const bag = disposer();
   let stag = value, act = -1;
 
   const C = Cam(45, 0.5, 2.3);
-  fit(C, [[-5, -8, ZT + 11], [END + 5, -8, ZT + 11], [-5, DEPTH + 20, 2], [END + 5, 8, 2], [END, DEPTH + 20, 2]], 200, 160);
-  const P = proj(C);
+  fit(C, [at(-52, FACE + 26, 3), at(52, FACE + 26, 3), at(-52, FACE, ROOT - 3), at(-52, -FACE, TALL + 3), at(52, -FACE, TALL + 3)], 200, 160);
+  const P = proj(C), W = (s, d, z) => P(...at(s, d, z));
 
   const g = mk("g", {}, svg);
-  for (let i = 0; i < 4; i++) lay(plate(g), slab(P, tooth(i), [3, 3, 7, 7], -DEPTH, DEPTH));
-  lay(plate(g), slab(P, [[-5, ZT + 11], [END + 5, ZT + 11], [END + 5, ZT - 3], [-5, ZT - 3]], [6, 6, 6, 6], -8, 8));
-  const shells = WIDE.map((_, i) => ({ el: plate(g), gap: tween(AWAY[i]), drawn: NaN }));
+  for (const spot of SPOTS) {
+    for (const [neck, tip] of ROOTS) mk("path", { class: "sil", d: poly(hull(neck.map((q) => W(spot + q[0], q[1], 1)).concat(tip.map((q) => W(spot + q[0], q[1], ROOT))))) }, g);
+    mk("path", { class: "sil", d: poly(hull(CROWN.flatMap((c) => c.ring.map((q) => W(spot + q.u, q.v, c.z))))) }, g);
+    mk("path", { class: "nf lo", d: open(run(top, (q) => q.nv >= -1e-6).map((q) => W(spot + q.u, q.v, TALL))) }, g);
+    mk("path", { class: "nf lo", d: seg(W(spot - 4.5, 0, TALL), W(spot + 4.5, 0, TALL)) + seg(W(spot, -4.5, TALL), W(spot, 4.5, TALL)) }, g);
+  }
+  // the veneers are nearer than every tooth, so they are painted after them all
+  const shells = AWAY.map((gap) => ({ back: mk("path", { class: "sil" }, g), face: mk("path", { class: "sil" }, g), gap: tween(gap), drawn: NaN }));
 
+  /** Veneer i, a gap in front of its tooth: a thin plate, its back edge and its face. */
   function draw(i, gap) {
     const s = shells[i];
     if (gap === s.drawn) return;
     s.drawn = gap;
-    lay(s.el, slab(P, shell(i), [2.5, 2.5, 5.5, 5.5], DEPTH + 0.6 + gap, DEPTH + 2.2 + gap));
+    const plate = (d) => SHELL.map((q) => W(SPOTS[i] + q.u, d, q.v));
+    s.back.setAttribute("d", poly(hull(plate(FACE + 0.5 + gap).concat(plate(FACE + 0.5 + gap + THIN)))));
+    s.face.setAttribute("d", poly(plate(FACE + 0.5 + gap + THIN)));
   }
   const B = register(stage, (_dt, now) => {
     let moving = false;
@@ -946,8 +940,8 @@ function mount({ stage, svg, read }, value) {
   });
   bag.add(B.unregister);
 
-  // the pick: the tooth whose resting centre is nearest the pointer across the screen
-  const mid = WIDE.map((w, i) => P(X0[i] + w / 2, DEPTH, ZT - TALL[i] / 2)[0]);
+  // the pick: the tooth whose centre is nearest the pointer across the screen
+  const mid = SPOTS.map((s) => W(s, 0, 13)[0]);
   const hit = (x) => mid.reduce((best, m, i) => (Math.abs(m - x) < Math.abs(mid[best] - x) ? i : best), 0);
 
   /** Seats every veneer, spreading out from tooth a; -1 lets them all go, spreading from the last one picked. */
@@ -957,12 +951,13 @@ function mount({ stage, svg, read }, value) {
     act = a;
     shells.forEach((s, i) => {
       tset(s.gap, a < 0 ? AWAY[i] : 0, now, Math.abs(i - from) * stag);
-      s.el.near.classList.toggle("hi", i === (a < 0 ? FIRST : a));
+      const lit = i === (a < 0 ? FIRST : a);
+      s.back.classList.toggle("hi", lit); s.face.classList.toggle("hi", lit);
     });
     read.textContent = a < 0 ? "rest" : "tooth " + (a + 1);
     B.wake();
   }
-  shells[FIRST].el.near.classList.add("hi");
+  shells[FIRST].back.classList.add("hi"); shells[FIRST].face.classList.add("hi");
 
   bag.add(pointer(stage, { move: (p) => setActive(hit(p[0])), leave: () => setActive(-1) }));
   bag.add(() => svg.replaceChildren());
@@ -975,10 +970,10 @@ function mount({ stage, svg, read }, value) {
 
 hairline({
   name: "smile",
-  means: "Four front teeth, a veneer floating before each: the one under the pointer seats first, the rest follow.",
+  means: "Three teeth, a veneer floating before each: the one under the pointer seats first, and the rest follow.",
   rules: [1, 2, 4, 8],
-  range: [0, 110, 240],
-  tour: [[150, 150], [215, 175], [265, 200], null],
+  range: [0, 130, 280],
+  tour: [[130, 150], [200, 150], [270, 150], null],
   mount,
 });
 </script>

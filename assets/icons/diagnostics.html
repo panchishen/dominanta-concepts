@@ -890,13 +890,13 @@ const {
   spring, stepS, disposer, mk, pointer, register,
 } = HL;
 
-const TOP = 34, ROOT = -30, ZMIN = -22, ZMAX = 28, ZREST = 22, BAND = 8, STEPS = 12;
+const TOP = 34, ROOT = -38, ZMIN = -30, ZMAX = 28, ZREST = 22, BAND = 8, STEPS = 12;
 /** The crown's profile, neck to biting surface: [height, half-width]. Its hull is the barrel of a molar. */
 const CROWN = [[0, 17], [5, 20.4], [11, 22.5], [17, 23], [23, 22.4], [29, 21], [34, 19]].map(([z, w]) => ({ z, ring: rrect(-w, -w, w, w, w * 0.62, 6) }));
 const neck = CROWN[0].ring, inner = rrect(-14, -14, 14, 14, 8, 6);
 const disc = (cx, cy, r) => circ(r, 24).map((q) => ({ u: q.u + cx, v: q.v + cy, nu: q.nu, nv: q.nv }));
 /** Two roots, side by side on screen: each a ring under the neck and a smaller one at its tip. */
-const ROOTS = [[9.5, -9.5], [-9.5, 9.5]].map(([cx, cy]) => ({ a: disc(cx, cy, 10), b: disc(cx * 1.4, cy * 1.4, 5) }));
+const ROOTS = [[6.4, -6.4], [-6.4, 6.4]].map(([cx, cy]) => ({ a: disc(cx, cy, 10), b: disc(cx * 1.43, cy * 1.43, 4.8) }));
 /** The ring a share t of the way from ring a to ring b. */
 const mix = (a, b, t) => a.map((q, i) => ({ u: lerp(q.u, b[i].u, t), v: lerp(q.v, b[i].v, t), nu: q.nu, nv: q.nv }));
 /** The crown's outline at height z above its neck. */
@@ -911,9 +911,9 @@ function mount({ stage, svg, read }, value) {
   const bag = disposer();
   let R = value, drawn = NaN, drawnR = NaN;
 
-  const C = Cam(45, 0.5, 2.4);
+  const C = Cam(45, 0.5, 2.25);
   const far = circ(46, 16).flatMap((q) => [[q.u, q.v, ZMIN], [q.u, q.v, ZMAX]]);
-  fit(C, far.concat([[-20, -20, TOP], [14, -14, ROOT], [-14, 14, ROOT]]), 200, 160);
+  fit(C, far.concat([[-20, -20, TOP], [9.2, -9.2, ROOT - 5], [-9.2, 9.2, ROOT - 5]]), 200, 160);
   const P = proj(C), front = facing(C), back = (q) => !front(q);
   const axis = P(0, 0, 0)[1], perZ = C.S * Math.sqrt(1 - C.k * C.k);
 

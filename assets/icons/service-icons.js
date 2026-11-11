@@ -733,13 +733,13 @@ function hairline(figure) { figures[figure.name] = figure; }
     spring, stepS, disposer, mk, pointer, register,
   } = HL;
 
-  const TOP = 34, ROOT = -30, ZMIN = -22, ZMAX = 28, ZREST = 22, BAND = 8, STEPS = 12;
+  const TOP = 34, ROOT = -38, ZMIN = -30, ZMAX = 28, ZREST = 22, BAND = 8, STEPS = 12;
   /** The crown's profile, neck to biting surface: [height, half-width]. Its hull is the barrel of a molar. */
   const CROWN = [[0, 17], [5, 20.4], [11, 22.5], [17, 23], [23, 22.4], [29, 21], [34, 19]].map(([z, w]) => ({ z, ring: rrect(-w, -w, w, w, w * 0.62, 6) }));
   const neck = CROWN[0].ring, inner = rrect(-14, -14, 14, 14, 8, 6);
   const disc = (cx, cy, r) => circ(r, 24).map((q) => ({ u: q.u + cx, v: q.v + cy, nu: q.nu, nv: q.nv }));
   /** Two roots, side by side on screen: each a ring under the neck and a smaller one at its tip. */
-  const ROOTS = [[9.5, -9.5], [-9.5, 9.5]].map(([cx, cy]) => ({ a: disc(cx, cy, 10), b: disc(cx * 1.4, cy * 1.4, 5) }));
+  const ROOTS = [[6.4, -6.4], [-6.4, 6.4]].map(([cx, cy]) => ({ a: disc(cx, cy, 10), b: disc(cx * 1.43, cy * 1.43, 4.8) }));
   /** The ring a share t of the way from ring a to ring b. */
   const mix = (a, b, t) => a.map((q, i) => ({ u: lerp(q.u, b[i].u, t), v: lerp(q.v, b[i].v, t), nu: q.nu, nv: q.nv }));
   /** The crown's outline at height z above its neck. */
@@ -754,9 +754,9 @@ function hairline(figure) { figures[figure.name] = figure; }
     const bag = disposer();
     let R = value, drawn = NaN, drawnR = NaN;
 
-    const C = Cam(45, 0.5, 2.4);
+    const C = Cam(45, 0.5, 2.25);
     const far = circ(46, 16).flatMap((q) => [[q.u, q.v, ZMIN], [q.u, q.v, ZMAX]]);
-    fit(C, far.concat([[-20, -20, TOP], [14, -14, ROOT], [-14, 14, ROOT]]), 200, 160);
+    fit(C, far.concat([[-20, -20, TOP], [9.2, -9.2, ROOT - 5], [-9.2, 9.2, ROOT - 5]]), 200, 160);
     const P = proj(C), front = facing(C), back = (q) => !front(q);
     const axis = P(0, 0, 0)[1], perZ = C.S * Math.sqrt(1 - C.k * C.k);
 
@@ -825,54 +825,78 @@ function hairline(figure) { figures[figure.name] = figure; }
 /* ---- gums ---- */
 (function () {
   /**
-   * Gums: a molar seated in a rounded cushion of gum, with six germs lying on it.
-   * The pointer is projected onto the gum; the germs within its radius go quiet,
-   * and the gum rises round the tooth by the share that are quiet, on a spring.
-   * The line where gum meets tooth is the one bright mark. At rest the gum sits
-   * low and the germs are all awake. The slider is the radius.
+   * Gums: two molars, each a crown on its two roots, standing in a rounded pad
+   * of gum that has drawn back: the roots show between gum and crown, and three
+   * germs lie on the gum. The pointer is projected onto the gum; the germs
+   * within its radius go quiet, and the gum rises over the roots by the share
+   * that are quiet, on a spring. The line where gum meets tooth is the one
+   * bright mark. The slider is the radius.
    *
    * The pattern: a continuous field. A falloff by distance from a point on the
    * plane the gum heals to, which never moves.
    */
   const {
-    Cam, facing, fit, hull, open, poly, prism, proj, ringAt, rrect, run, seg, unproj,
+    Cam, circ, fit, hull, lerp, open, poly, proj, rrect, run, seg, unproj,
     spring, stepS, disposer, flatDot, mk, place, pointer, put, register, solid,
   } = HL;
 
-  const TOP = 34, LOW = -13, BASE = -24, HALF = 40;
-  /** The crown's profile, neck to biting surface: [height, half-width]. Its hull is the barrel of a molar. */
-  const CROWN = [[0, 17], [5, 20.4], [11, 22.5], [17, 23], [23, 22.4], [29, 21], [34, 19]].map(([z, w]) => ({ z, ring: rrect(-w, -w, w, w, w * 0.62, 6) }));
-  const neck = CROWN[0].ring, inner = rrect(-14, -14, 14, 14, 8, 6);
-  const GERMS = [[-31, 5], [-18, 27], [5, 32], [28, 19], [33, -6], [19, -29]];
+  const R2 = Math.SQRT1_2, TALL = 34, ROOT = -31, LOW = -16, FLOOR = -37, LEN = 46, DEEP = 21;
+  const SPOTS = [-21, 21], GERMS = [[-39, 13], [0, 16], [39, 13]];
+  /** The molar of the set: [height, ring]. */
+  const CROWN = [[0, 17], [5, 20.4], [11, 22.5], [17, 23], [23, 22.4], [29, 21], [34, 19]].map(([z, w]) => {
+    const h = w * 0.8;
+    return { z, ring: rrect(-h, -h, h, h, h * 0.62, 6) };
+  });
+  const top = rrect(-11, -11, 11, 11, 6.5, 6);
+  /** A root's outline at height z: a circle that narrows and leans outwards on the way down; k is -1 or 1. */
+  const rootAt = (k, z) => {
+    const t = (1 - z) / (1 - ROOT);
+    return circ(lerp(8.1, 3.9, t), 20).map((q) => ({ u: q.u + k * lerp(7.2, 10.3, t), v: q.v, nu: q.nu, nv: q.nv }));
+  };
+  /** The figure's own axes, as a world point: s runs across the screen, d comes towards the viewer, z is up. */
+  const at = (s, d, z) => [(s + d) * R2, (d - s) * R2, z];
+  const near = (q) => q.nv >= -1e-6;
+  const pad = rrect(-LEN, -DEEP, LEN, DEEP, 17, 8), padIn = rrect(-LEN + 4, -DEEP + 4, LEN - 4, DEEP - 4, 13, 8);
 
   function mount({ stage, svg, read }, value) {
     const bag = disposer();
     let R = value, over = null, drawn = NaN;
 
-    const C = Cam(45, 0.5, 2.4);
-    fit(C, [[-HALF, -HALF, BASE], [HALF, HALF, BASE], [HALF, -HALF, 0], [-HALF, HALF, 0], [-20, -20, TOP]], 200, 160);
-    const P = proj(C), front = facing(C);
+    const C = Cam(45, 0.5, 2.05);
+    fit(C, [at(-LEN, DEEP, FLOOR), at(LEN, DEEP, FLOOR), at(-LEN, -DEEP, 0), at(-40, -18, TALL), at(40, -18, TALL)], 200, 160);
+    const P = proj(C), W = (s, d, z) => P(...at(s, d, z));
 
     const g = mk("g", {}, svg);
-    const gumRing = rrect(-HALF, -HALF, HALF, HALF, 24, 10), gumInner = rrect(-HALF + 4, -HALF + 4, HALF - 4, HALF - 4, 20, 10);
     const gum = solid(g);
-    const germs = GERMS.map(([x, y]) => ({ x, y, quiet: false, el: flatDot(g, C, 2.5, "dot m") }));
-    const crown = mk("path", { class: "sil" }, g);
-    mk("path", { class: "nf lo", d: open(ringAt(P, run(inner, front), TOP)) }, g);
-    mk("path", { class: "nf lo", d: seg(P(-7, 0, TOP), P(7, 0, TOP)) + seg(P(0, -7, TOP), P(0, 7, TOP)) }, g);
+    const germs = GERMS.map(([s, d]) => ({ s, d, el: flatDot(g, C, 2.5, "dot m") }));
+    // each tooth: the roots that show above the gum, then the crown over them
+    const teeth = SPOTS.map((spot) => {
+      const roots = [mk("path", { class: "sil" }, g), mk("path", { class: "sil" }, g)];
+      mk("path", { class: "sil", d: poly(hull(CROWN.flatMap((c) => c.ring.map((q) => W(spot + q.u, q.v, c.z))))) }, g);
+      mk("path", { class: "nf lo", d: open(run(top, near).map((q) => W(spot + q.u, q.v, TALL))) }, g);
+      mk("path", { class: "nf lo", d: seg(W(spot - 6, 0, TALL), W(spot + 6, 0, TALL)) + seg(W(spot, -6, TALL), W(spot, 6, TALL)) }, g);
+      return { spot, roots };
+    });
     const margin = mk("path", { class: "nf hi" }, g);
 
-    const crownAbove = CROWN.flatMap((k) => ringAt(P, k.ring, k.z));
     const hs = spring(LOW);
-    /** The gum at height h: the cushion, the germs on it, and the crown from the gum line up. */
+    /** The gum at height h: the pad, the germs on it, the roots from the gum up, and the line where they meet. */
     function draw() {
       const h = hs.x;
       if (h === drawn) return;
       drawn = h;
-      put(gum, prism(P, front, gumRing, gumInner, BASE, h));
-      for (const m of germs) place(m.el, P(m.x, m.y, h));
-      crown.setAttribute("d", poly(hull(ringAt(P, neck, h).concat(crownAbove))));
-      margin.setAttribute("d", open(ringAt(P, run(neck, front), h)));
+      put(gum, {
+        sil: poly(hull(pad.map((q) => W(q.u, q.v, FLOOR)).concat(pad.map((q) => W(q.u, q.v, h))))),
+        crease: open(run(padIn, near).map((q) => W(q.u, q.v, h))),
+      });
+      for (const m of germs) place(m.el, W(m.s, m.d, h));
+      let line = "";
+      for (const t of teeth) [-1, 1].forEach((k, r) => {
+        const cut = rootAt(k, h), neck = rootAt(k, 1);
+        t.roots[r].setAttribute("d", poly(hull(cut.map((q) => W(t.spot + q.u, q.v, h)).concat(neck.map((q) => W(t.spot + q.u, q.v, 1))))));
+        line += open(run(cut, near).map((q) => W(t.spot + q.u, q.v, h)));
+      });
+      margin.setAttribute("d", line);
     }
 
     const B = register(stage, (dt) => {
@@ -885,9 +909,9 @@ function hairline(figure) { figures[figure.name] = figure; }
     function retarget() {
       let quiet = 0;
       for (const m of germs) {
-        m.quiet = !!over && Math.hypot(m.x - over[0], m.y - over[1]) <= R;
-        m.el.setAttribute("class", m.quiet ? "dot off" : "dot m");
-        if (m.quiet) quiet++;
+        const still = !!over && Math.hypot(m.s - over[0], m.d - over[1]) <= R;
+        m.el.setAttribute("class", still ? "dot off" : "dot m");
+        if (still) quiet++;
       }
       hs.t = LOW * (1 - quiet / germs.length);
       read.textContent = over ? `clean ${quiet}/${germs.length}` : "rest";
@@ -895,7 +919,12 @@ function hairline(figure) { figures[figure.name] = figure; }
     }
 
     bag.add(pointer(stage, {
-      move: (p) => { over = unproj(C, p[0], p[1], 0); retarget(); },
+      move: (p) => {
+        // the point of the healed gum's plane under the pointer, in the figure's own axes
+        const [x, y] = unproj(C, p[0], p[1], 0);
+        over = [(x - y) * R2, (x + y) * R2];
+        retarget();
+      },
       leave: () => { over = null; retarget(); },
     }));
     bag.add(() => svg.replaceChildren());
@@ -908,10 +937,10 @@ function hairline(figure) { figures[figure.name] = figure; }
 
   hairline({
     name: "gums",
-    means: "Germs on the gum go quiet near the pointer, and the gum rises to close round the tooth.",
+    means: "The gum has drawn back from the roots; near the pointer the germs go quiet and it rises to the crowns again.",
     rules: [1, 3, 4, 5],
-    range: [32, 52, 80],
-    tour: [[150, 190], [250, 190], [200, 170], null],
+    range: [30, 46, 80],
+    tour: [[130, 200], [270, 200], [200, 190], null],
     mount,
   });
 })();
@@ -1029,183 +1058,185 @@ function hairline(figure) { figures[figure.name] = figure; }
 /* ---- prosthetics ---- */
 (function () {
   /**
-   * Prosthetics: a milling table with a blank block on it and a spindle parked
-   * above. Under the pointer the spindle dips, the block is cut away to the crown
-   * that was inside it, and the spindle lifts clear again. The spindle is bright at rest, the crown once
-   * it is cut free. The slider is how much of the blank is left.
+   * Prosthetics: a jaw, a horseshoe of gum with its teeth, two of them missing
+   * on one side; and above the gap a denture, two teeth on a small saddle.
+   * Under the pointer the denture comes down into the gap; leaving lifts it out.
+   * The denture is the one bright mark. The slider is how high it waits.
    *
-   * The pattern: one discrete change on one tween. The crown is drawn only above
-   * the block's top, so the block never shows through it.
+   * The pattern: one discrete change on one tween. The hit is the stage itself,
+   * so nothing that moves can drop the hover.
    */
   const {
-    Cam, circ, clamp, facing, fit, hull, lerp, open, poly, prism, proj, ringAt, rrect, run, seg,
-    tdone, tset, tval, tween, disposer, mk, pointer, put, register, solid,
+    Cam, circ, fit, hull, poly, proj, rad,
+    tdone, tset, tval, tween, disposer, mk, pointer, register,
   } = HL;
 
-  const FOOT = 2, TOP = 36, BLANK = 42, TABLE = -10, HALF = 31, BLOCK = 25;
-  const PARK = 50, DIP = 9, BUR = 12, CHUCK = 16, OFF = 0;
-  /** The crown's profile, neck to biting surface: [height, half-width]. Its hull is the barrel of a molar. */
-  const CROWN = [[0, 17], [5, 20.4], [11, 22.5], [17, 23], [23, 22.4], [29, 21], [34, 19]].map(([z, w]) => ({ z, ring: rrect(-w, -w, w, w, w * 0.62, 6) }));
-  const neck = CROWN[0].ring, inner = rrect(-14, -14, 14, 14, 8, 6);
-  const at = (ring) => ring.map((q) => ({ u: q.u + OFF, v: q.v + OFF, nu: q.nu, nv: q.nv }));
-  const bur = at(circ(3.4, 20)), chuck = at(circ(11, 36)), chuckIn = at(circ(8.2, 36));
-  const mix = (a, b, t) => a.map((q, i) => ({ u: lerp(q.u, b[i].u, t), v: lerp(q.v, b[i].v, t), nu: q.nu, nv: q.nv }));
-  /** The crown's outline at height z above its neck. */
-  const section = (z) => {
-    let k = 0;
-    while (k < CROWN.length - 2 && CROWN[k + 1].z < z) k++;
-    const a = CROWN[k], b = CROWN[k + 1];
-    return mix(a.ring, b.ring, clamp((z - a.z) / (b.z - a.z), 0, 1));
-  };
+  const R2 = Math.SQRT1_2, HALF = 34, BACK = -32, NOSE = 30, GUM = 9, DEEP = -10, SADDLE = 2.6;
+  /** The figure's own axes, as a world point: s runs across the screen, d comes towards the viewer, z is up. */
+  const at = (s, d, z) => [(s + d) * R2, (d - s) * R2, z];
+  /** The horseshoe's centre line, from the right back end round the front to the left back end. */
+  const LINE = [[HALF, BACK], [HALF, -16]];
+  for (let a = 0; a <= 180; a += 15) LINE.push([HALF * Math.cos(rad(a)), NOSE * Math.sin(rad(a))]);
+  LINE.push([-HALF, -16], [-HALF, BACK]);
+  /** The teeth of one side, back to front: [s, d, radius]; the other side mirrors them. The denture carries two of the right side. */
+  const SIDE = [[HALF, -25, 8.6], [HALF, -8, 8.4], [31.6, 8.5, 7.8], [24.6, 20.6, 7], [14.6, 27.4, 6.2], [5.2, 29.8, 5.4]];
+  const LOST = [2, 3];
+  const TEETH = SIDE.flatMap(([s, d, r], i) => [{ s, d, r, lost: LOST.includes(i) }, { s: -s, d, r, lost: false }]).sort((a, b) => a.d - b.d);
+  const BARREL = [[0, 0.8], [0.3, 1], [0.7, 1], [1, 0.8]];
+  const disc = (s, d, r) => circ(r, 20).map((q) => [s + q.u, d + q.v]);
 
   function mount({ stage, svg, read }, value) {
     const bag = disposer();
-    let left = value, on = false, last = NaN;
+    let lift = value, on = false, last = NaN;
 
-    const C = Cam(45, 0.5, 2.15);
-    fit(C, [[-HALF, -HALF, TABLE], [HALF, HALF, TABLE], [HALF, -HALF, 0], [-HALF, HALF, 0], [OFF - 9, OFF - 9, PARK + BUR + CHUCK]], 200, 160);
-    const P = proj(C), front = facing(C);
+    const C = Cam(45, 0.5, 2.4);
+    fit(C, [at(-HALF - GUM, BACK, 12), at(HALF + GUM, BACK, 12), at(0, NOSE + GUM, DEEP), at(-HALF - GUM, 0, DEEP), at(HALF + GUM, 0, DEEP), at(30, 8, 50)], 200, 160);
+    const P = proj(C), W = (s, d, z) => P(...at(s, d, z));
+
+    /** A length of gum between two points, r wide, from z0 to z1: the hull of its two ends, top and bottom. */
+    const length = (a, b, r, z0, z1) => {
+      const ends = disc(a[0], a[1], r).concat(disc(b[0], b[1], r));
+      return poly(hull(ends.map((p) => W(p[0], p[1], z0)).concat(ends.map((p) => W(p[0], p[1], z1)))));
+    };
+    const crown = (t, z) => poly(hull(BARREL.flatMap(([k, f]) => disc(t.s, t.d, t.r * f).map((q) => W(q[0], q[1], z + k * t.r * 1.5)))));
+    /** The hollow of a biting surface: only the molars are wide enough to show it. */
+    const cusp = (t, z) => (t.r < 7 ? "" : poly(disc(t.s, t.d, t.r * 0.45).map((q) => W(q[0], q[1], z + t.r * 1.5))));
 
     const g = mk("g", {}, svg);
-    put(solid(g), prism(P, front, rrect(-HALF, -HALF, HALF, HALF, 16, 8), rrect(-HALF + 4, -HALF + 4, HALF - 4, HALF - 4, 12, 8), TABLE, 0));
-    const blockRing = rrect(-BLOCK, -BLOCK, BLOCK, BLOCK, 9, 6), blockIn = rrect(-BLOCK + 3.5, -BLOCK + 3.5, BLOCK - 3.5, BLOCK - 3.5, 5.5, 6);
-    const block = solid(g), crown = solid(g), groove = mk("path", { class: "nf lo" }, g);
-    const tip = mk("path", { class: "sil hi" }, g), head = solid(g);
-    head.sil.classList.add("hi");
-
-    /** The crown from height h up: the block still hides what is below its top. */
-    function reveal(h) {
-      if (h >= TOP - 1) return { sil: "", crease: "", groove: "" };
-      const from = Math.max(h, FOOT) - FOOT;
-      const pts = ringAt(P, section(from), from + FOOT).concat(CROWN.filter((k) => k.z > from).flatMap((k) => ringAt(P, k.ring, k.z + FOOT)));
-      return {
-        sil: poly(hull(pts)), crease: open(ringAt(P, run(inner, front), TOP)),
-        groove: seg(P(-7, 0, TOP), P(7, 0, TOP)) + seg(P(0, -7, TOP), P(0, 7, TOP)),
-      };
+    // every length of gum outlined, then every length filled a little inside its outline: the joins go, the outline stays
+    const order = LINE.slice(0, -1).map((_, i) => i).sort((a, b) => LINE[a][1] + LINE[a + 1][1] - LINE[b][1] - LINE[b + 1][1]);
+    for (const i of order) mk("path", { class: "sil", d: length(LINE[i], LINE[i + 1], GUM, DEEP, 0) }, g);
+    for (const i of order) mk("path", { class: "fo", d: length(LINE[i], LINE[i + 1], GUM - 0.8, DEEP, 0) }, g);
+    // the teeth from the back of the mouth forward; the denture takes its place among them, where its saddle goes first
+    const lost = TEETH.filter((t) => t.lost), parts = [];
+    let saddle = null;
+    for (const t of TEETH) {
+      if (!t.lost) {
+        mk("path", { class: "sil", d: crown(t, 0) }, g);
+        mk("path", { class: "nf lo", d: cusp(t, 0) }, g);
+        continue;
+      }
+      mk("path", { class: "nf lo", d: poly(disc(t.s, t.d, t.r * 0.6).map((q) => W(q[0], q[1], 0))) }, g);
+      if (!saddle) saddle = mk("path", { class: "sil hi" }, g);
+      parts.push({ t, sil: mk("path", { class: "sil hi" }, g), cr: mk("path", { class: "nf lo" }, g) });
     }
 
-    /** The pose at k: 0 is the whole blank with the spindle parked, 1 is the crown cut free. */
-    function draw(k) {
-      if (k === last) return;
-      last = k;
-      const h = lerp(BLANK, Math.max(0.6, left), k), z = PARK - DIP * Math.sin(Math.PI * k), r = reveal(h);
-      put(block, prism(P, front, blockRing, blockIn, 0, h));
-      put(crown, r);
-      groove.setAttribute("d", r.groove);
-      tip.setAttribute("d", poly(hull(ringAt(P, bur, z).concat(ringAt(P, bur, z + BUR)))));
-      put(head, prism(P, front, chuck, chuckIn, z + BUR, z + BUR + CHUCK));
+    /** The denture with its saddle at height z above the gum. */
+    function draw(z) {
+      if (z === last) return;
+      last = z;
+      saddle.setAttribute("d", length([lost[0].s, lost[0].d], [lost[1].s, lost[1].d], 7.6, z, z + SADDLE));
+      for (const p of parts) { p.sil.setAttribute("d", crown(p.t, z + SADDLE)); p.cr.setAttribute("d", cusp(p.t, z + SADDLE)); }
     }
 
-    const tw = tween(0);
+    const tw = tween(lift);
     const B = register(stage, (_dt, now) => {
       draw(tval(tw, now));
       return !tdone(tw, now);
     });
     bag.add(B.unregister);
 
-    function mill(want) {
+    function fitIn(want) {
       if (want === on) return;
       on = want;
-      tset(tw, on ? 1 : 0, performance.now(), 0);
-      tip.classList.toggle("hi", !on); head.sil.classList.toggle("hi", !on);
-      crown.sil.classList.toggle("hi", on);
-      read.textContent = on ? "milled" : "rest";
+      tset(tw, on ? 0 : lift, performance.now(), 0);
+      read.textContent = on ? "fitted" : "rest";
       B.wake();
     }
 
-    bag.add(pointer(stage, { move: () => mill(true), leave: () => mill(false) }));
+    bag.add(pointer(stage, { move: () => fitIn(true), leave: () => fitIn(false) }));
     bag.add(() => svg.replaceChildren());
 
     return {
-      set: (v) => { left = v; last = NaN; draw(on ? 1 : 0); B.wake(); },
+      set: (v) => { lift = v; if (!on) { tset(tw, lift, performance.now(), 0); B.wake(); } },
       destroy: bag.dispose,
     };
   }
 
   hairline({
     name: "prosthetics",
-    means: "Under the pointer the spindle comes down and the blank block is cut away to the crown inside it.",
-    rules: [1, 4, 6, 8],
-    range: [16, 6, 1],
-    tour: [[200, 130], [200, 200], null],
+    means: "A jaw with two teeth missing, and a denture waiting above the gap: under the pointer it comes down into place.",
+    rules: [1, 4, 5, 8],
+    range: [16, 24, 30],
+    tour: [[200, 140], [240, 190], null],
     mount,
   });
 })();
 /* ---- tmj ---- */
 (function () {
   /**
-   * TMJ: two jaws seen from the side, cut from one thick plate each. The upper
-   * one is fixed; the lower one hangs from a round joint and swings open as the
-   * pointer goes down, on a spring. The joint is the one bright mark. At rest
-   * the jaw is a little open. The slider is how far it can open, in degrees.
+   * TMJ: a lower jaw. A horseshoe of gum with ten teeth along it, and at its two
+   * back ends a post rising to a ball: the two joints, which stay where they are.
+   * The jaw hangs from them and swings open as the pointer goes down, on a
+   * spring. The two balls are the one bright mark. The slider is how far the jaw
+   * can open, in degrees.
    *
    * The pattern: a continuous scrub. The pointer's height is read against the
-   * bite line of the fixed jaw, so the moving jaw cannot pull the answer away.
+   * jaw's closed pose, so the moving jaw cannot pull the answer away.
    */
   const {
-    Cam, clamp, fillet, fit, hull, lerp, poly, proj, rad, seg,
-    spring, stepS, disposer, mk, pointer, register,
+    Cam, circ, clamp, fit, hull, poly, proj, rad,
+    spring, stepS, disposer, mk, place, pointer, register,
   } = HL;
 
-  const Y0 = -8, Y1 = 8, PX = -30, PZ = 28, BALL = 8.5, REST = 8, TRAVEL = 84;
-  const UPPER = [[-44, 50], [41, 50], [41, 27], [32, 27], [32, 34], [27, 34], [27, 27], [18, 27], [18, 34], [13, 34], [13, 27], [4, 27], [4, 38], [-44, 38]];
-  const UPPER_R = [6, 6, 2.5, 2.5, 1.5, 1.5, 2.5, 2.5, 1.5, 1.5, 2.5, 2.5, 3, 6];
-  const LOWER = [[-38, 33], [-22, 33], [-22, 18], [4, 18], [4, 27], [13, 27], [13, 20], [18, 20], [18, 27], [27, 27], [27, 20], [32, 20], [32, 27], [41, 27], [41, 4], [-38, 4]];
-  const LOWER_R = [6, 6, 6, 1.5, 2.5, 2.5, 1.5, 1.5, 2.5, 2.5, 1.5, 1.5, 2.5, 2.5, 11, 11];
-
-  /** Whether the side face along an edge of a clockwise outline faces the camera: tops and +x sides do. */
-  const seen = (ex, ez) => ex * 0.5 - ez * 0.61 > 0;
-  /** The lower jaw's outline swung open by deg about the joint. */
-  const swing = (deg) => {
-    const s = Math.sin(rad(deg)), c = Math.cos(rad(deg));
-    return LOWER.map(([x, z]) => [PX + (x - PX) * c + (z - PZ) * s, PZ - (x - PX) * s + (z - PZ) * c]);
-  };
-
-  /** An outline standing in the x-z plane, pushed from y0 to y1: far face, the sweep, the edges between, near face. */
-  function slab(P, raw, radii) {
-    const pts = fillet(raw, radii), m = raw.length;
-    const face = (y) => pts.map((p) => P(p[0], y, p[1]));
-    const far = face(Y0), near = face(Y1);
-    let sweep = "", sil = "", lo = "";
-    for (let k = 1; k < 9; k++) sweep += poly(face(lerp(Y0, Y1, k / 9)));
-    for (let j = 0; j < m; j++) {
-      const a = raw[(j + m - 1) % m], p = raw[j], b = raw[(j + 1) % m];
-      const e1 = [p[0] - a[0], p[1] - a[1]], e2 = [b[0] - p[0], b[1] - p[1]];
-      if (e1[0] * e2[1] - e1[1] * e2[0] >= 0) continue; // a hollow corner: its edge is behind the plate
-      const n = seen(e1[0], e1[1]) + seen(e2[0], e2[1]), i = j * 5 + 2;
-      if (n === 1) sil += seg(far[i], near[i]); else if (n === 2) lo += seg(far[i], near[i]);
-    }
-    return { far: poly(far), sweep, lo, sil, near: poly(near) };
-  }
-  const plate = (g) => ({
-    far: mk("path", { class: "sil" }, g), sweep: mk("path", { class: "fo" }, g), lo: mk("path", { class: "nf lo" }, g),
-    sil: mk("path", { class: "nf sil" }, g), near: mk("path", { class: "sil" }, g),
-  });
-  const lay = (el, s) => { for (const k in s) el[k].setAttribute("d", s[k]); };
+  const R2 = Math.SQRT1_2, HALF = 34, BACK = -26, NOSE = 30, GUM = 9, DEEP = -10, JD = -32, JZ = 36, BALL = 6.5, REST = 3, TRAVEL = 80;
+  /** The figure's own axes, as a world point: s runs across the screen, d comes towards the viewer, z is up. */
+  const at = (s, d, z) => [(s + d) * R2, (d - s) * R2, z];
+  /** The horseshoe's centre line, from the right back end round the front to the left back end. */
+  const LINE = [[HALF, BACK], [HALF, -13]];
+  for (let a = 0; a <= 180; a += 15) LINE.push([HALF * Math.cos(rad(a)), NOSE * Math.sin(rad(a))]);
+  LINE.push([-HALF, -13], [-HALF, BACK]);
+  /** The teeth of one side, back to front: [s, d, radius]; the other side mirrors them. */
+  const SIDE = [[HALF, -17, 8.6], [33.2, 4, 8.2], [26.4, 19, 7.2], [15, 27, 6.2], [5.4, 29.8, 5.4]];
+  const TEETH = SIDE.flatMap(([s, d, r]) => [[s, d, r], [-s, d, r]]).sort((a, b) => a[1] - b[1]);
+  const BARREL = [[0, 0.8], [0.3, 1], [0.7, 1], [1, 0.8]];
+  const disc = (s, d, r) => circ(r, 20).map((q) => [s + q.u, d + q.v]);
 
   function mount({ stage, svg, read }, value) {
     const bag = disposer();
-    let max = value, drawn = NaN;
+    let max = value, drawn = NaN, over = null;
 
-    const C = Cam(45, 0.5, 2.5);
-    const open = swing(34).map(([x, z]) => [x, Y1, z]);
-    fit(C, open.concat([[-44, Y0, 50], [41, Y0, 50], [-44, Y1, 38], [41, Y1, 27]]), 200, 160);
-    const P = proj(C);
+    const C = Cam(45, 0.5, 2.1);
+    /** The jaw's own points, swung open by deg about the line through the two joints. */
+    const swing = (deg, W) => {
+      const sn = Math.sin(rad(deg)), cs = Math.cos(rad(deg));
+      return (s, d, z) => W(s, JD + (d - JD) * cs + (z - JZ) * sn, JZ - (d - JD) * sn + (z - JZ) * cs);
+    };
+    const wide = swing(32, at);
+    fit(C, [at(-HALF - BALL, JD, JZ + BALL), at(HALF + BALL, JD, JZ + BALL), wide(0, NOSE + GUM, DEEP), wide(-HALF - GUM, 0, DEEP), wide(HALF + GUM, 0, DEEP)], 200, 160);
+    const P = proj(C), W = (s, d, z) => P(...at(s, d, z));
 
     const g = mk("g", {}, svg);
-    const lower = plate(g), upper = plate(g);
-    lay(upper, slab(P, UPPER, UPPER_R));
-    // the joint: a round pin through both plates, painted last so it sits on their near faces
-    const ring = Array.from({ length: 28 }, (_, k) => [PX + BALL * Math.cos(k / 28 * 2 * Math.PI), PZ + BALL * Math.sin(k / 28 * 2 * Math.PI)]);
-    const pin = (y) => ring.map((p) => P(p[0], y, p[1]));
-    mk("path", { class: "sil hi", d: poly(hull(pin(Y0 - 2).concat(pin(Y1 + 2)))) }, g);
-    mk("path", { class: "sil hi", d: poly(pin(Y1 + 2)) }, g);
+    // back to front: the two posts and their balls, the gum, then the teeth from the back of the mouth forward
+    const posts = [HALF, -HALF].map((s) => ({ s, el: mk("path", { class: "sil" }, g) }));
+    for (const p of posts) place(mk("ellipse", { rx: BALL * C.S, ry: BALL * C.S, class: "hi" }, g), W(p.s, JD, JZ));
+    const order = LINE.slice(0, -1).map((_, i) => i).sort((a, b) => LINE[a][1] + LINE[a + 1][1] - LINE[b][1] - LINE[b + 1][1]);
+    const edge = order.map(() => mk("path", { class: "sil" }, g)), fill = order.map(() => mk("path", { class: "fo" }, g));
+    const teeth = TEETH.map(() => ({ sil: mk("path", { class: "sil" }, g), cr: mk("path", { class: "nf lo" }, g) }));
+
+    /** A length of gum between two points of the centre line, r wide: the hull of its two ends, top and bottom. */
+    const length = (T, i, r) => {
+      const ends = disc(LINE[i][0], LINE[i][1], r).concat(disc(LINE[i + 1][0], LINE[i + 1][1], r));
+      return poly(hull(ends.map((p) => T(p[0], p[1], DEEP)).concat(ends.map((p) => T(p[0], p[1], 0)))));
+    };
 
     const as = spring(REST);
     function draw() {
       if (as.x === drawn) return;
       drawn = as.x;
-      lay(lower, slab(P, swing(drawn), LOWER_R));
+      const T = swing(drawn, W);
+      for (const p of posts) {
+        const foot = disc(p.s, BACK, 8).map((q) => T(q[0], q[1], -2)), head = disc(p.s, JD, 5.5).map((q) => T(q[0], q[1], JZ - 3));
+        p.el.setAttribute("d", poly(hull(foot.concat(head))));
+      }
+      // every length outlined, then every length filled a little inside its outline: the joins between them go, the outline stays
+      order.forEach((i, k) => { edge[k].setAttribute("d", length(T, i, GUM)); fill[k].setAttribute("d", length(T, i, GUM - 0.8)); });
+      TEETH.forEach(([s, d, r], k) => {
+        const tall = r * 1.5;
+        teeth[k].sil.setAttribute("d", poly(hull(BARREL.flatMap(([z, f]) => disc(s, d, r * f).map((q) => T(q[0], q[1], z * tall))))));
+        // only the molars are wide enough to show the hollow of their biting surface
+        teeth[k].cr.setAttribute("d", r < 7 ? "" : poly(disc(s, d, r * 0.45).map((q) => T(q[0], q[1], tall))));
+      });
     }
     const B = register(stage, (dt) => {
       const moving = stepS(as, dt);
@@ -1214,10 +1245,9 @@ function hairline(figure) { figures[figure.name] = figure; }
     });
     bag.add(B.unregister);
 
-    const bite = P(22, 0, 27)[1];
-    let over = null;
+    const bite = W(0, NOSE, 8)[1];
     function retarget() {
-      as.t = over === null ? REST : clamp((over - bite + 12) / TRAVEL, 0, 1) * max;
+      as.t = over === null ? REST : clamp((over - bite + 30) / TRAVEL, 0, 1) * max;
       read.textContent = over === null ? "rest" : `open ${Math.round(as.t)}°`;
       B.wake();
     }
@@ -1236,77 +1266,71 @@ function hairline(figure) { figures[figure.name] = figure; }
 
   hairline({
     name: "tmj",
-    means: "The lower jaw hangs from its joint and swings open as the pointer goes down; the joint is the bright mark.",
+    means: "A lower jaw hangs from its two joints and swings open as the pointer goes down; the joints are the bright mark.",
     rules: [1, 3, 4, 8],
-    range: [16, 26, 34],
-    tour: [[220, 150], [220, 235], [220, 185], null],
+    range: [14, 26, 32],
+    tour: [[200, 150], [200, 250], [200, 195], null],
     mount,
   });
 })();
 /* ---- smile ---- */
 (function () {
   /**
-   * Smile: four upper front teeth hanging from a bar of gum, and a thin veneer
+   * Smile: three teeth, each a crown on its two roots, and a thin veneer
    * floating in front of each. The pointer picks a tooth; its veneer seats first
    * and the others follow, staggered outwards from it. The picked veneer is the
-   * bright one. At rest the veneers hang off at uneven distances. The slider is
-   * the stagger, in ms.
+   * bright one. At rest the veneers wait at uneven distances. The slider is the
+   * stagger, in ms.
    *
    * The pattern: discrete items. Tweens, a stagger by distance, and a pick by
-   * the teeth's own resting centres, which never move.
+   * the teeth's own centres, which never move.
    */
   const {
-    Cam, fillet, fit, lerp, poly, proj, seg,
+    Cam, circ, fit, hull, open, poly, proj, rrect, run, seg,
     tdone, tset, tval, tween, disposer, mk, pointer, register,
   } = HL;
 
-  const ZT = 44, DEPTH = 5, WIDE = [19, 25, 25, 19], TALL = [35, 42, 42, 35], AWAY = [15, 10, 13, 17], GAP = 3, FIRST = 1;
-  const X0 = WIDE.map((_, i) => WIDE.slice(0, i).reduce((a, b) => a + b + GAP, 0)), END = X0[3] + WIDE[3];
-
-  const seen = (ex, ez) => ex * 0.5 - ez * 0.61 > 0;
-  /** An outline standing in the x-z plane, pushed from y0 to y1: far face, the sweep, the edges between, near face. */
-  function slab(P, raw, radii, y0, y1) {
-    const pts = fillet(raw, radii), m = raw.length;
-    const face = (y) => pts.map((p) => P(p[0], y, p[1]));
-    const far = face(y0), near = face(y1);
-    let sweep = "", sil = "", lo = "";
-    for (let k = 1; k < 6; k++) sweep += poly(face(lerp(y0, y1, k / 6)));
-    for (let j = 0; j < m; j++) {
-      const a = raw[(j + m - 1) % m], p = raw[j], b = raw[(j + 1) % m];
-      const n = seen(p[0] - a[0], p[1] - a[1]) + seen(b[0] - p[0], b[1] - p[1]), i = j * 5 + 2;
-      if (n === 1) sil += seg(far[i], near[i]); else if (n === 2) lo += seg(far[i], near[i]);
-    }
-    return { far: poly(far), sweep, lo, sil, near: poly(near) };
-  }
-  const plate = (g) => ({
-    far: mk("path", { class: "sil" }, g), sweep: mk("path", { class: "fo" }, g), lo: mk("path", { class: "nf lo" }, g),
-    sil: mk("path", { class: "nf sil" }, g), near: mk("path", { class: "sil" }, g),
+  const R2 = Math.SQRT1_2, TALL = 27, ROOT = -24, FACE = 14.6, THIN = 1.6, FIRST = 1;
+  const SPOTS = [-34, 0, 34], AWAY = [22, 15, 26];
+  /** The molar of the set, a little smaller: [height, ring]. */
+  const CROWN = [[0, 17], [5, 20.4], [11, 22.5], [17, 23], [23, 22.4], [29, 21], [34, 19]].map(([z, w]) => {
+    const h = w * 0.62;
+    return { z: z * TALL / 34, ring: rrect(-h, -h, h, h, h * 0.62, 6) };
   });
-  const lay = (el, s) => { for (const k in s) el[k].setAttribute("d", s[k]); };
-
-  /** Tooth i: narrower at the gum, rounder at the biting edge. */
-  const tooth = (i) => [[X0[i] + 2, ZT], [X0[i] + WIDE[i] - 2, ZT], [X0[i] + WIDE[i], ZT - TALL[i]], [X0[i], ZT - TALL[i]]];
-  /** Its veneer: the same outline, a little inside it. */
-  const shell = (i) => [[X0[i] + 3.5, ZT - 6], [X0[i] + WIDE[i] - 3.5, ZT - 6], [X0[i] + WIDE[i] - 1.5, ZT - TALL[i] + 1.5], [X0[i] + 1.5, ZT - TALL[i] + 1.5]];
+  const top = rrect(-8.4, -8.4, 8.4, 8.4, 5, 6);
+  /** Two roots, side by side: each [ring under the neck, ring at its tip]. */
+  const ROOTS = [-1, 1].map((k) => [circ(6.3, 20).map((q) => [q.u + k * 5.6, q.v]), circ(3, 14).map((q) => [q.u + k * 8, q.v])]);
+  /** A veneer's outline on the crown's front face: the crown seen from the front, a little inside its edge. */
+  const SHELL = rrect(-13.2, 2, 13.2, TALL - 0.5, 9, 6);
+  /** The figure's own axes, as a world point: s runs across the screen, d comes towards the viewer, z is up. */
+  const at = (s, d, z) => [(s + d) * R2, (d - s) * R2, z];
 
   function mount({ stage, svg, read }, value) {
     const bag = disposer();
     let stag = value, act = -1;
 
     const C = Cam(45, 0.5, 2.3);
-    fit(C, [[-5, -8, ZT + 11], [END + 5, -8, ZT + 11], [-5, DEPTH + 20, 2], [END + 5, 8, 2], [END, DEPTH + 20, 2]], 200, 160);
-    const P = proj(C);
+    fit(C, [at(-52, FACE + 26, 3), at(52, FACE + 26, 3), at(-52, FACE, ROOT - 3), at(-52, -FACE, TALL + 3), at(52, -FACE, TALL + 3)], 200, 160);
+    const P = proj(C), W = (s, d, z) => P(...at(s, d, z));
 
     const g = mk("g", {}, svg);
-    for (let i = 0; i < 4; i++) lay(plate(g), slab(P, tooth(i), [3, 3, 7, 7], -DEPTH, DEPTH));
-    lay(plate(g), slab(P, [[-5, ZT + 11], [END + 5, ZT + 11], [END + 5, ZT - 3], [-5, ZT - 3]], [6, 6, 6, 6], -8, 8));
-    const shells = WIDE.map((_, i) => ({ el: plate(g), gap: tween(AWAY[i]), drawn: NaN }));
+    for (const spot of SPOTS) {
+      for (const [neck, tip] of ROOTS) mk("path", { class: "sil", d: poly(hull(neck.map((q) => W(spot + q[0], q[1], 1)).concat(tip.map((q) => W(spot + q[0], q[1], ROOT))))) }, g);
+      mk("path", { class: "sil", d: poly(hull(CROWN.flatMap((c) => c.ring.map((q) => W(spot + q.u, q.v, c.z))))) }, g);
+      mk("path", { class: "nf lo", d: open(run(top, (q) => q.nv >= -1e-6).map((q) => W(spot + q.u, q.v, TALL))) }, g);
+      mk("path", { class: "nf lo", d: seg(W(spot - 4.5, 0, TALL), W(spot + 4.5, 0, TALL)) + seg(W(spot, -4.5, TALL), W(spot, 4.5, TALL)) }, g);
+    }
+    // the veneers are nearer than every tooth, so they are painted after them all
+    const shells = AWAY.map((gap) => ({ back: mk("path", { class: "sil" }, g), face: mk("path", { class: "sil" }, g), gap: tween(gap), drawn: NaN }));
 
+    /** Veneer i, a gap in front of its tooth: a thin plate, its back edge and its face. */
     function draw(i, gap) {
       const s = shells[i];
       if (gap === s.drawn) return;
       s.drawn = gap;
-      lay(s.el, slab(P, shell(i), [2.5, 2.5, 5.5, 5.5], DEPTH + 0.6 + gap, DEPTH + 2.2 + gap));
+      const plate = (d) => SHELL.map((q) => W(SPOTS[i] + q.u, d, q.v));
+      s.back.setAttribute("d", poly(hull(plate(FACE + 0.5 + gap).concat(plate(FACE + 0.5 + gap + THIN)))));
+      s.face.setAttribute("d", poly(plate(FACE + 0.5 + gap + THIN)));
     }
     const B = register(stage, (_dt, now) => {
       let moving = false;
@@ -1315,8 +1339,8 @@ function hairline(figure) { figures[figure.name] = figure; }
     });
     bag.add(B.unregister);
 
-    // the pick: the tooth whose resting centre is nearest the pointer across the screen
-    const mid = WIDE.map((w, i) => P(X0[i] + w / 2, DEPTH, ZT - TALL[i] / 2)[0]);
+    // the pick: the tooth whose centre is nearest the pointer across the screen
+    const mid = SPOTS.map((s) => W(s, 0, 13)[0]);
     const hit = (x) => mid.reduce((best, m, i) => (Math.abs(m - x) < Math.abs(mid[best] - x) ? i : best), 0);
 
     /** Seats every veneer, spreading out from tooth a; -1 lets them all go, spreading from the last one picked. */
@@ -1326,12 +1350,13 @@ function hairline(figure) { figures[figure.name] = figure; }
       act = a;
       shells.forEach((s, i) => {
         tset(s.gap, a < 0 ? AWAY[i] : 0, now, Math.abs(i - from) * stag);
-        s.el.near.classList.toggle("hi", i === (a < 0 ? FIRST : a));
+        const lit = i === (a < 0 ? FIRST : a);
+        s.back.classList.toggle("hi", lit); s.face.classList.toggle("hi", lit);
       });
       read.textContent = a < 0 ? "rest" : "tooth " + (a + 1);
       B.wake();
     }
-    shells[FIRST].el.near.classList.add("hi");
+    shells[FIRST].back.classList.add("hi"); shells[FIRST].face.classList.add("hi");
 
     bag.add(pointer(stage, { move: (p) => setActive(hit(p[0])), leave: () => setActive(-1) }));
     bag.add(() => svg.replaceChildren());
@@ -1344,86 +1369,83 @@ function hairline(figure) { figures[figure.name] = figure; }
 
   hairline({
     name: "smile",
-    means: "Four front teeth, a veneer floating before each: the one under the pointer seats first, the rest follow.",
+    means: "Three teeth, a veneer floating before each: the one under the pointer seats first, and the rest follow.",
     rules: [1, 2, 4, 8],
-    range: [0, 110, 240],
-    tour: [[150, 150], [215, 175], [265, 200], null],
+    range: [0, 130, 280],
+    tour: [[130, 150], [200, 150], [270, 150], null],
     mount,
   });
 })();
 /* ---- braces ---- */
 (function () {
   /**
-   * Braces: five lower front teeth standing crooked on a bar of gum, a bracket
-   * on each and one wire through the brackets. The pointer picks a tooth; it
-   * straightens first and the others follow, staggered outwards from it, until
-   * the wire runs straight. The wire is the one bright mark. The slider is the
+   * Braces: three molars, each a crown on its two roots, standing crooked: each
+   * leans, sits too high or too low, and is pushed out of line. A bracket on
+   * each and one wire through the brackets. The pointer picks a tooth; it comes
+   * upright first and the others follow, staggered outwards from it, until the
+   * wire runs straight. The wire is the one bright mark. The slider is the
    * stagger, in ms.
    *
    * The pattern: discrete items. Tweens, a stagger by distance, and a pick by
    * the teeth's straightened centres, which never move.
    */
   const {
-    Cam, fillet, fit, lerp, open, poly, proj, rad, seg,
-    tdone, tset, tval, tween, disposer, mk, pointer, register,
+    Cam, circ, fillet, fit, hull, open, poly, proj, rad, rrect, run, seg,
+    tdone, tset, tval, tween, disposer, mk, pointer, put, register, solid,
   } = HL;
 
-  const N = 5, STEP = 20, TALL = 32, DEPTH = 5, MID = 17, END = (N - 1) * STEP + 17;
-  const SHIFT = [4, -5, 3, -4, 5], TILT = [-6, 5, -7, 6, -4];
-  const OUTLINE = [[-8.5, TALL], [8.5, TALL], [7, 0], [-7, 0]];
-
-  const seen = (ex, ez) => ex * 0.5 - ez * 0.61 > 0;
-  /** An outline standing in the x-z plane, pushed from y0 to y1: far face, the sweep, the edges between, near face. */
-  function slab(P, raw, radii, y0, y1) {
-    const pts = fillet(raw, radii), m = raw.length;
-    const face = (y) => pts.map((p) => P(p[0], y, p[1]));
-    const far = face(y0), near = face(y1);
-    let sweep = "", sil = "", lo = "";
-    for (let k = 1; k < 6; k++) sweep += poly(face(lerp(y0, y1, k / 6)));
-    for (let j = 0; j < m; j++) {
-      const a = raw[(j + m - 1) % m], p = raw[j], b = raw[(j + 1) % m];
-      const n = seen(p[0] - a[0], p[1] - a[1]) + seen(b[0] - p[0], b[1] - p[1]), i = j * 5 + 2;
-      if (n === 1) sil += seg(far[i], near[i]); else if (n === 2) lo += seg(far[i], near[i]);
-    }
-    return { far: poly(far), sweep, lo, sil, near: poly(near) };
-  }
-  const plate = (g) => ({
-    far: mk("path", { class: "sil" }, g), sweep: mk("path", { class: "fo" }, g), lo: mk("path", { class: "nf lo" }, g),
-    sil: mk("path", { class: "nf sil" }, g), near: mk("path", { class: "sil" }, g),
+  const R2 = Math.SQRT1_2, TALL = 27, ROOT = -24, PIVOT = 8, BAND = 13, FACE = 14.6;
+  const SPOTS = [-34, 0, 34], LEAN = [15, -13, 11], RISE = [4, -3, 5], PUSH = [4, -4, 3], ORDER = [1, 2, 0];
+  /** The molar of the set, a little smaller: [height, ring]. */
+  const CROWN = [[0, 17], [5, 20.4], [11, 22.5], [17, 23], [23, 22.4], [29, 21], [34, 19]].map(([z, w]) => {
+    const h = w * 0.62;
+    return { z: z * TALL / 34, ring: rrect(-h, -h, h, h, h * 0.62, 6) };
   });
-  const lay = (el, s) => { for (const k in s) el[k].setAttribute("d", s[k]); };
+  const top = rrect(-8.4, -8.4, 8.4, 8.4, 5, 6);
+  /** Two roots, side by side: each [ring under the neck, ring at its tip]. */
+  const ROOTS = [-1, 1].map((k) => [circ(6.3, 20).map((q) => [q.u + k * 5.6, q.v]), circ(3, 14).map((q) => [q.u + k * 8, q.v])]);
+  /** The figure's own axes, as a world point: s runs across the screen, d comes towards the viewer, z is up. */
+  const at = (s, d, z) => [(s + d) * R2, (d - s) * R2, z];
 
   function mount({ stage, svg, read }, value) {
     const bag = disposer();
     let stag = value, act = -1;
 
-    const C = Cam(45, 0.5, 2.4);
-    fit(C, [[-7, -11, 0], [END + 7, -11, 0], [-7, 11, -13], [END + 7, 11, -13], [0, -10, TALL + 2], [END, -10, TALL + 2]], 200, 160);
-    const P = proj(C);
+    const C = Cam(45, 0.5, 2.2);
+    fit(C, [at(-52, FACE, ROOT - 3), at(52, FACE, ROOT - 3), at(-52, -FACE, TALL + 6), at(52, -FACE, TALL + 6)], 200, 160);
+    const P = proj(C), W = (s, d, z) => P(...at(s, d, z));
 
     const g = mk("g", {}, svg);
-    lay(plate(g), slab(P, [[-7, 0], [END + 7, 0], [END + 7, -13], [-7, -13]], [6, 6, 6, 6], -11, 11));
-    const teeth = SHIFT.map(() => ({ el: plate(g), tag: mk("path", {}, g), k: tween(1), drawn: NaN, at: [0, 0] }));
+    // the tooth pushed furthest back is painted first
+    const teeth = [];
+    for (const i of ORDER) {
+      teeth[i] = {
+        roots: [mk("path", { class: "sil" }, g), mk("path", { class: "sil" }, g)], el: solid(g),
+        groove: mk("path", { class: "nf lo" }, g), tag: mk("path", {}, g), k: tween(1), drawn: NaN, wire: [0, 0],
+      };
+    }
     const wire = mk("path", { class: "nf hi" }, g);
 
-    /** Tooth i, k of the way from straight (0) to crooked (1): the tooth, its bracket, and where the wire crosses it. */
+    /** Tooth i, k of the way from upright (0) to crooked (1): roots, crown, bracket, and where the wire crosses it. */
     function draw(i, k) {
       const t = teeth[i];
       if (k === t.drawn) return false;
       t.drawn = k;
-      const cx = i * STEP + 8.5, s = Math.sin(rad(TILT[i] * k)), c = Math.cos(rad(TILT[i] * k)), dy = SHIFT[i] * k;
-      const turn = ([u, z]) => [cx + u * c + z * s, z * c - u * s];
-      lay(t.el, slab(P, OUTLINE.map(turn), [6, 6, 2, 2], dy - DEPTH, dy + DEPTH));
-      const tag = [[-4, MID + 4], [4, MID + 4], [4, MID - 4], [-4, MID - 4]].map(turn);
-      t.tag.setAttribute("d", poly(fillet(tag, [1.2, 1.2, 1.2, 1.2]).map((p) => P(p[0], dy + DEPTH + 0.5, p[1]))));
-      const [wx, wz] = turn([0, MID]);
-      t.at = [wx, dy + DEPTH + 1, wz];
+      const sn = Math.sin(rad(LEAN[i] * k)), cs = Math.cos(rad(LEAN[i] * k));
+      const T = (u, v, z) => W(SPOTS[i] + u * cs + (z - PIVOT) * sn, v + PUSH[i] * k, PIVOT + RISE[i] * k - u * sn + (z - PIVOT) * cs);
+      ROOTS.forEach(([neck, tip], r) => t.roots[r].setAttribute("d", poly(hull(neck.map((q) => T(q[0], q[1], 1)).concat(tip.map((q) => T(q[0], q[1], ROOT)))))));
+      put(t.el, {
+        sil: poly(hull(CROWN.flatMap((c) => c.ring.map((q) => T(q.u, q.v, c.z))))),
+        crease: open(run(top, (q) => q.nv >= -1e-6).map((q) => T(q.u, q.v, TALL))),
+      });
+      t.groove.setAttribute("d", seg(T(-4.5, 0, TALL), T(4.5, 0, TALL)) + seg(T(0, -4.5, TALL), T(0, 4.5, TALL)));
+      t.tag.setAttribute("d", poly(fillet([T(-5, FACE, BAND + 4.5), T(5, FACE, BAND + 4.5), T(5, FACE, BAND - 4.5), T(-5, FACE, BAND - 4.5)], [2, 2, 2, 2])));
+      t.wire = T(0, FACE + 0.6, BAND);
       return true;
     }
     function thread() {
-      const a = teeth[0].at, b = teeth[N - 1].at;
-      const line = [[a[0] - 11, a[1], a[2]], ...teeth.map((t) => t.at), [b[0] + 11, b[1], b[2]]];
-      wire.setAttribute("d", open(line.map((p) => P(p[0], p[1], p[2]))));
+      const a = teeth[0].wire, b = teeth[2].wire, reach = 14 * C.S;
+      wire.setAttribute("d", open([[a[0] - reach, a[1]], ...teeth.map((t) => t.wire), [b[0] + reach, b[1]]]));
     }
 
     const B = register(stage, (_dt, now) => {
@@ -1435,7 +1457,7 @@ function hairline(figure) { figures[figure.name] = figure; }
     bag.add(B.unregister);
 
     // the pick: the tooth whose straightened centre is nearest the pointer across the screen
-    const mid = teeth.map((_, i) => P(i * STEP + 8.5, DEPTH, MID)[0]);
+    const mid = SPOTS.map((s) => W(s, 0, BAND)[0]);
     const hit = (x) => mid.reduce((best, m, i) => (Math.abs(m - x) < Math.abs(mid[best] - x) ? i : best), 0);
 
     /** Straightens every tooth, spreading out from tooth a; -1 lets them go back, spreading from the last one picked. */
@@ -1459,10 +1481,10 @@ function hairline(figure) { figures[figure.name] = figure; }
 
   hairline({
     name: "braces",
-    means: "Five crooked teeth on one wire: the tooth under the pointer straightens first, and the rest follow in turn.",
+    means: "Three crooked teeth on one wire: the tooth under the pointer comes upright first, and the rest follow.",
     rules: [1, 2, 5, 8],
-    range: [0, 90, 200],
-    tour: [[140, 140], [200, 165], [260, 190], null],
+    range: [0, 120, 260],
+    tour: [[130, 150], [200, 150], [270, 150], null],
     mount,
   });
 })();
@@ -1474,7 +1496,7 @@ function hairline(figure) { figures[figure.name] = figure; }
  * The stage keeps the kernel's 400 x 320 box, so the pointer maths is the
  * kernel's own; the wrapper only shows the square of it the figures are drawn in.
  */
-var CROP = { x: 80, y: 40, size: 240, pad: 30 };
+var CROP = { x: 80, y: 40, size: 240, pad: 30, inset: 6, nudge: 10 };
 var STYLE = [
   ".service-icon{display:inline-block;position:relative;width:var(--service-icon-size,120px);aspect-ratio:1;overflow:hidden;vertical-align:top;line-height:0;-webkit-tap-highlight-color:transparent}",
   ".service-icon>[data-hairline]{position:absolute;left:-33.3333%;top:-16.6667%;width:166.6667%;aspect-ratio:5/4;" +
@@ -1483,6 +1505,7 @@ var STYLE = [
     "--hairline-lo:color-mix(in srgb,currentColor 30%,var(--service-icon-surface,#fff));" +
     "--hairline-stroke:var(--service-icon-stroke,1.25)}",
   ".service-icon>[data-hairline] .hi{stroke-width:calc(var(--service-icon-stroke,1.25)*1.3)}",
+  ".service-icon>[data-hairline] .dash{stroke-dasharray:1.5 3.5}",
   "@media (prefers-reduced-motion:reduce){.service-icon>[data-hairline]{pointer-events:none}}",
 ].join("");
 var mounted = new WeakMap();
@@ -1537,6 +1560,22 @@ function bindArea(stage, area) {
   };
 }
 
+/*
+ * Optical alignment: every figure is drawn centred in the kernel's frame, but they differ in width and height.
+ * The resting figure's left edge is brought to one line, so icons line up with the text under them, and its
+ * middle is brought to the middle of the square, within a small nudge so no answer is cut off.
+ */
+function alignRest(stage, svg) {
+  var box;
+  try { box = svg.getBBox(); } catch (error) { return; }
+  if (!box.width || !box.height) return;
+  var left = box.x - CROP.inset;
+  var top = box.y + box.height / 2 - CROP.size / 2;
+  top = Math.min(CROP.y + CROP.nudge, Math.max(CROP.y - CROP.nudge, top));
+  stage.style.left = (-left / CROP.size * 100) + "%";
+  stage.style.top = (-top / CROP.size * 100) + "%";
+}
+
 function unmount(el) {
   var entry = mounted.get(el);
   if (!entry) return;
@@ -1576,6 +1615,7 @@ function mount(el, name, options) {
   stage.addEventListener("pointerleave", guard);
 
   var handle = figure.mount({ stage: stage, svg: svg, read: { textContent: "" } }, figure.range[1]);
+  alignRest(stage, svg);
   var release = area ? bindArea(stage, area) : function () {};
   mounted.set(el, { stage: stage, handle: handle, release: release });
   return { destroy: function () { unmount(el); } };
