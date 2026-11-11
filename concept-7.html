@@ -78,9 +78,9 @@ section{padding:140px 0 0}
 .c6{grid-template-columns:repeat(6,1fr)}.c4{grid-template-columns:repeat(4,1fr)}.c3{grid-template-columns:repeat(3,1fr)}.c2{grid-template-columns:1fr 1fr}
 
 .pills{display:flex;flex-wrap:wrap;gap:8px}
-.pills a{display:flex;align-items:center;gap:12px;background:var(--bg);border-radius:999px;padding:16px 16px 16px 28px;font-weight:600;font-size:clamp(17px,1.5vw,24px);transition:.15s}
+.pills button{border:0;font-family:inherit;color:inherit;cursor:pointer;text-align:left;display:flex;align-items:center;gap:12px;background:var(--bg);border-radius:999px;padding:16px 16px 16px 28px;font-weight:600;font-size:clamp(17px,1.5vw,24px);transition:.15s}
 .pills i{font-style:normal;font-family:var(--mono);font-size:13px;font-weight:400;background:#fff;border-radius:999px;padding:5px 11px;color:var(--muted)}
-.pills a:hover{background:var(--ink);color:#fff}
+.pills button:hover{background:var(--ink);color:#fff}
 
 .serv .card{min-height:330px;display:flex;flex-direction:column;transition:box-shadow .2s}
 .serv .card:hover{box-shadow:0 0 0 2px var(--ink) inset}
@@ -277,14 +277,27 @@ footer .warn{grid-column:1/-1;font-family:var(--mono);text-transform:uppercase;l
  .contact dl{grid-template-columns:1fr;row-gap:2px}
  .contact dd{margin-bottom:10px}
 }
+dialog.modal{border:0;padding:0;margin:auto;background:none;width:min(600px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:visible;opacity:0;scale:.97;transition:opacity .22s cubic-bezier(0.23,1,0.32,1),scale .22s cubic-bezier(0.23,1,0.32,1),display .22s allow-discrete,overlay .22s allow-discrete}
+dialog.modal[open]{opacity:1;scale:1}
+@starting-style{dialog.modal[open]{opacity:0;scale:.97}}
+dialog.modal::backdrop{background:rgba(20,26,30,.62);opacity:0;transition:opacity .22s ease,display .22s allow-discrete,overlay .22s allow-discrete}
+dialog.modal[open]::backdrop{opacity:1}
+@starting-style{dialog.modal[open]::backdrop{opacity:0}}
+dialog.modal form.card{padding:48px;max-height:calc(100vh - 24px);overflow:auto}
+dialog.modal h3{font-size:clamp(26px,3vw,36px);margin:12px 44px 10px 0;line-height:1.1}
+dialog.modal .note{color:var(--muted);font-size:16px}
+dialog.modal .x{position:absolute;right:18px;top:18px;width:44px;height:44px;border-radius:50%;border:0;background:var(--bg);color:var(--ink);font-size:22px;line-height:1;cursor:pointer;transition:background .15s ease}
+dialog.modal .x:hover{background:var(--line)}
+@media(prefers-reduced-motion:reduce){dialog.modal,dialog.modal[open]{scale:1}}
+@media(max-width:980px){dialog.modal form.card{padding:28px 22px}}
 </style>
 </head>
 <body>
 <header><div class="wrap"><div class="bar">
   <a href="#"><img data-logo></a>
-  <nav><a href="#services">Услуги</a><a href="#tech">Технологии</a><a href="#team">Врачи</a><a href="#visit">Цены</a><a href="#reviews">Отзывы</a><a href="#contact">Контакты</a></nav>
+  <nav><a href="#">Услуги</a><a href="#">Технологии</a><a href="#">Врачи</a><a href="#">Цены</a><a href="#">Отзывы</a><a href="#">Контакты</a></nav>
   <a class="tel" data-phone></a>
-  <a class="btn" href="#contact">Записаться</a>
+  <button type="button" class="btn" data-book="Запись на осмотр">Записаться</button>
 </div></div></header>
 
 <main class="wrap">
@@ -312,7 +325,7 @@ footer .warn{grid-column:1/-1;font-family:var(--mono);text-transform:uppercase;l
 </div>
 
 <section id="problems">
-  <div class="head"><div><p class="mono">Навигация</p><h2>Что вас беспокоит?</h2></div><span class="muted">Нажмите — покажем нужное направление</span></div>
+  <div class="head"><div><p class="mono">Навигация</p><h2>Что вас беспокоит?</h2></div><span class="muted">Нажмите — откроется запись на нужное направление</span></div>
   <div class="card"><div class="pills" data-list="problems"></div></div>
 </section>
 
@@ -337,7 +350,7 @@ footer .warn{grid-column:1/-1;font-family:var(--mono);text-transform:uppercase;l
 
 <section>
   <div class="card g about">
-    <div><p class="mono">О клинике</p><h2 style="margin-top:12px">Профессиональная стоматология для всей семьи</h2><p class="big" data-t="about"></p><a class="btn ink" href="#contact">Записаться на осмотр</a></div>
+    <div><p class="mono">О клинике</p><h2 style="margin-top:12px">Профессиональная стоматология для всей семьи</h2><p class="big" data-t="about"></p><button type="button" class="btn ink" data-book="Запись на осмотр">Записаться на осмотр</button></div>
     <div class="adv" data-list="advantages"></div>
   </div>
 </section>
@@ -370,7 +383,7 @@ footer .warn{grid-column:1/-1;font-family:var(--mono);text-transform:uppercase;l
   <div class="head"><div><p class="mono">Первый приём</p><h2>Как проходит первый визит и сколько он стоит</h2></div><a class="more" href="#">Весь прайс →</a></div>
   <div class="g visit">
     <div class="g c2 flow" data-list="steps"></div>
-    <div class="card dark tariff"><p class="mono">Цены</p><h3>Без скрытых платежей</h3><div data-list="prices"></div><p>Цены включают материалы, работу и контрольные осмотры.</p><a class="btn" href="#contact">Записаться на консультацию</a></div>
+    <div class="card dark tariff"><p class="mono">Цены</p><h3>Без скрытых платежей</h3><div data-list="prices"></div><p>Цены включают материалы, работу и контрольные осмотры.</p><button type="button" class="btn" data-book="Запись на консультацию">Записаться на консультацию</button></div>
   </div>
 </section>
 
@@ -386,7 +399,7 @@ footer .warn{grid-column:1/-1;font-family:var(--mono);text-transform:uppercase;l
     <div class="card"><p class="mono">Кредит</p><h3>Быстрое оформление в клинике</h3><p data-t="credit"></p>
       <div class="three"><div><b>01</b>Консультация врача</div><div><b>02</b>План лечения</div><div><b>03</b>Паспорт РФ — и оформляем</div></div>
       <div class="banklogos" data-list="bankLogos"></div><p style="font-size:14px">Вопросы по кредиту: <a class="more" href="tel:+73517009568">+7 351 700-95-68</a></p></div>
-    <div class="card"><p class="mono">ДМС и вычет</p><h3>Лечим по страховому полису</h3><p data-t="insurance"></p><p style="margin:12px 0 24px">Также поможем с документами на налоговый вычет.</p><a class="btn ink" href="#contact">Записаться по ДМС</a></div>
+    <div class="card"><p class="mono">ДМС и вычет</p><h3>Лечим по страховому полису</h3><p data-t="insurance"></p><p style="margin:12px 0 24px">Также поможем с документами на налоговый вычет.</p><button type="button" class="btn ink" data-book="Запись по ДМС">Записаться по ДМС</button></div>
   </div>
 </section>
 
@@ -428,11 +441,28 @@ footer .warn{grid-column:1/-1;font-family:var(--mono);text-transform:uppercase;l
 </div></footer>
 </main>
 
+<dialog class="modal" data-booking-modal aria-labelledby="modal-title">
+  <button type="button" class="x" data-modal-close aria-label="Закрыть">×</button>
+  <form class="card" data-booking>
+    <p class="mono">Запись</p>
+    <h3 id="modal-title" data-modal-title></h3>
+    <p class="note" data-modal-note></p>
+    <input type="hidden" name="service">
+    <div class="pair">
+      <label>Имя<input type="text" name="name" required></label>
+      <label>Телефон<input type="tel" name="phone" placeholder="+7" required></label>
+    </div>
+    <label class="agree"><input type="checkbox" name="consent" required><span>Я даю <a href="#">согласие на обработку моих персональных данных</a> и ознакомлен с <a href="#">политикой конфиденциальности</a></span></label>
+    <label class="agree"><input type="checkbox" name="mailing"><span>Я даю <a href="#">согласие на получение информационных и рекламных рассылок</a></span></label>
+    <button class="btn">Отправить заявку</button>
+  </form>
+</dialog>
+
 <script>
 const pad = i => String(i + 1).padStart(2, '0');
 window.TPL = {
   facts: f => `<div class="card"><b>${f.value}</b><span>${f.label}</span></div>`,
-  problems: p => `<a href="#contact">${p.title}<i>${p.to}</i></a>`,
+  problems: p => `<button type="button" data-book="${p.to}" data-book-note="${p.title}">${p.title}<i>${p.to}</i></button>`,
   services: (s, i) => `<a class="card" href="#"><img src="${s.icon}" alt="" loading="lazy"><span class="mono">${pad(i)}</span><h3>${s.title}</h3><p>${s.text}</p></a>`,
   advantages: (a, i) => `<div><span class="mono">${pad(i)}</span><div><b>${a.title}</b><p>${a.text}</p></div></div>`,
   cycle: (c, i) => `<article class="card stage"><img src="${c.photo}" alt="" loading="lazy"><div><span class="mono">Этап ${pad(i)}</span><h3>${c.title}</h3><p>${c.text}</p></div></article>`,
