@@ -205,7 +205,16 @@ form.card h3{font-size:36px;margin-top:12px}
 form.card label{display:block;font-family:var(--mono);font-size:12px;color:var(--muted);text-transform:uppercase;margin-top:16px;font-weight:400}
 form.card input[type=text],form.card input[type=tel],form.card select{width:100%;margin-top:8px;background:var(--bg);border:2px solid transparent;border-radius:16px;padding:20px 22px;color:var(--ink);font:500 18px 'Manrope',sans-serif;outline:0}
 form.card input:focus,form.card select:focus{border-color:var(--ink)}
-form.card .agree{display:flex;gap:10px;text-transform:none;font-family:inherit;font-size:13px;margin:18px 0}
+form.card .pair{display:grid;grid-template-columns:1fr 1fr;gap:var(--g)}
+form.card .agree{display:flex;align-items:flex-start;gap:14px;text-transform:none;font-family:inherit;font-size:15px;line-height:1.4;color:var(--muted);margin:20px 0 0;max-width:560px;cursor:pointer}
+form.card .agree a{color:#245F63;text-decoration:underline;text-underline-offset:3px}
+form.card .agree a:hover{color:var(--ink)}
+form.card .agree input{appearance:none;-webkit-appearance:none;flex:none;width:28px;height:28px;margin:0;border:1.5px solid #8F989D;border-radius:8px;background:#fff;cursor:pointer;display:grid;place-content:center;transition:background .15s ease,border-color .15s ease}
+form.card .agree input::after{content:'';width:12px;height:7px;border-left:2.5px solid #fff;border-bottom:2.5px solid #fff;transform:translateY(-2px) rotate(-45deg);opacity:0}
+form.card .agree input:checked{background:var(--ink);border-color:var(--ink)}
+form.card .agree input:checked::after{opacity:1}
+form.card .agree input:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+form.card .agree+.btn{margin-top:28px}
 form.card .btn{width:100%}
 .form-done{font-size:20px;font-weight:700}
 .quick .form-done{padding:14px;color:#fff}
@@ -230,7 +239,8 @@ footer .warn{grid-column:1/-1;font-family:var(--mono);text-transform:uppercase;l
  header .btn{margin-left:auto}
  .hero,.c3,.c2,.proof,.about,.labrow,.visit,.money,.feed,footer .card,.three{grid-template-columns:1fr}
  .c4,.c6{grid-template-columns:1fr 1fr}
- .faqrow{grid-template-columns:1fr}
+ .faqrow,form.card .pair{grid-template-columns:1fr}
+ form.card .pair{gap:0}
  .faqrow .head{position:static;padding:0 10px 14px}
  .hero .main{padding:26px;min-height:0}
  .quick{flex-direction:column;margin-top:28px}
@@ -374,10 +384,13 @@ footer .warn{grid-column:1/-1;font-family:var(--mono);text-transform:uppercase;l
       <dl><dt>Режим</dt><dd>Ежедневно 9:00–20:00</dd><dt>На авто</dt><dd data-t="car"></dd><dt>Транспорт</dt><dd data-t="transit"></dd><dt>E-mail</dt><dd>info@dominanta74.ru</dd></dl></div>
     <form class="card" data-booking>
       <p class="mono">Запись</p><h3>Записаться на осмотр</h3>
-      <label>Имя<input type="text" name="name" required></label>
-      <label>Телефон<input type="tel" name="phone" placeholder="+7" required></label>
+      <div class="pair">
+        <label>Имя<input type="text" name="name" required></label>
+        <label>Телефон<input type="tel" name="phone" placeholder="+7" required></label>
+      </div>
       <label>Что беспокоит<select name="reason"><option>Нужен осмотр</option><option>Болит зуб</option><option>Имплантация или протезирование</option><option>Исправление прикуса</option><option>Запись ребёнка</option><option>Лечение по ДМС</option></select></label>
-      <label class="agree"><input type="checkbox" required><span>Согласен на обработку персональных данных</span></label>
+      <label class="agree"><input type="checkbox" name="consent" required><span>Я даю <a href="#">согласие на обработку моих персональных данных</a> и ознакомлен с <a href="#">политикой конфиденциальности</a></span></label>
+      <label class="agree"><input type="checkbox" name="mailing"><span>Я даю <a href="#">согласие на получение информационных и рекламных рассылок</a></span></label>
       <button class="btn">Отправить заявку</button>
     </form>
   </div>
