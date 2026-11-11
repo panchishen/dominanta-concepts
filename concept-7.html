@@ -84,13 +84,11 @@ section{padding:140px 0 0}
 
 .serv .card{min-height:330px;display:flex;flex-direction:column;transition:box-shadow .2s}
 .serv .card:hover{box-shadow:0 0 0 2px var(--ink) inset}
-.serv img{width:84px;height:84px;margin-bottom:auto}
+.serv img{width:84px;height:84px;margin-bottom:clamp(64px,6.4vw,112px)}
 .serv .mono{margin:24px 0 8px}
-.serv h3{font-size:28px;margin-bottom:8px}
-.serv p{font-size:16px;color:var(--muted);font-weight:400}
+.serv h3{font-size:clamp(21px,1.6vw,28px);margin-bottom:8px}
+.serv p{font-size:16px;line-height:1.5;color:var(--muted);font-weight:400}
 .serv .card:nth-child(3){grid-column:span 2}
-.serv .card:nth-child(3) h3{font-size:clamp(32px,3vw,52px);letter-spacing:-.03em}
-.serv .card:nth-child(3) p{font-size:20px}
 .serv .all{grid-column:1/-1;min-height:0;flex-direction:row;justify-content:space-between;align-items:center}
 .serv .all h3{margin:0}
 
