@@ -379,11 +379,46 @@ function initCarousels() {
 
 /* All form logic lives here */
 function initForms() {
-  document.querySelectorAll('form[data-booking]').forEach(form => {
-    form.addEventListener('submit', event => {
-      event.preventDefault();
-      form.innerHTML = '<p class="form-done">Заявка отправлена. Администратор перезвонит и подберёт время.</p>';
-    });
+  /* Submit: works for forms added or restored later too */
+  document.addEventListener('submit', event => {
+    const form = event.target.closest('form[data-booking]');
+    if (!form) return;
+    event.preventDefault();
+    form.innerHTML = '<p class="form-done">Заявка отправлена. Администратор перезвонит и подберёт время.</p>';
+  });
+
+  /* Placeholder links (href="#") do nothing instead of jumping to the top */
+  document.addEventListener('click', event => {
+    if (event.target.closest('a[href="#"]')) event.preventDefault();
+  });
+
+  initBookingModal();
+}
+
+/* Booking modal: any element with data-book="Title" opens <dialog data-booking-modal>.
+   data-book-note adds a line under the title, the title is also sent in the hidden "service" field. */
+function initBookingModal() {
+  const modal = document.querySelector('dialog[data-booking-modal]');
+  if (!modal) return;
+  const form = modal.querySelector('form');
+  const template = form.innerHTML;
+  const noSpaceBreak = text => text.replace(/ (?=[—–])/g, ' ');
+
+  document.addEventListener('click', event => {
+    const trigger = event.target.closest('[data-book]');
+    if (!trigger) return;
+    event.preventDefault();
+    form.innerHTML = template;
+    form.querySelector('[data-modal-title]').textContent = noSpaceBreak(trigger.dataset.book);
+    form.querySelector('[name="service"]').value = trigger.dataset.book;
+    const note = form.querySelector('[data-modal-note]');
+    note.textContent = trigger.dataset.bookNote ? `Вы выбрали: «${trigger.dataset.bookNote}»` : 'Перезвоним и подберём удобное время';
+    fixTypography(form);
+    modal.showModal();
+  });
+
+  modal.addEventListener('click', event => {
+    if (event.target === modal || event.target.closest('[data-modal-close]')) modal.close();
   });
 }
 
