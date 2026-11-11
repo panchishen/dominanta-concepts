@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Доминанта · иконки услуг</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --page: #ECEEF0; --ink: #141A1E; --muted: #515C64; --teal: #00848A; --orange: #FF540F; --white: #FFFFFF; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 40px 12px 64px; background: var(--page); color: var(--ink); font: 400 16px/1.45 "Onest", system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1880px; margin: 0 auto; }
+  header { padding: 0 12px 28px; max-width: 860px; }
+  h1 { margin: 0 0 12px; font-size: clamp(28px, 3.4vw, 44px); line-height: 1.08; font-weight: 600; letter-spacing: -0.02em; }
+  header p { margin: 0; color: var(--muted); }
+  h2 { margin: 36px 12px 14px; font-size: 14px; font-weight: 500; color: var(--muted); letter-spacing: 0.02em; }
+  .row { display: grid; grid-template-columns: repeat(auto-fill, minmax(236px, 1fr)); gap: 12px; }
+  .card { display: flex; flex-direction: column; min-height: 330px; padding: 32px 34px 34px; border-radius: 28px; background: var(--white); color: var(--ink); --service-icon-surface: var(--white); }
+  .card--dark { background: var(--ink); color: #F1F3F4; --service-icon-surface: var(--ink); --service-icon-accent: #19B3B9; }
+  .card--dark .card__text, .card--dark .card__num { color: #A9B3BA; }
+  .card--small { min-height: 260px; }
+  .card__icon { --service-icon-size: 120px; margin: -8px 0 0 -12px; }
+  .card--small .card__icon { --service-icon-size: 96px; margin: -6px 0 0 -10px; }
+  .card__num { margin-top: auto; padding-top: 20px; font-size: 12px; font-weight: 500; letter-spacing: 0.08em; color: var(--muted); }
+  .card__title { margin: 8px 0 8px; font-size: 24px; line-height: 1.15; font-weight: 500; letter-spacing: -0.01em; }
+  .card--small .card__title { font-size: 20px; }
+  .card__text { margin: 0; font-size: 15px; color: var(--muted); }
+  .note { margin: 40px 12px 0; max-width: 860px; color: var(--muted); font-size: 15px; }
+  .note code { font: 13px/1.5 ui-monospace, Consolas, monospace; color: var(--ink); background: var(--white); padding: 2px 6px; border-radius: 6px; }
+  .note a { color: var(--teal); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Иконки услуг: семь фигур Hairline</h1>
+    <p>Наведите курсор на&nbsp;карточку&nbsp;— фигура отвечает жестом, который объясняет услугу. Курсор работает по&nbsp;всей карточке, а&nbsp;не&nbsp;только над&nbsp;иконкой. На&nbsp;сенсорном экране достаточно коснуться карточки.</p>
+  </header>
+
+  <h2>Белая карточка, 120&nbsp;px</h2>
+  <div class="row" data-row="light-120"></div>
+  <h2>Белая карточка, 96&nbsp;px</h2>
+  <div class="row" data-row="light-96"></div>
+  <h2>Тёмная карточка #141A1E, 120&nbsp;px</h2>
+  <div class="row" data-row="dark-120"></div>
+  <h2>Тёмная карточка #141A1E, 96&nbsp;px</h2>
+  <div class="row" data-row="dark-96"></div>
+
+  <p class="note">Отдельные страницы фигур со&nbsp;слайдером и&nbsp;кнопкой play:
+    <a href="assets/icons/diagnostics.html">diagnostics</a>,
+    <a href="assets/icons/gums.html">gums</a>,
+    <a href="assets/icons/implant.html">implant</a>,
+    <a href="assets/icons/prosthetics.html">prosthetics</a>,
+    <a href="assets/icons/tmj.html">tmj</a>,
+    <a href="assets/icons/smile.html">smile</a>,
+    <a href="assets/icons/braces.html">braces</a>.
+    Встраивание: <code>&lt;span data-service-icon="implant"&gt;&lt;/span&gt;</code> внутри карточки с&nbsp;атрибутом <code>data-service-icon-area</code> и&nbsp;один скрипт <code>assets/icons/service-icons.js</code>.</p>
+</div>
+
+<script src="assets/icons/service-icons.js"></script>
+<script>
+(function () {
+  var services = [
+    { icon: "diagnostics", title: "Диагностика", text: "3D-томография и&nbsp;3D-сканирование полости рта" },
+    { icon: "gums", title: "Лечение дёсен", text: "На&nbsp;основе микробиологических исследований" },
+    { icon: "implant", title: "Имплантация", text: "Весь цикл за&nbsp;1,5&nbsp;часа. Никаких разрезов и&nbsp;швов" },
+    { icon: "prosthetics", title: "Протезирование", text: "Цифровое, по&nbsp;немецким технологиям" },
+    { icon: "tmj", title: "Лечение ВНЧС", text: "Даже сложные и&nbsp;запущенные дисфункции височного сустава" },
+    { icon: "smile", title: "Эстетика улыбки", text: "Виниры и&nbsp;реставрации по&nbsp;цифровому проекту улыбки" },
+    { icon: "braces", title: "Исправление прикуса", text: "Брекеты и&nbsp;элайнеры для&nbsp;детей и&nbsp;взрослых" }
+  ];
+  var rows = document.querySelectorAll("[data-row]");
+  for (var r = 0; r < rows.length; r++) {
+    var kind = rows[r].getAttribute("data-row"), html = "";
+    for (var i = 0; i < services.length; i++) {
+      var s = services[i];
+      html += '<article class="card' + (kind.indexOf("dark") === 0 ? " card--dark" : "") + (kind.indexOf("96") > 0 ? " card--small" : "") + '" data-service-icon-area>' +
+        '<span class="card__icon" data-service-icon="' + s.icon + '"></span>' +
+        '<div class="card__num">0' + (i + 1) + "</div>" +
+        '<h3 class="card__title">' + s.title + "</h3>" +
+        '<p class="card__text">' + s.text + "</p></article>";
+    }
+    rows[r].innerHTML = html;
+  }
+  window.ServiceIcons.mountAll();
+})();
+</script>
+</body>
+</html>
