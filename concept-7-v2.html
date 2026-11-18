@@ -70,6 +70,7 @@ header .btn{padding:16px 26px;font-size:16px;border-radius:14px}
 .hero .agree input:focus-visible{outline:2px solid #19B3B9;outline-offset:2px}
 .hero .side{display:grid;grid-template-rows:1fr auto;gap:var(--g)}
 .hero .ph{border-radius:var(--r);background:center/cover;min-height:200px;position:relative;overflow:hidden}
+.hero .ph video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .hero .ph span{position:absolute;left:14px;bottom:14px;background:rgba(255,255,255,.92);border-radius:12px;padding:10px 14px;font-size:14px;font-weight:600}
 .facts{display:grid;grid-template-columns:1fr 1fr;gap:var(--g)}
 .facts .card{padding:clamp(18px,2.6vh,30px) clamp(20px,2vw,30px)}
@@ -401,7 +402,7 @@ dialog.scanview img{display:block;width:100%;max-height:calc(100vh - 48px);objec
     </form>
   </div>
   <div class="side">
-    <div class="ph" data-photo="macro"><span>Собственная цифровая лаборатория</span></div>
+    <div class="ph" data-photo="macro"><video data-autovideo src="assets/video/hero-macro-loop.mp4" poster="assets/img/macro.jpg" muted loop playsinline preload="none" aria-hidden="true"></video><span>Собственная цифровая лаборатория</span></div>
     <div class="facts" data-list="facts"></div>
   </div>
 </div>
