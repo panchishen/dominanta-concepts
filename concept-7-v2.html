@@ -207,7 +207,7 @@ form.card .sel:focus-within .ic{color:var(--teal)}
 :focus-visible{outline:2px solid var(--teal);outline-offset:3px}
 .quick :focus-visible,.hero .agree :focus-visible{outline-color:#19B3B9}
 form.card .pair{display:grid;grid-template-columns:1fr 1fr;gap:var(--g)}
-form.card .agree{display:flex;align-items:flex-start;gap:14px;text-transform:none;font-family:inherit;font-size:15px;line-height:1.4;color:var(--muted);margin:20px 0 0;max-width:560px;cursor:pointer}
+form.card .agree{display:flex;align-items:flex-start;gap:14px;text-transform:none;font-family:inherit;font-size:15px;line-height:1.4;color:var(--muted);margin:20px 0 0;max-width:760px;cursor:pointer}
 form.card .agree a{color:#245F63;text-decoration:underline;text-underline-offset:3px}
 form.card .agree a:hover{color:var(--ink)}
 form.card .agree input{appearance:none;-webkit-appearance:none;flex:none;width:28px;height:28px;margin:0;border:1.5px solid #8F989D;border-radius:8px;background:#fff;cursor:pointer;display:grid;place-content:center;transition:background .15s ease,border-color .15s ease}
@@ -282,9 +282,6 @@ dialog.modal .x:hover{background:var(--line)}
 .hero .next{display:flex;align-items:center;gap:12px;margin:0 0 14px;padding:14px 16px;background:#252D32;border-left:3px solid #19B3B9;border-radius:12px;color:#E2E7EA;font-size:16px;line-height:1.4;font-weight:400}
 .hero .next b{color:#7FD3CE;font-size:1.15em;font-weight:600}
 .hero .next .ic{width:24px;height:24px;color:#19B3B9}
-.agree.minor{font-size:12.5px!important;opacity:.78}
-.agree.minor input{width:20px!important;height:20px!important;border-radius:6px!important}
-.agree.minor input::after{width:9px!important;height:5px!important}
 .dfilter{display:flex;flex-wrap:wrap;gap:8px;padding:0 24px;margin:-20px 0 24px}
 .dfilter button{border:0;background:#fff;border-radius:999px;padding:11px 16px 11px 20px;font:600 15px 'Onest',sans-serif;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s ease,color .15s ease}
 .dfilter i{font-style:normal;font-weight:500;font-size:13px;color:var(--muted);background:var(--bg);border-radius:999px;padding:2px 9px}
@@ -399,7 +396,7 @@ dialog.modal .x:hover{background:var(--line)}
       </div>
       <div class="agrees">
         <label class="agree"><input type="checkbox" name="consent" required><span>Даю согласие на&nbsp;обработку моих персональных данных. Условия обработки описаны в&nbsp;<strong><a href="#">Политике конфиденциальности</a></strong> и&nbsp;<strong><a href="#">Политике в&nbsp;отношении обработки персональных данных</a></strong>.</span></label>
-        <label class="agree"><input type="checkbox" name="mailing"><span>Я даю <a href="#">согласие на получение информационных и рекламных рассылок</a></span></label>
+        <label class="agree"><input type="checkbox" name="mailing"><span>Даю <a href="#">согласие на&nbsp;получение информационных и&nbsp;рекламных рассылок</a>.</span></label>
       </div>
     </form>
   </div>
@@ -538,8 +535,8 @@ dialog.modal .x:hover{background:var(--line)}
         <label>Телефон<input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required></label>
       </div>
       <label>Что беспокоит<span class="sel"><select name="reason"><option>Нужен осмотр</option><option>Болит зуб</option><option>Имплантация или протезирование</option><option>Исправление прикуса</option><option>Запись ребёнка</option><option>Лечение по ДМС</option></select><svg class="ic" aria-hidden="true"><use href="#i-chevron-down"/></svg></span></label>
-      <label class="agree"><input type="checkbox" name="consent" required><span>Я даю <a href="#">согласие на обработку моих персональных данных</a> и ознакомлен с <a href="#">политикой конфиденциальности</a></span></label>
-      <label class="agree minor"><input type="checkbox" name="mailing"><span>Я даю <a href="#">согласие на получение информационных и рекламных рассылок</a></span></label>
+      <label class="agree"><input type="checkbox" name="consent" required><span>Даю согласие на&nbsp;обработку моих персональных данных. Условия обработки описаны в&nbsp;<strong><a href="#">Политике конфиденциальности</a></strong> и&nbsp;<strong><a href="#">Политике в&nbsp;отношении обработки персональных данных</a></strong>.</span></label>
+      <label class="agree"><input type="checkbox" name="mailing"><span>Даю <a href="#">согласие на&nbsp;получение информационных и&nbsp;рекламных рассылок</a>.</span></label>
       <button class="btn">Отправить заявку</button>
     </form>
   </div>
@@ -564,8 +561,8 @@ dialog.modal .x:hover{background:var(--line)}
       <label>Имя<input type="text" name="name" required></label>
       <label>Телефон<input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required></label>
     </div>
-    <label class="agree"><input type="checkbox" name="consent" required><span>Я даю <a href="#">согласие на обработку моих персональных данных</a> и ознакомлен с <a href="#">политикой конфиденциальности</a></span></label>
-    <label class="agree minor"><input type="checkbox" name="mailing"><span>Я даю <a href="#">согласие на получение информационных и рекламных рассылок</a></span></label>
+    <label class="agree"><input type="checkbox" name="consent" required><span>Даю согласие на&nbsp;обработку моих персональных данных. Условия обработки описаны в&nbsp;<strong><a href="#">Политике конфиденциальности</a></strong> и&nbsp;<strong><a href="#">Политике в&nbsp;отношении обработки персональных данных</a></strong>.</span></label>
+    <label class="agree"><input type="checkbox" name="mailing"><span>Даю <a href="#">согласие на&nbsp;получение информационных и&nbsp;рекламных рассылок</a>.</span></label>
     <button class="btn">Отправить заявку</button>
   </form>
 </dialog>
