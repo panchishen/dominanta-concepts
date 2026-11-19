@@ -85,10 +85,6 @@ section{padding:112px 0 0}
 .g{display:grid;gap:var(--g)}
 .c6{grid-template-columns:repeat(6,1fr)}.c4{grid-template-columns:repeat(4,1fr)}.c3{grid-template-columns:repeat(3,1fr)}.c2{grid-template-columns:1fr 1fr}
 
-.pills{display:flex;flex-wrap:wrap;gap:8px}
-.pills button{border:0;font-family:inherit;color:inherit;cursor:pointer;text-align:left;display:flex;align-items:center;gap:12px;background:var(--bg);border-radius:999px;padding:16px 16px 16px 28px;font-weight:600;font-size:clamp(17px,1.5vw,24px);transition:.15s}
-.pills i{font-style:normal;font-family:var(--mono);font-size:13px;font-weight:400;background:#fff;border-radius:999px;padding:5px 11px;color:var(--muted)}
-.pills button:hover{background:var(--ink);color:#fff}
 
 .serv .card{min-height:330px;display:flex;flex-direction:column;transition:box-shadow .2s}
 .serv .card:hover{box-shadow:0 0 0 2px #3F4B53 inset}
@@ -327,8 +323,6 @@ dialog.modal .x:hover{background:var(--line)}
 .agree.minor{font-size:12.5px!important;opacity:.78}
 .agree.minor input{width:20px!important;height:20px!important;border-radius:6px!important}
 .agree.minor input::after{width:9px!important;height:5px!important}
-.pills button .ic{width:20px;height:20px;color:var(--muted);transition:translate .2s cubic-bezier(0.23,1,0.32,1),color .15s ease}
-@media(hover:hover) and (pointer:fine){.pills button:hover .ic{color:#fff;translate:3px 0}}
 .dfilter{display:flex;flex-wrap:wrap;gap:8px;padding:0 24px;margin:-20px 0 24px}
 .dfilter button{border:0;background:#fff;border-radius:999px;padding:11px 16px 11px 20px;font:600 15px 'Onest',sans-serif;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s ease,color .15s ease}
 .dfilter i{font-style:normal;font-weight:500;font-size:13px;color:var(--muted);background:var(--bg);border-radius:999px;padding:2px 9px}
@@ -360,6 +354,15 @@ dialog.scanview img{display:block;width:100%;max-height:calc(100vh - 48px);objec
 .arts3 b{font-size:clamp(20px,1.5vw,24px);font-weight:600;display:block;margin-bottom:8px;letter-spacing:-.01em;line-height:1.2}
 .arts3 p{font-size:16px;color:var(--muted);font-weight:400}
 @media(hover:hover) and (pointer:fine){.arts3 a:hover b{color:var(--teal)}}
+
+.problem-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--g)}
+.problem-grid button{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:24px 48px 24px 24px;min-height:128px;border:0;border-radius:var(--r);background:#fff;color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.problem-grid strong{font-size:clamp(18px,1.3vw,24px);line-height:1.2;font-weight:600}
+.problem-grid span{font-size:15px;color:var(--muted)}
+.problem-grid .ic{position:absolute;top:22px;right:22px;width:20px;height:20px;color:var(--teal)}
+.problem-grid button:hover{background:#e1f3f2}
+@media(max-width:980px){.problem-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:540px){.problem-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -406,11 +409,6 @@ dialog.scanview img{display:block;width:100%;max-height:calc(100vh - 48px);objec
     <div class="facts" data-list="facts"></div>
   </div>
 </div>
-
-<section id="problems">
-  <div class="head"><div><p class="mono">Навигация</p><h2>Что вас беспокоит?</h2></div><span class="muted">Нажмите — откроется запись на нужное направление</span></div>
-  <div class="card"><div class="pills" data-list="problems"></div></div>
-</section>
 
 <section id="services">
   <div class="head"><div><p class="mono">Услуги</p><h2>Инновация в каждой услуге</h2></div></div>
@@ -461,6 +459,11 @@ dialog.scanview img{display:block;width:100%;max-height:calc(100vh - 48px);objec
     <article class="card"><div class="pic" data-photo="tmj"></div><div class="txt"><p class="mono">ВНЧС</p><h3>Лечение дисфункции височно-нижнечелюстного сустава</h3><p data-t="tmj"></p><a class="more" href="#">Подробнее про ВНЧС <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div></article>
   </div>
   <div class="lounge" data-photo="lounge"><div class="card"><p class="mono">Атмосфера</p><h3>Домашняя обстановка и экспозиция древних зубов</h3><p data-t="lounge"></p></div></div>
+</section>
+
+<section id="problems">
+  <div class="head"><div><h2>Что вас беспокоит?</h2></div><span class="muted">Нажмите — откроется запись на нужное направление</span></div>
+  <div class="problem-grid" data-list="problems"></div>
 </section>
 
 <section id="visit">
@@ -552,7 +555,7 @@ const SERVICE_ICONS = ['diagnostics', 'gums', 'implant', 'prosthetics', 'tmj', '
 const pad = i => String(i + 1).padStart(2, '0');
 window.TPL = {
   facts: f => `<div class="card"><b>${f.value}</b><span>${f.label}</span></div>`,
-  problems: p => `<button type="button" data-book="${p.to}" data-book-note="${p.title}">${p.title}<i>${p.to}</i><svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></button>`,
+  problems: p => `<button type="button" data-book="${p.to}" data-book-note="${p.title}"><strong>${p.title}</strong><span>${p.to}</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></button>`,
   services: (s, i) => `<a class="card dark" href="#" data-service-icon-area><span class="ico" data-service-icon="${SERVICE_ICONS[i]}"></span><span class="mono">${pad(i)}</span><h3>${s.title}</h3><p>${s.text}</p></a>`,
   advantages: (a, i) => `<div><span class="mono">${pad(i)}</span><div><b>${a.title}</b><p>${a.text}</p></div></div>`,
   cycle: (c, i) => `<article class="card stage"><img src="${c.photo}" alt="" loading="lazy"><div><span class="mono">Этап ${pad(i)}</span><h3>${c.title}</h3><p>${c.text}</p></div></article>`,
