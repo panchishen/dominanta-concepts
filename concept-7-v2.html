@@ -298,18 +298,6 @@ dialog.modal .x:hover{background:var(--line)}
 .vbtn .ic+.ic,.vbtn.is-paused .ic:first-child{display:none}
 .vbtn.is-paused .ic+.ic{display:inline-block}
 @media(hover:hover) and (pointer:fine){.vbtn:hover{background:rgba(20,26,30,.8)}}
-.notes .note{margin:0;padding:36px;display:flex;flex-direction:column;justify-content:space-between;gap:32px}
-.notes blockquote{margin:0;font-size:clamp(18px,1.4vw,22px);line-height:1.45;letter-spacing:-.01em;font-weight:500;color:var(--ink)}
-.notes figcaption{display:flex;align-items:center;gap:16px;padding-top:24px;border-top:1px solid var(--line)}
-.notes figcaption b{display:block;font-size:17px;font-weight:600}
-.notes figcaption span{font-size:14px;color:var(--muted);font-weight:400}
-.scan{position:relative;flex:none;width:64px;height:88px;padding:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;cursor:zoom-in}
-.scan img{width:100%;height:100%;object-fit:cover;object-position:top}
-.scan .ic{position:absolute;right:4px;bottom:4px;width:22px;height:22px;padding:4px;border-radius:50%;background:var(--ink);color:#fff}
-@media(hover:hover) and (pointer:fine){.scan:hover{border-color:var(--teal)}}
-.plat{margin-top:20px}
-dialog.scanview{width:min(720px,calc(100vw - 24px))}
-dialog.scanview img{display:block;width:100%;max-height:calc(100vh - 48px);object-fit:contain;background:#fff;border-radius:var(--r)}
 .arts3 a{padding:12px!important;display:flex;flex-direction:column;gap:22px}
 .arts3 img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:16px;background:var(--bg)}
 .arts3 div{padding:0 14px 18px}
@@ -388,7 +376,6 @@ dialog.scanview img{display:block;width:100%;max-height:calc(100vh - 48px);objec
   <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
   <symbol id="i-calendar-check" viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/></symbol>
   <symbol id="i-pause" viewBox="0 0 24 24"><rect x="14" y="3" width="5" height="18" rx="1"/><rect x="5" y="3" width="5" height="18" rx="1"/></symbol>
-  <symbol id="i-zoom-in" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></symbol>
 </svg>
 <header><div class="wrap"><div class="bar">
   <a href="#"><img data-logo></a>
@@ -513,8 +500,8 @@ dialog.scanview img{display:block;width:100%;max-height:calc(100vh - 48px);objec
 </section>
 
 <section id="reviews">
-  <div class="head"><div><p class="mono">Отзывы</p><h2>Пациенты пишут нам от руки</h2></div><span class="muted">Выдержки из&nbsp;рукописных отзывов. Нажмите на&nbsp;скан, чтобы прочитать оригинал</span><a class="more" href="#" style="display:none">Все отзывы <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div>
-  <div class="g c3 notes" data-list="reviews"></div>
+  <div class="head"><div><p class="mono">Отзывы</p><h2>Пациенты пишут нам от руки</h2></div><a class="more" href="#">Все отзывы <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div>
+  <div class="g c6 scans" data-list="reviews" data-limit="6"></div>
   <div class="plat"><a href="#">Яндекс Карты</a><a href="#">2ГИС</a><a href="#">ПроДокторов</a></div>
 </section>
 
@@ -566,11 +553,6 @@ dialog.scanview img{display:block;width:100%;max-height:calc(100vh - 48px);objec
 </div></footer>
 </main>
 
-<dialog class="modal scanview" data-scan-modal aria-label="Рукописный отзыв">
-  <button type="button" class="x" data-modal-close aria-label="Закрыть"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
-  <img src="" alt="">
-</dialog>
-
 <dialog class="modal" data-booking-modal aria-labelledby="modal-title">
   <button type="button" class="x" data-modal-close aria-label="Закрыть"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
   <form class="card" data-booking>
@@ -598,7 +580,7 @@ window.TPL = {
   doctors: d => `<article class="card doc" data-role="${d.role}">${d.video ? `<div class="media"><video data-autovideo src="${d.video}" poster="${d.poster}" muted loop playsinline preload="none" aria-label="${d.name}"></video><button type="button" class="vbtn" aria-label="Остановить видео"><svg class="ic" aria-hidden="true"><use href="#i-pause"/></svg><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg></button></div>` : `<img src="${d.photo}" alt="${d.name}" loading="lazy">`}<div><h3>${d.name}</h3><p>${d.role}</p><span class="mono">${d.exp ? 'Стаж ' + d.exp : 'Остеопатия'}</span></div></article>`,
   steps: (s, i) => `<article class="card"><b>${pad(i)}</b><h3>${s.title}</h3><p>${s.text}</p></article>`,
   prices: p => `<div class="row"><span>${p.title}</span><b>${p.price}</b></div>`,
-  reviews: r => `<figure class="card note"><blockquote>«${r.quote}»</blockquote><figcaption><button type="button" class="scan" data-scan="${r.scan}" data-scan-name="${r.name}" aria-label="Открыть рукописный отзыв: ${r.name}"><img src="${r.scan}" alt="" loading="lazy"><svg class="ic" aria-hidden="true"><use href="#i-zoom-in"/></svg></button><div><b>${r.name}</b><span>${r.date}${r.about ? ' · ' + r.about : ''}</span></div></figcaption></figure>`,
+  reviews: r => `<figure class="card"><img src="${r.scan}" alt="Отзыв: ${r.name}" loading="lazy"><figcaption>${r.name}<span>${r.date}</span></figcaption></figure>`,
   banks: b => `<span>${b}</span>`,
   bankLogos: b => `<span><img src="assets/img/banks/${b.file}" alt="${b.name}" style="--h:${b.height}" loading="lazy"></span>`,
   news: n => `<a href="#"><time>${n.date}</time><span>${n.title}</span></a>`,
@@ -612,19 +594,6 @@ window.TPL = {
 /* Doctors with video portraits go first in the carousel */
 DATA.doctors.sort((a, b) => Boolean(b.video) - Boolean(a.video));
 
-/* Excerpts transcribed from the handwritten scans; review-06 is a child's drawing and is left out */
-const REVIEW_QUOTES = {
-  'review-01.jpg': ['Отдельно хочется сказать спасибо Лаптевой Анастасии Вячеславовне и Сидоровой Виктории Леонидовне за лёгкую руку, профессионализм и доброе сердце', 'семья Алексеевых'],
-  'review-02.jpg': ['В стоматологию приходим всей семьёй с самыми разными вопросами, проблемами, здесь мы получаем высококвалифицированную помощь', ''],
-  'review-03.jpg': ['В двух клиниках мне сказали, что зубы надо удалять. Игорь Сергеевич мне сохранил четыре зуба, вылечил их', 'Губанов И. С.'],
-  'review-04.jpg': ['Сегодня делала гигиену полости рта: очень благодарна, всё очень хорошо. Спасибо за уютную атмосферу при ожидании', 'гигиена'],
-  'review-05.jpg': ['Я более чем прекрасно провела 40 минут, её руки лёгкие, как у феи, всё мягко и даже приятно', 'Фокина В. Н., гигиена'],
-  'review-07.jpg': ['Спасибо огромное вам всем за чуткость и понимание, за внимательное отношение и профессионализм, за качество выполненных работ', '']
-};
-DATA.reviews = DATA.reviews
-  .map(review => ({ ...review, file: review.scan.split('/').pop() }))
-  .filter(review => REVIEW_QUOTES[review.file])
-  .map(review => ({ ...review, quote: REVIEW_QUOTES[review.file][0], about: REVIEW_QUOTES[review.file][1] }));
 </script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -661,19 +630,6 @@ document.addEventListener('DOMContentLoaded', () => {
     button.setAttribute('aria-label', stop ? 'Включить видео' : 'Остановить видео');
   });
 
-  /* Handwritten review viewer */
-  const viewer = document.querySelector('[data-scan-modal]');
-  document.querySelector('.notes').addEventListener('click', event => {
-    const button = event.target.closest('[data-scan]');
-    if (!button) return;
-    const image = viewer.querySelector('img');
-    image.src = button.dataset.scan;
-    image.alt = 'Рукописный отзыв: ' + button.dataset.scanName;
-    viewer.showModal();
-  });
-  viewer.addEventListener('click', event => {
-    if (event.target === viewer || event.target.closest('[data-modal-close]')) viewer.close();
-  });
   document.querySelector('.serv').insertAdjacentHTML('beforeend', '<a class="card dark all" href="#"><h3>Все услуги клиники</h3><svg class="ic ic-xl" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>');
 });
 </script>
