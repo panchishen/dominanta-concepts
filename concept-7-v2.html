@@ -99,29 +99,13 @@ section{padding:112px 0 0}
 .serv .all .ic-xl{width:44px;height:44px}
 .serv .all h3{margin:0}
 
-.proof{grid-template-columns:minmax(0,1.9fr) minmax(320px,1fr)}
-.proof>.card:first-child{display:flex;flex-direction:column}
-.proof .card{padding:48px}
-.proof .card>p{font-size:clamp(18px,1.5vw,24px);max-width:820px}
 .bars{margin:30px 0 28px;display:grid;gap:16px}
 .bar span{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-bottom:8px;font-weight:400}
 .bar div{height:34px;border-radius:10px;background:var(--bg);width:58.8%}
 .bar.us div{width:100%;background:var(--ink)}
 .bar.us span{color:var(--ink)}
-.ctrl{flex:1;display:grid;grid-auto-rows:1fr;gap:8px;margin:36px 0 0}
-.ctrl div{display:grid;grid-template-columns:72px minmax(200px,.6fr) 1fr;gap:20px;align-items:center;background:var(--bg);border-radius:20px;padding:26px 32px;font-size:clamp(17px,1.25vw,21px)}
-.ctrl div>.mono{font-size:clamp(28px,2.6vw,44px);line-height:1;letter-spacing:-.03em;font-weight:600;color:var(--ink);text-transform:none}
-.ctrl b{font-size:clamp(20px,1.6vw,28px);letter-spacing:-.01em}
-.ctrl b{font-weight:600}
-.ctrl div>span:last-child{color:var(--muted);font-weight:400}
 .x50{display:flex;align-items:center;gap:20px;padding-top:24px;border-top:1px solid var(--line);font-size:15px}
 .x50 b{font-size:58px;font-weight:600;letter-spacing:-.05em;color:var(--orange);white-space:nowrap;line-height:1}
-.chief{padding:0!important;overflow:hidden;display:flex;flex-direction:column;background:#DFE3E6}
-.chief .ph{flex:1;min-height:380px;display:flex;align-items:flex-end;justify-content:center}
-.chief .ph img{height:clamp(420px,37vw,700px);width:auto;max-width:none;margin:28px 0 -80px;object-fit:contain;object-position:top}
-.chief .cap{position:relative;background:#fff;margin:var(--g);border-radius:16px;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:13.5px;color:var(--muted);font-weight:400}
-.chief .cap b{display:block;color:var(--ink);font-size:17px;font-weight:600}
-.play{flex:none;width:52px;height:52px;border-radius:14px;background:var(--orange);display:grid;place-items:center;color:#fff}
 
 .about{grid-template-columns:1fr 1fr;gap:80px;padding:64px!important}
 .about p.big{font-size:clamp(20px,1.7vw,28px);line-height:1.45;margin:20px 0 26px;font-weight:500}
@@ -270,10 +254,9 @@ footer .warn{grid-column:1/-1;font-family:var(--mono);text-transform:uppercase;l
  .serv .card{min-height:200px!important}
  .duo .pic{min-height:220px}
  .lab,.lounge{min-height:420px}
- .ctrl div{font-size:16px;padding:16px}
  nav,header .tel{display:none}
  header .btn{margin-left:auto}
- .hero,.c3,.c2,.proof,.about,.labrow,.visit,.money,.feed,footer .card,.three{grid-template-columns:1fr}
+ .hero,.c3,.c2,.about,.labrow,.visit,.money,.feed,footer .card,.three{grid-template-columns:1fr}
  .c4,.c6{grid-template-columns:1fr 1fr}
  .faqrow,form.card .pair,.agrees{grid-template-columns:1fr}
  .banklogos{flex-wrap:wrap}
@@ -290,10 +273,8 @@ footer .warn{grid-column:1/-1;font-family:var(--mono);text-transform:uppercase;l
  .quick .btn{margin:10px 0 0;width:100%}
  .head{flex-direction:column;align-items:start}
  .serv .card{min-height:180px;padding:18px}
- .proof .card,.about,.money .card,.contact .info,form.card{padding:24px!important}
+ .about,.money .card,.contact .info,form.card{padding:24px!important}
  .duo article,.news a,.arts a{grid-template-columns:1fr}
- .ctrl div{grid-template-columns:36px 1fr}
- .ctrl div>span:last-child{grid-column:2}
  .duo .txt{padding:18px 10px}
  .arts div{padding:0 10px 10px}
  .badge{flex-wrap:wrap}
@@ -363,6 +344,28 @@ dialog.scanview img{display:block;width:100%;max-height:calc(100vh - 48px);objec
 .problem-grid button:hover{background:#e1f3f2}
 @media(max-width:980px){.problem-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:540px){.problem-grid{grid-template-columns:1fr}}
+
+.digital-label{margin:0 0 18px 24px;font-size:18px;font-weight:600;color:#006E74}
+.digital-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.06fr);gap:var(--g)}
+.digital-portrait{position:relative;min-height:510px;overflow:hidden;border-radius:var(--r);background:#DCE7E8}
+.digital-portrait img{position:absolute;top:4%;left:8%;width:84%;height:92%;object-fit:contain;object-position:center top}
+.digital-caption{position:absolute;inset:auto 14px 14px;background:#fff;border-radius:18px;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.digital-caption strong{display:block;font-size:23px}
+.digital-caption p{color:var(--muted);font-size:16px}
+.digital-video{display:flex;align-items:center;gap:8px;color:#006E74;font-weight:600;font-size:15px}
+.digital-video .ic{width:20px;height:20px}
+.digital-story{display:flex;flex-direction:column;justify-content:center;padding:clamp(30px,3.6vw,68px);border-radius:var(--r);background:var(--ink);color:#fff}
+.digital-story h2{font-size:clamp(38px,4vw,74px);line-height:1.06}
+.digital-story h2 span{display:block;color:#82D7D2}
+.digital-story>p{margin:26px 0 40px;max-width:680px;color:#CBD3D8;font-size:clamp(18px,1.5vw,25px)}
+.digital-steps{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:0;padding:0;position:relative}
+.digital-steps::before{content:"";position:absolute;top:7px;left:0;right:0;height:2px;background:#4E7477}
+.digital-steps li{position:relative;padding-top:32px}
+.digital-steps li::before{content:"";position:absolute;top:0;left:0;width:16px;height:16px;border-radius:50%;background:#82D7D2}
+.digital-steps h3{font-size:clamp(18px,1.5vw,26px);margin-bottom:8px}
+.digital-steps p{color:#CBD3D8;font-size:clamp(15px,1.15vw,20px)}
+@media(max-width:980px){.digital-layout{grid-template-columns:1fr}.digital-portrait{min-height:420px}}
+@media(max-width:600px){.digital-caption{flex-wrap:wrap}.digital-steps{grid-template-columns:1fr}.digital-steps::before{left:7px;right:auto;top:7px;bottom:10px;width:2px;height:auto}.digital-steps li{padding:0 0 12px 30px}}
 </style>
 </head>
 <body>
@@ -415,16 +418,24 @@ dialog.scanview img{display:block;width:100%;max-height:calc(100vh - 48px);objec
   <div class="g c4 serv" data-list="services"></div>
 </section>
 
-<section>
-  <div class="head"><div><p class="mono">Цифровой подход</p><h2>С 2009 года лечим по цифровым технологиям</h2></div></div>
-  <div class="g proof">
-    <div class="card">
-      <p data-t="digital" style="font-weight:400"></p>
-      <div class="ctrl"><div><span class="mono">01</span><b>Диагностика</b><span>Вы видите снимки и&nbsp;3D-модель своей челюсти на&nbsp;экране</span></div><div><span class="mono">02</span><b>Планирование</b><span>План с&nbsp;этапами и&nbsp;стоимостью — до&nbsp;начала лечения</span></div><div><span class="mono">03</span><b>Изготовление</b><span>Коронку или вкладку делают в&nbsp;клинике по&nbsp;вашей 3D-модели</span></div></div>
+<section aria-labelledby="digital-title">
+  <p class="digital-label">Цифровой подход с&nbsp;2009 года</p>
+  <div class="digital-layout">
+    <div class="digital-portrait">
+      <img data-photo="chief" alt="Борис Кузнецов">
+      <div class="digital-caption">
+        <div><strong>Борис Кузнецов</strong><p>Главный врач</p></div>
+        <a class="digital-video" href="#"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg>Видео о&nbsp;клинике</a>
+      </div>
     </div>
-    <div class="card chief">
-      <div class="ph"><img data-photo="chief" alt="Борис Кузнецов"></div>
-      <div class="cap"><div><b>Борис Кузнецов</b>Главный врач. Победитель чемпионата России по ортопедической стоматологии</div><a class="play" href="#" title="Видео о клинике"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg></a></div>
+    <div class="digital-story">
+      <h2 id="digital-title">План лечения виден <span>до&nbsp;его начала</span></h2>
+      <p>На&nbsp;консультации врач показывает снимки и&nbsp;3D-модель, объясняет этапы лечения и&nbsp;из&nbsp;чего складывается стоимость.</p>
+      <ol class="digital-steps">
+        <li><h3>Диагностика</h3><p>Снимки и&nbsp;3D-модель вашей челюсти</p></li>
+        <li><h3>Планирование</h3><p>Этапы и&nbsp;стоимость до&nbsp;начала лечения</p></li>
+        <li><h3>Изготовление</h3><p>Коронка или вкладка по&nbsp;вашей 3D-модели</p></li>
+      </ol>
     </div>
   </div>
 </section>
