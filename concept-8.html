@@ -376,16 +376,6 @@ section[id]{scroll-margin-top:90px}
 .concept-eight section{padding-top:clamp(65px,8vw,130px)}
 .concept-eight h2{font-weight:500;letter-spacing:-.043em}
 .hero{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.85fr);gap:28px;align-items:center;padding:clamp(40px,7vw,110px) 0 0}
-.hero::before{
-  content:"";
-  position:absolute;
-  z-index:-2;
-  inset:0 0 auto;
-  height:min(760px,85%);
-  background:radial-gradient(ellipse 58% 108% at 50% 0%,#A9E2DD 0%,#A9E2DD66 48%,transparent 100%);
-  mask-image:linear-gradient(to bottom,#000,transparent);
-  pointer-events:none;
-}
 .hero .main{padding:0;min-height:0;display:block}
 .hero .main>.mono{color:#515C64}
 .hero h1{font-size:clamp(40px,5.5vw,88px);line-height:1.01;letter-spacing:-.052em;margin:20px 0 26px}
@@ -440,7 +430,13 @@ header .bar{background:#ECEEF0E6;backdrop-filter:blur(14px);border-radius:100px;
 @media(max-width:800px){.hero h1{font-size:clamp(36px,8vw,64px)}.hero-actions .btn,.hero-actions .more{min-height:52px;padding:14px 20px;font-size:14px}}
 
 /* Centered hero, photo carousel and shared FAQ surface */
-body{background:radial-gradient(ellipse 80% 700px at 0% 34%,#A9E2DD 0%,transparent 96%),radial-gradient(ellipse 70% 780px at 100% 73%,#A9E2DD 0%,transparent 95%),var(--bg)}
+body{
+  background:
+    radial-gradient(ellipse 56% 740px at 50% 0%,#A9E2DD 0%,#A9E2DD66 42%,transparent 100%),
+    radial-gradient(ellipse 80% 700px at 0% 34%,#A9E2DD 0%,transparent 96%),
+    radial-gradient(ellipse 70% 780px at 100% 73%,#A9E2DD 0%,transparent 95%),
+    var(--bg);
+}
 header .bar{position:relative;background:transparent;justify-content:space-between}
 header nav{flex:0 1 auto;padding:12px 18px}
 header nav a{font-weight:400}
