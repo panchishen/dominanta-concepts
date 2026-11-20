@@ -218,7 +218,7 @@ function renderPage() {
   initAutoVideos();
   if (window.self === window.top) {
     initSwitcher();
-    setTimeout(initReveal, 0);
+    if (!document.body.hasAttribute("data-custom-reveal")) setTimeout(initReveal, 0);
   }
 }
 

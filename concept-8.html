@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Доминанта — концепт 8 «Свет и масштаб»</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#ECEEF0;--card:#fff;--ink:#141A1E;--muted:#515C64;--soft:#6E7A82;--line:#E1E4E7;--teal:#00848A;--orange:#FF540F;--r:28px;--g:12px;--mono:'Onest',system-ui,sans-serif}
 *{box-sizing:border-box;margin:0}
@@ -474,9 +474,31 @@ header nav a{font-weight:400}
 .faqrow .faq .tg{display:none}
 @media(max-width:800px){.arts3 .article-slide{flex:0 0 82%}.faqrow{grid-template-columns:1fr;gap:24px}.faqrow .head{border:0;gap:16px}.hero-actions .btn{min-height:60px;padding:16px 22px}}
 @media(prefers-reduced-motion:reduce){.arts3 .article-slide{transition:none}}
+
+/* Airier surfaces and compact contact typography */
+.hero h1,.concept-eight h2{font-weight:300}
+.concept-eight h3,.faqrow .faq summary{font-weight:400}
+.digital-story,.clinic-about-copy,.contact .info{background:linear-gradient(145deg,#F8FCFC 12%,#DBEFED 68%,#BFE6E2);color:var(--ink)}
+.digital-story h2 span,.digital-steps h3{color:#00595A}
+.digital-story>p,.digital-steps p,.clinic-about-copy p,.contact dd{color:var(--muted)}
+.digital-steps::before{background:#8BCAC7}
+.digital-steps li::before{background:var(--teal)}
+.contact .info{min-width:0;padding:clamp(24px,3.6vw,56px)}
+.contact .info h2{white-space:normal;margin:0 0 18px;font-size:clamp(21px,6.3cqw,38px)}
+.contact .tel{display:inline-block;white-space:nowrap;font-size:min(9cqw,48px);font-weight:400;line-height:1.15;letter-spacing:-.035em;color:#00595A}
+.contact dl{grid-template-columns:minmax(70px,23%) minmax(0,1fr);gap:16px 12px;font-size:16px}
+.contact dt{color:#515C64}
+.contact dd{margin:0;overflow-wrap:anywhere}
+.serv .all{background:linear-gradient(145deg,#D9F0EE,#A9E2DD);color:#00595A}
+@keyframes concept-eight-rise{from{opacity:.15;translate:0 16px}to{opacity:1;translate:0 0}}
+@keyframes concept-eight-image{from{clip-path:inset(0 0 12% 0 round 20px);opacity:.4}to{clip-path:inset(0 0 0 0);opacity:1}}
+@media(prefers-reduced-motion:no-preference){
+ .eight-rise{animation:concept-eight-rise .6s cubic-bezier(.23,1,.32,1) both}
+ .eight-image{animation:concept-eight-image .6s cubic-bezier(.23,1,.32,1) both}
+}
 </style>
 </head>
-<body>
+<body data-custom-reveal>
 <!-- Icons: Lucide (https://lucide.dev/icons/) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
@@ -705,6 +727,22 @@ DATA.doctors.sort((a, b) => Boolean(b.video) - Boolean(a.video));
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   window.ServiceIcons.mountAll();
+
+  if (window.self === window.top && 'IntersectionObserver' in window &&
+      !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const photoSelector = '.hero > .ph, .clinic-about-intro > img, .cycle-photo, .visit-route > img';
+    const observer = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        entry.target.classList.add(entry.target.matches(photoSelector) ? 'eight-image' : 'eight-rise');
+        observer.unobserve(entry.target);
+      }
+    }, {rootMargin: '0px 0px -16% 0px'});
+    document.querySelectorAll('main h2, .hero h1, ' + photoSelector)
+      .forEach(element => {
+        if (element.getBoundingClientRect().top >= 0) observer.observe(element);
+      });
+  }
 
   const slides = [...document.querySelectorAll('.article-slide')];
   let currentArticle = 0;
