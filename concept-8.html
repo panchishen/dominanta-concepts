@@ -596,6 +596,14 @@ form.card input[type=text], form.card input[type=tel], form.card select {
   .cycle-layout { grid-template-columns: minmax(0,1fr); }
   .cycle-photo { width: 100%; min-width: 0; }
 }
+
+.clinic-clip{display:block;width:100%;height:100%;object-fit:cover;background:var(--bg)}
+.cycle-photo .clinic-clip{position:absolute;inset:0}
+.visit-route .clinic-clip{min-height:290px;border-radius:var(--r)}
+.digital-video[data-tour-open]{padding:0;border:0;background:none;cursor:pointer;font-family:inherit;text-align:left}
+dialog.clinic-tour{width:min(420px,calc(100vw - 24px));overflow:hidden}
+dialog.clinic-tour video{display:block;width:100%;max-height:85dvh;background:var(--ink)}
+dialog.clinic-tour .x{z-index:1}
 </style>
 </head>
 <body data-custom-reveal>
@@ -629,7 +637,7 @@ form.card input[type=text], form.card input[type=tel], form.card select {
     </div>
     <p class="next"><svg class="ic" aria-hidden="true"><use href="#i-calendar-check"/></svg><span>Первичная консультация — <b>1&nbsp;759&nbsp;₽</b>: осмотр и&nbsp;план лечения с&nbsp;ценой</span></p>
   </div>
-  <div class="ph"><img src="assets/img/cycle-2.jpg" width="1400" height="933" alt="Врач планирует лечение на цифровой модели зубов"><span>Компьютерное планирование лечения</span></div>
+  <div class="ph"><video class="clinic-clip" data-autovideo src="assets/video/concept-8-planning.mp4" poster="assets/img/concept-8-planning.jpg" muted loop playsinline preload="none" aria-label="Врач планирует лечение по цифровой модели"></video><span>Компьютерное планирование лечения</span></div>
   <div class="facts" data-list="facts"></div>
 </div>
 
@@ -644,7 +652,7 @@ form.card input[type=text], form.card input[type=tel], form.card select {
       <img data-photo="chief" alt="Борис Кузнецов">
       <div class="digital-caption">
         <div><strong>Борис Кузнецов</strong><p>Главный врач</p></div>
-        <a class="digital-video" href="#"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg>Видео о&nbsp;клинике</a>
+        <button class="digital-video" type="button" data-tour-open><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg>Видео о&nbsp;клинике</button>
       </div>
     </div>
     <div class="digital-story">
@@ -682,7 +690,7 @@ form.card input[type=text], form.card input[type=tel], form.card select {
     <p class="cycle-intro">От&nbsp;3D-снимка до&nbsp;изготовления в&nbsp;собственной лаборатории</p>
     <div class="cycle-layout">
       <figure class="cycle-photo">
-        <img src="assets/img/lab.jpg" alt="Фрезерный станок и 3D-принтер в лаборатории клиники" loading="lazy">
+        <video class="clinic-clip" data-autovideo src="assets/video/concept-8-milling.mp4" poster="assets/img/concept-8-milling.jpg" muted loop playsinline preload="none" aria-label="Работа фрезерного станка в лаборатории"></video>
         <figcaption>Цифровая лаборатория «Доминанты»</figcaption>
       </figure>
       <ol class="cycle-steps">
@@ -718,7 +726,7 @@ form.card input[type=text], form.card input[type=tel], form.card select {
 <section id="visit" aria-labelledby="visit-heading">
   <div class="card visit-panel">
     <h2 id="visit-heading">Как проходит первый приём</h2>
-    <div class="visit-route"><img src="assets/img/lounge.jpg" alt="Холл клиники" loading="lazy"><div class="visit-steps" data-list="steps"></div></div>
+    <div class="visit-route"><video class="clinic-clip" data-autovideo src="assets/video/concept-8-reception.mp4" poster="assets/img/concept-8-reception.jpg" muted loop playsinline preload="none" aria-label="Стойка администратора клиники"></video><div class="visit-steps" data-list="steps"></div></div>
     <div class="visit-action">
       <button type="button" class="btn" data-book="Запись на консультацию">Записаться на&nbsp;консультацию</button>
     </div>
@@ -783,6 +791,11 @@ form.card input[type=text], form.card input[type=tel], form.card select {
 </div></footer>
 </main>
 
+<dialog class="modal clinic-tour" aria-label="Видео о клинике">
+  <button type="button" class="x" data-tour-close aria-label="Закрыть"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
+  <video controls playsinline preload="none" src="assets/video/concept-8-clinic-tour.mp4"></video>
+</dialog>
+
 <dialog class="modal" data-booking-modal aria-labelledby="modal-title">
   <button type="button" class="x" data-modal-close aria-label="Закрыть"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
   <form class="card" data-booking>
@@ -828,6 +841,15 @@ DATA.doctors.sort((a, b) => Boolean(b.video) - Boolean(a.video));
 document.addEventListener('DOMContentLoaded', () => {
   window.ServiceIcons.mountAll();
 
+  const tour = document.querySelector('.clinic-tour');
+  const tourVideo = tour.querySelector('video');
+  document.querySelector('[data-tour-open]').addEventListener('click', () => {
+    tour.showModal();
+    tourVideo.play().catch(() => {});
+  });
+  tour.querySelector('[data-tour-close]').addEventListener('click', () => tour.close());
+  tour.addEventListener('close', () => tourVideo.pause());
+
   if (window.self === window.top && 'IntersectionObserver' in window &&
       !matchMedia('(prefers-reduced-motion: reduce)').matches) {
     const observer = new IntersectionObserver(entries => {
@@ -872,7 +894,7 @@ document.addEventListener('DOMContentLoaded', () => {
     heroParts.forEach(([element, type], index) => prepareMotion(element, type, Math.min(index, 6) * 60));
 
     const headlineSelector = 'h2, h3, .head > .muted';
-    const pictureSelector = '.digital-portrait, .clinic-about-intro > img, .cycle-photo, .visit-route > img, .lounge';
+    const pictureSelector = '.digital-portrait, .clinic-about-intro > img, .cycle-photo, .visit-route > .clinic-clip, .lounge';
     const groupSelector = '.serv > *, .clinic-about-facts > *, .doc, .duo > *, .problem-grid > *, .visit-steps > *, .scans > *, .plat, .money > *, .arts3, .faq details, .contact > *, .cycle-steps > *, .cycle-equipment, .dfilter';
     for (const section of document.querySelectorAll('main > section')) {
       const targets = [...section.querySelectorAll(headlineSelector + ', ' + pictureSelector + ', ' + groupSelector)];
