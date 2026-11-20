@@ -112,7 +112,6 @@ section{padding:112px 0 0}
 .badge img{height:32px}
 
 .rail{display:flex;gap:var(--g);overflow-x:auto;padding-bottom:16px;scroll-snap-type:x mandatory}
-.car-nav button{border-radius:14px;border:0;background:#fff}
 .doc{flex:0 0 clamp(260px,22vw,380px);scroll-snap-align:start;padding:10px!important}
 .doc img,.doc video{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:18px;background:var(--bg)}
 .doc div{padding:16px 10px 12px}
@@ -458,7 +457,13 @@ header nav a{font-weight:400}
 .article-copy>span{display:none;margin-top:14px;max-width:36ch}
 .article-slide[aria-pressed=true] .article-copy>span{display:block}
 .article-controls{display:flex;justify-content:center;gap:8px;margin-top:24px}
-.article-controls button{height:56px;width:56px;border:0;border-radius:50%;background:#fff;color:var(--teal);font:inherit;font-size:25px;cursor:pointer}
+main .car-nav, main .article-controls{justify-content:center;gap:8px;margin-top:18px}
+main .car-nav button, main .article-controls button{display:grid;place-items:center;height:56px;width:56px;padding:0;border:0;border-radius:50%;background:#fff;color:#006E74;font-size:0;cursor:pointer}
+main .car-nav button::before, main .article-controls button::before{content:"";width:7px;height:7px;border-top:1.5px solid currentColor;border-right:1.5px solid currentColor;rotate:45deg}
+main .car-nav button:first-child::before, main .article-controls button:first-child::before{rotate:-135deg}
+main .car-nav button:disabled{opacity:.35;cursor:default}
+main .car-nav button:focus-visible, main .article-controls button:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+@media(hover:hover) and (pointer:fine){main .car-nav button:hover:not(:disabled),main .article-controls button:hover{background:#E1F3F2;transform:none}}
 .article-slide:focus-visible,.article-controls button:focus-visible{outline:2px solid var(--teal);outline-offset:-4px}
 .faqrow{grid-template-columns:minmax(190px,1fr) minmax(0,3.5fr);align-items:stretch;gap:clamp(32px,6vw,100px);background:#fff;border-radius:32px;padding:clamp(24px,4vw,64px)}
 .faqrow .head{position:static;display:flex;flex-direction:column;align-items:start;justify-content:space-between;border-right:1px solid var(--line);padding:0 20px 0 0;margin:0}
