@@ -314,7 +314,7 @@ function initAutoVideos() {
 }
 
 /* Small switcher between concepts (desktop only) */
-const CONCEPT_COUNT = 7;
+const CONCEPT_COUNT = 8;
 function initSwitcher() {
   const match = location.pathname.match(/concept-(\d)\.html/);
   if (!match) return;

@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Доминанта — концепт 8 «Свет и масштаб»</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#ECEEF0;--card:#fff;--ink:#141A1E;--muted:#515C64;--soft:#6E7A82;--line:#E1E4E7;--teal:#00848A;--orange:#FF540F;--r:28px;--g:12px;--mono:'Onest',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.55 'Onest',Arial,sans-serif;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:none;margin:0 auto;padding:0 12px}
+h1,h2,h3{font-weight:600;line-height:1.1;letter-spacing:-.01em}
+h1{font-weight:500;letter-spacing:-.015em}
+h1{font-size:clamp(38px,min(4.4vw,7.8vh),92px)}
+h2{font-size:clamp(30px,4vw,64px)}
+h3{font-size:24px;line-height:1.15;letter-spacing:0;font-weight:600}
+.mono{font-size:13px;line-height:16px;letter-spacing:.08em;text-transform:uppercase;color:var(--soft);font-weight:600}
+.muted{color:var(--muted)}
+.card{background:var(--card);border-radius:var(--r);padding:36px}
+.dark{background:var(--ink);color:#fff}
+.dark .mono,.dark .muted{color:#9FAAB1}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--orange);color:#fff;font-weight:600;font-size:17px;padding:20px 30px;border-radius:16px;border:0;cursor:pointer;font-family:inherit;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn.ink{background:var(--ink)}
+.btn.soft{background:var(--bg);color:var(--ink)}
+.more{font-family:var(--mono);font-size:13px;color:var(--teal);white-space:nowrap}
+.more:hover{text-decoration:underline}
+.ic{display:inline-block;width:1.2em;height:1.2em;flex:none;vertical-align:-.22em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ic-xl{width:32px;height:32px}
+.more .ic{transition:translate .2s cubic-bezier(0.23,1,0.32,1)}
+@media(hover:hover) and (pointer:fine){.more:hover .ic,.serv .all:hover .ic{translate:4px 0}}
+.serv .all .ic{transition:translate .2s cubic-bezier(0.23,1,0.32,1)}
+@media(prefers-reduced-motion:reduce){.more:hover .ic,.serv .all:hover .ic{translate:none}}
+
+header{position:sticky;top:10px;z-index:10;margin:10px 0}
+header .bar{display:flex;align-items:center;gap:28px;min-height:76px;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-radius:18px;padding:10px 10px 10px 22px}
+header img{height:38px}
+nav{display:flex;gap:4px;margin:0 auto}
+nav a{padding:10px 18px;border-radius:12px;font-size:16px;font-weight:600}
+nav a:hover{background:var(--bg)}
+header .tel{font-family:var(--mono);font-size:17px;white-space:nowrap}
+header .btn{padding:16px 26px;font-size:16px;border-radius:14px}
+
+.hero{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:var(--g)}
+.hero .main{padding:clamp(36px,3.6vw,64px);display:flex;flex-direction:column;min-height:min(80vh,820px)}
+.hero h1{margin:clamp(20px,2.4vh,32px) 0 clamp(20px,2.4vh,32px)}
+.hero h1 em{font-style:normal;color:#7FD3CE}
+.hero p.lead{font-size:clamp(18px,1.5vw,24px);line-height:1.45;color:#CBD3D8;max-width:680px;font-weight:400;margin-bottom:clamp(24px,4vh,64px)}
+.quickform{margin-top:auto;max-width:860px}
+.quick{display:flex;align-items:center;gap:0;background:#252D32;border-radius:22px;padding:10px;max-width:860px;transition:box-shadow .15s ease}
+.quick:focus-within{box-shadow:0 0 0 2px #19B3B9}
+.quick input{flex:1;min-width:0;height:56px;background:none;border:0;color:#fff;font:inherit;font-size:17px;padding:0 22px;outline:0}
+.quick input+input{border-left:1px solid #3B454C}
+.quick .btn{margin-left:10px;white-space:nowrap;flex:none}
+.quick input{min-width:120px}
+.quick input::placeholder{color:#9FAAB1}
+.agrees{display:grid;grid-template-columns:1fr;gap:10px;margin-top:18px}
+.hero .agree{display:flex;align-items:flex-start;gap:12px;font-size:14px;line-height:1.4;color:#9FAAB1;cursor:pointer}
+.hero .agree a{color:#CBD3D8;text-decoration:underline;text-underline-offset:3px}
+.hero .agree a:hover{color:#fff}
+.hero .agree input{appearance:none;-webkit-appearance:none;flex:none;width:24px;height:24px;margin:0;border:1.5px solid #6E7A82;border-radius:7px;background:none;cursor:pointer;display:grid;place-content:center;transition:background .15s ease,border-color .15s ease}
+.hero .agree input::after{content:'';width:10px;height:6px;border-left:2.5px solid #141A1E;border-bottom:2.5px solid #141A1E;transform:translateY(-1.5px) rotate(-45deg);opacity:0}
+.hero .agree input:checked{background:#7FD3CE;border-color:#7FD3CE}
+.hero .agree input:checked::after{opacity:1}
+.hero .agree input:focus-visible{outline:2px solid #19B3B9;outline-offset:2px}
+.hero .side{display:grid;grid-template-rows:1fr auto;gap:var(--g)}
+.hero .ph{border-radius:var(--r);background:center/cover;min-height:200px;position:relative;overflow:hidden}
+.hero .ph video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero .ph span{position:absolute;left:14px;bottom:14px;background:rgba(255,255,255,.92);border-radius:12px;padding:10px 14px;font-size:14px;font-weight:600}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:var(--g)}
+.facts .card{padding:clamp(18px,2.6vh,30px) clamp(20px,2vw,30px)}
+.facts b{display:block;font-size:clamp(30px,min(3.4vw,6vh),60px);font-weight:600;letter-spacing:-.04em;line-height:1;margin-bottom:10px;white-space:nowrap}
+.facts span{font-size:16px;color:var(--muted);line-height:1.35;display:block}
+.facts .card{background:#fff;color:var(--ink)}
+.facts .card b{color:var(--teal)}
+
+section{padding:112px 0 0}
+.head{display:flex;justify-content:space-between;align-items:end;gap:40px;margin-bottom:44px;padding:0 24px}
+.head h2{margin-top:16px;max-width:1100px}
+.g{display:grid;gap:var(--g)}
+.c6{grid-template-columns:repeat(6,1fr)}.c4{grid-template-columns:repeat(4,1fr)}.c3{grid-template-columns:repeat(3,1fr)}.c2{grid-template-columns:1fr 1fr}
+
+
+.serv .card{min-height:330px;display:flex;flex-direction:column;transition:box-shadow .2s}
+.serv .card:hover{box-shadow:0 0 0 2px #3F4B53 inset}
+.serv .card.dark{--service-icon-surface:var(--ink);--service-icon-accent:#19B3B9}
+.serv .ico{display:block;width:clamp(112px,9vw,150px);height:clamp(112px,9vw,150px);margin:-8px 0 clamp(36px,4.2vw,72px) -3px;color:inherit}
+.serv .mono{margin:24px 0 8px}
+.serv h3{font-size:clamp(21px,1.6vw,28px);margin-bottom:8px}
+.serv p{font-size:16px;line-height:1.5;color:var(--muted);font-weight:400}
+.serv .dark p{color:#9FAAB1}
+.serv .all{justify-content:space-between;background:var(--teal)}
+.serv .all h3{font-size:clamp(24px,2vw,34px);line-height:1.1}
+.serv .all .ic-xl{width:44px;height:44px}
+.serv .all h3{margin:0}
+
+.bars{margin:30px 0 28px;display:grid;gap:16px}
+.bar span{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-bottom:8px;font-weight:400}
+.bar div{height:34px;border-radius:10px;background:var(--bg);width:58.8%}
+.bar.us div{width:100%;background:var(--ink)}
+.bar.us span{color:var(--ink)}
+.x50{display:flex;align-items:center;gap:20px;padding-top:24px;border-top:1px solid var(--line);font-size:15px}
+.x50 b{font-size:58px;font-weight:600;letter-spacing:-.05em;color:var(--orange);white-space:nowrap;line-height:1}
+
+
+.badge{display:flex;gap:28px;align-items:center;margin-top:var(--g);font-size:14.5px;color:var(--muted);padding:20px 28px;font-weight:400}
+.badge img{height:32px}
+
+.rail{display:flex;gap:var(--g);overflow-x:auto;padding-bottom:16px;scroll-snap-type:x mandatory}
+.car-nav button{border-radius:14px;border:0;background:#fff}
+.doc{flex:0 0 clamp(260px,22vw,380px);scroll-snap-align:start;padding:10px!important}
+.doc img,.doc video{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:18px;background:var(--bg)}
+.doc div{padding:16px 10px 12px}
+.doc h3{font-size:22px;margin-bottom:8px}
+.doc p{font-size:15.5px;color:var(--muted);min-height:72px;font-weight:400}
+.doc .mono{display:inline-block;margin-top:10px;background:var(--bg);border-radius:8px;padding:4px 9px;color:var(--ink)}
+
+.duo article{padding:12px!important;display:grid;grid-template-columns:minmax(220px,40%) 1fr}
+.duo .pic{border-radius:18px;background:center/cover;min-height:380px}
+.duo .txt{padding:32px 32px 32px 44px;align-self:center}
+.duo h3{font-size:30px;margin:12px 0 14px}
+.duo p{font-size:17px;color:var(--muted);margin-bottom:16px;font-weight:400}
+.lounge{margin-top:var(--g);border-radius:var(--r);min-height:600px;background:center/cover;display:flex;align-items:end;padding:var(--g)}
+.lounge .card{max-width:600px;padding:36px}
+.lounge h3{font-size:32px;margin:12px 0}
+.lounge p{font-size:17px;color:var(--muted);font-weight:400}
+
+
+.scans figure{padding:10px 10px 18px!important}
+.scans img{width:100%;aspect-ratio:400/500;object-fit:cover;object-position:top;border-radius:14px}
+.scans figcaption{font-size:16px;font-weight:600;margin:14px 8px 0}
+.scans figcaption span{display:block;font-family:var(--mono);font-size:11.5px;color:var(--muted);font-weight:400}
+.plat{display:flex;gap:8px;margin-top:var(--g);flex-wrap:wrap}
+.plat a{background:#fff;border-radius:999px;padding:11px 20px;font-weight:600;font-size:14px}
+.plat a:hover{background:var(--ink);color:#fff}
+
+.money{grid-template-columns:1.55fr 1fr}
+.money .card{padding:48px;display:flex;flex-direction:column;align-items:start}
+.money h3{font-size:36px;margin:14px 0 16px}
+.money p{color:var(--muted);font-weight:400}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:22px 0 0;width:100%}
+.three div{background:var(--bg);border-radius:14px;padding:14px 16px;font-size:14px;font-weight:600}
+.three b{display:block;font-family:var(--mono);color:var(--teal);font-weight:400;margin-bottom:6px}
+.banklogos{display:flex;flex-wrap:nowrap;gap:8px;margin:24px 0}
+.banklogos span{flex:1 1 auto;min-width:0;display:flex;align-items:center;justify-content:center;height:clamp(52px,4.4vw,72px);padding:0 clamp(8px,.7vw,14px);background:#fff;border:1px solid var(--line);border-radius:14px}
+.banklogos img{display:block;width:auto;max-width:100%;object-fit:contain;height:max(13px,calc(var(--h) * .054vw))}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:18px 0}
+.chips span{font-family:var(--mono);font-size:12px;border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-weight:400}
+.money .btn{margin-top:auto}
+
+.feed{grid-template-columns:1fr 1.5fr}
+.news{padding:12px 28px!important}
+.news a{display:grid;grid-template-columns:160px 1fr;gap:20px;padding:24px 0;border-top:1px solid var(--line);font-size:19px}
+.news a:first-child{border:0}
+.news time{font-family:var(--mono);font-size:12px;color:var(--muted);padding-top:3px;font-weight:400}
+.news a:hover{color:var(--teal)}
+.arts a{padding:12px!important;display:grid;grid-template-columns:minmax(180px,30%) 1fr;gap:32px;align-items:center}
+.arts img{width:100%;height:100%;min-height:170px;object-fit:cover;border-radius:14px;background:var(--bg)}
+.arts b{font-size:24px;font-weight:600;display:block;margin-bottom:6px;letter-spacing:-.01em}
+.arts p{font-size:16px;color:var(--muted);font-weight:400;padding-right:14px}
+
+.faqrow{display:grid;grid-template-columns:1fr 1.8fr;gap:var(--g);align-items:start}
+.faqrow .head{margin:0;padding:28px 24px 0;position:sticky;top:110px}
+.faq{align-items:start}
+.faq details{background:#fff;border-radius:22px;padding:30px 36px}
+.faq summary{font-weight:600;font-size:22px;letter-spacing:-.02em;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.faq summary::-webkit-details-marker{display:none}
+.faq .tg{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--bg);color:var(--teal);transition:background .15s ease,color .15s ease}
+.faq .tg .ic{grid-area:1/1;width:22px;height:22px}
+.faq .tg .ic+.ic,.faq details[open] .tg .ic:first-child{display:none}
+.faq details[open] .tg .ic+.ic{display:inline-block}
+.faq details[open] .tg{background:var(--teal);color:#fff}
+@media(hover:hover) and (pointer:fine){.faq summary:hover .tg{background:#D9EEEF}.faq details[open] summary:hover .tg{background:#006F74}}
+.faq p{margin-top:14px;color:var(--muted);font-size:17px;max-width:760px;font-weight:400}
+
+.contact .info{padding:64px}
+.contact .info{container-type:inline-size}
+.contact .info h2{margin:14px 0 28px;font-size:clamp(22px,6.3cqw,60px);white-space:nowrap}
+.contact .tel{font-size:clamp(30px,4.2vw,76px);font-weight:600;letter-spacing:-.03em;display:block;margin-bottom:26px;color:#7FD3CE}
+.contact dl{display:grid;grid-template-columns:120px 1fr;row-gap:20px;font-size:18px;font-weight:400}
+.contact dt{font-family:var(--mono);font-size:12px;color:#99A3A8;text-transform:uppercase;padding-top:3px}
+.contact dd{margin:0;color:#DDE2E4}
+form.card{padding:56px}
+form.card h3{font-size:36px;margin-top:12px}
+form.card label{display:block;font-family:var(--mono);font-size:13px;color:var(--muted);text-transform:uppercase;margin-top:16px;font-weight:400}
+form.card input[type=text],form.card input[type=tel],form.card select{width:100%;margin-top:8px;background:var(--bg);border:2px solid transparent;border-radius:16px;padding:20px 22px;color:var(--ink);font:400 18px 'Onest',sans-serif;outline:0}
+form.card input:focus,form.card select:focus{outline:0;border-color:var(--teal);box-shadow:0 0 0 4px rgba(0,132,138,.16)}
+form.card .sel{position:relative;display:block}
+form.card .sel select{appearance:none;-webkit-appearance:none;padding-right:60px;cursor:pointer}
+form.card .sel .ic{position:absolute;right:22px;top:calc(50% + 4px);translate:0 -50%;width:22px;height:22px;color:var(--muted);pointer-events:none;transition:color .15s ease}
+form.card .sel:focus-within .ic{color:var(--teal)}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+.quick :focus-visible,.hero .agree :focus-visible{outline-color:#19B3B9}
+form.card .pair{display:grid;grid-template-columns:1fr 1fr;gap:var(--g)}
+form.card .agree{display:flex;align-items:flex-start;gap:14px;text-transform:none;font-family:inherit;font-size:15px;line-height:1.4;color:var(--muted);margin:20px 0 0;max-width:760px;cursor:pointer}
+form.card .agree a{color:#245F63;text-decoration:underline;text-underline-offset:3px}
+form.card .agree a:hover{color:var(--ink)}
+form.card .agree input{appearance:none;-webkit-appearance:none;flex:none;width:28px;height:28px;margin:0;border:1.5px solid #8F989D;border-radius:8px;background:#fff;cursor:pointer;display:grid;place-content:center;transition:background .15s ease,border-color .15s ease}
+form.card .agree input::after{content:'';width:12px;height:7px;border-left:2.5px solid #fff;border-bottom:2.5px solid #fff;transform:translateY(-2px) rotate(-45deg);opacity:0}
+form.card .agree input:checked{background:var(--ink);border-color:var(--ink)}
+form.card .agree input:checked::after{opacity:1}
+form.card .agree input:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+form.card .agree+.btn{margin-top:28px}
+form.card .btn{width:100%}
+.form-done{font-size:20px;font-weight:600}
+.quickform .form-done{padding:14px 0;color:#fff}
+
+footer{margin:var(--g) 0 20px}
+footer .card{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:64px;font-size:15px;color:var(--muted);padding:48px;font-weight:400}
+footer img{height:30px;margin-bottom:16px}
+footer a{display:block;padding:4px 0;color:var(--ink);font-weight:600}
+footer .warn{grid-column:1/-1;font-family:var(--mono);text-transform:uppercase;letter-spacing:.1em;text-align:center;color:var(--ink);border-top:1px solid var(--line);padding-top:22px;font-size:14px}
+
+@media(min-width:981px) and (max-width:1300px){.c6{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:980px){
+ .wrap{padding:0 8px}
+ .card{padding:22px}
+ section{padding-top:72px!important}
+ .head{padding:0 10px;margin-bottom:24px}
+ .serv .card{min-height:200px!important}
+ .duo .pic{min-height:220px}
+ .lounge{min-height:420px}
+ nav,header .tel{display:none}
+ header .btn{margin-left:auto}
+ .hero,.c3,.c2,.money,.feed,footer .card,.three{grid-template-columns:1fr}
+ .c4,.c6{grid-template-columns:1fr 1fr}
+ .faqrow,form.card .pair,.agrees{grid-template-columns:1fr}
+ .banklogos{flex-wrap:wrap}
+ .banklogos span{flex:1 1 30%;height:56px}
+ .banklogos img{height:calc(var(--h) * .65px)}
+ .faq .tg{width:40px;height:40px}
+ .faq summary{font-size:19px}
+ form.card .pair{gap:0}
+ .faqrow .head{position:static;padding:0 10px 14px}
+ .hero .main{padding:26px;min-height:0}
+ .quick{flex-direction:column;margin-top:28px}
+ .quick input{padding:14px;height:52px;width:100%}
+ .quick input+input{border-left:0;border-top:1px solid #3B454C}
+ .quick .btn{margin:10px 0 0;width:100%}
+ .head{flex-direction:column;align-items:start}
+ .serv .card{min-height:180px;padding:18px}
+ .money .card,.contact .info,form.card{padding:24px!important}
+ .duo article,.news a,.arts a{grid-template-columns:1fr}
+ .duo .txt{padding:18px 10px}
+ .arts div{padding:0 10px 10px}
+ .badge{flex-wrap:wrap}
+ section{padding-top:64px}
+ .contact dl{grid-template-columns:1fr;row-gap:2px}
+ .contact dd{margin-bottom:10px}
+}
+dialog.modal{border:0;padding:0;margin:auto;background:none;width:min(600px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:visible;opacity:0;scale:.97;transition:opacity .22s cubic-bezier(0.23,1,0.32,1),scale .22s cubic-bezier(0.23,1,0.32,1),display .22s allow-discrete,overlay .22s allow-discrete}
+dialog.modal[open]{opacity:1;scale:1}
+@starting-style{dialog.modal[open]{opacity:0;scale:.97}}
+dialog.modal::backdrop{background:rgba(20,26,30,.62);opacity:0;transition:opacity .22s ease,display .22s allow-discrete,overlay .22s allow-discrete}
+dialog.modal[open]::backdrop{opacity:1}
+@starting-style{dialog.modal[open]::backdrop{opacity:0}}
+dialog.modal form.card{padding:48px;max-height:calc(100vh - 24px);overflow:auto}
+dialog.modal h3{font-size:clamp(26px,3vw,36px);margin:12px 44px 10px 0;line-height:1.1}
+dialog.modal .note{color:var(--muted);font-size:16px}
+dialog.modal form.card .pair{grid-template-columns:1fr;gap:0}
+dialog.modal{width:min(520px,calc(100vw - 24px))}
+dialog.modal .x{position:absolute;right:18px;top:18px;width:44px;height:44px;border-radius:50%;border:0;background:var(--bg);color:var(--ink);font-size:22px;line-height:1;cursor:pointer;transition:background .15s ease}
+dialog.modal .x:hover{background:var(--line)}
+@media(prefers-reduced-motion:reduce){dialog.modal,dialog.modal[open]{scale:1}}
+@media(max-width:980px){dialog.modal form.card{padding:28px 22px}}
+/* ---- v2: GPT review ---- */
+.hero .next{display:flex;align-items:center;gap:12px;margin:0 0 14px;padding:14px 16px;background:#252D32;border-left:3px solid #19B3B9;border-radius:12px;color:#E2E7EA;font-size:16px;line-height:1.4;font-weight:400}
+.hero .next b{color:#7FD3CE;font-size:1.15em;font-weight:600}
+.hero .next .ic{width:24px;height:24px;color:#19B3B9}
+.dfilter{display:flex;flex-wrap:wrap;gap:8px;padding:0 24px;margin:-20px 0 24px}
+.dfilter button{border:0;background:#fff;border-radius:999px;padding:11px 16px 11px 20px;font:600 15px 'Onest',sans-serif;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s ease,color .15s ease}
+.dfilter i{font-style:normal;font-weight:500;font-size:13px;color:var(--muted);background:var(--bg);border-radius:999px;padding:2px 9px}
+.dfilter button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.dfilter button[aria-pressed="true"] i{background:#2E3538;color:#CBD3D8}
+@media(hover:hover) and (pointer:fine){.dfilter button[aria-pressed="false"]:hover{background:#DFE3E6}}
+.doc[hidden]{display:none}
+.doc .media{position:relative}
+.vbtn{position:absolute;right:12px;top:12px;width:42px;height:42px;border:0;border-radius:50%;background:rgba(20,26,30,.55);backdrop-filter:blur(6px);color:#fff;display:grid;place-items:center;cursor:pointer;pointer-events:auto;transition:background .15s ease}
+.vbtn .ic{grid-area:1/1;width:18px;height:18px}
+.vbtn .ic+.ic,.vbtn.is-paused .ic:first-child{display:none}
+.vbtn.is-paused .ic+.ic{display:inline-block}
+@media(hover:hover) and (pointer:fine){.vbtn:hover{background:rgba(20,26,30,.8)}}
+.arts3 a{padding:12px!important;display:flex;flex-direction:column;gap:22px}
+.arts3 img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:16px;background:var(--bg)}
+.arts3 div{padding:0 14px 18px}
+.arts3 b{font-size:clamp(20px,1.5vw,24px);font-weight:600;display:block;margin-bottom:8px;letter-spacing:-.01em;line-height:1.2}
+.arts3 p{font-size:16px;color:var(--muted);font-weight:400}
+@media(hover:hover) and (pointer:fine){.arts3 a:hover b{color:var(--teal)}}
+
+.problem-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--g)}
+.problem-grid button{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:24px 48px 24px 24px;min-height:128px;border:0;border-radius:var(--r);background:#fff;color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.problem-grid strong{font-size:clamp(18px,1.3vw,24px);line-height:1.2;font-weight:600}
+.problem-grid span{font-size:15px;color:var(--muted)}
+.problem-grid .ic{position:absolute;top:22px;right:22px;width:20px;height:20px;color:var(--teal)}
+.problem-grid button:hover{background:#e1f3f2}
+@media(max-width:980px){.problem-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:540px){.problem-grid{grid-template-columns:1fr}}
+
+.digital-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.06fr);gap:var(--g)}
+.digital-portrait{position:relative;min-height:510px;overflow:hidden;border-radius:var(--r);background:#DCE7E8}
+.digital-portrait img{position:absolute;top:4%;left:8%;width:84%;height:92%;object-fit:contain;object-position:center top}
+.digital-caption{position:absolute;inset:auto 14px 14px;background:#fff;border-radius:18px;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.digital-caption strong{display:block;font-size:23px}
+.digital-caption p{color:var(--muted);font-size:16px}
+.digital-video{display:flex;align-items:center;gap:8px;color:#006E74;font-weight:600;font-size:15px}
+.digital-video .ic{width:20px;height:20px}
+.digital-story{display:flex;flex-direction:column;justify-content:center;padding:clamp(30px,3.6vw,68px);border-radius:var(--r);background:var(--ink);color:#fff}
+.digital-story h2{font-size:clamp(38px,4vw,74px);line-height:1.06}
+.digital-story h2 span{display:block;color:#82D7D2}
+.digital-story>p{margin:26px 0 40px;max-width:680px;color:#CBD3D8;font-size:clamp(18px,1.5vw,25px)}
+.digital-steps{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:0;padding:0;position:relative}
+.digital-steps::before{content:"";position:absolute;top:7px;left:0;right:0;height:2px;background:#4E7477}
+.digital-steps li{position:relative;padding-top:32px}
+.digital-steps li::before{content:"";position:absolute;top:0;left:0;width:16px;height:16px;border-radius:50%;background:#82D7D2}
+.digital-steps h3{font-size:clamp(18px,1.5vw,26px);margin-bottom:8px}
+.digital-steps p{color:#CBD3D8;font-size:clamp(15px,1.15vw,20px)}
+@media(max-width:980px){.digital-layout{grid-template-columns:1fr}.digital-portrait{min-height:420px}}
+@media(max-width:600px){.digital-caption{flex-wrap:wrap}.digital-steps{grid-template-columns:1fr}.digital-steps::before{left:7px;right:auto;top:7px;bottom:10px;width:2px;height:auto}.digital-steps li{padding:0 0 12px 30px}}
+
+.clinic-about-intro{display:grid;grid-template-columns:minmax(0,1.38fr) minmax(0,1fr);gap:var(--g)}
+.clinic-about-intro>img{display:block;width:100%;height:100%;min-height:0;object-fit:cover;object-position:center 43%;border-radius:var(--r)}
+.clinic-about-copy{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-height:clamp(360px,31vw,540px);padding:clamp(25px,2.65vw,52px);border-radius:var(--r);background:var(--ink);color:#fff}
+.clinic-about-copy h2{font-size:clamp(36px,4vw,68px);line-height:1.08}
+.clinic-about-copy p{margin:clamp(20px,2.25vw,40px) 0;color:#CBD3D8;font-size:clamp(18px,1.75vw,28px);line-height:1.4}
+.clinic-about-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--g);margin-top:var(--g)}
+.clinic-about-facts article{padding:clamp(19px,1.65vw,32px);min-height:clamp(160px,14vw,230px);border-radius:var(--r);background:#fff}
+.clinic-about-facts article::before{content:"";display:block;width:38px;height:4px;border-radius:2px;background:var(--teal);margin-bottom:18px}
+.clinic-about-facts h3{font-size:clamp(19px,1.9vw,32px);margin:0 0 12px}
+.clinic-about-facts p{color:var(--muted);font-size:clamp(16px,1.4vw,23px);line-height:1.4}
+@media(max-width:980px){.clinic-about-intro{grid-template-columns:1fr}.clinic-about-intro>img{aspect-ratio:16/9}.clinic-about-facts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.clinic-about-facts{grid-template-columns:1fr}}
+
+.cycle-panel{padding:clamp(22px,2.2vw,44px);border-radius:var(--r);background:#fff}
+.cycle-panel h2{font-size:clamp(32px,3.4vw,62px);line-height:1.1}
+.cycle-intro{margin:12px 0 26px;color:var(--muted);font-size:clamp(17px,1.55vw,24px)}
+.cycle-layout{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,1fr);gap:clamp(24px,3vw,52px)}
+.cycle-photo{position:relative;margin:0;min-height:365px;border-radius:20px;overflow:hidden;background:var(--bg)}
+.cycle-photo img{width:100%;height:100%;position:absolute;inset:0;object-fit:cover}
+.cycle-photo figcaption{position:absolute;left:18px;bottom:18px;max-width:calc(100% - 36px);padding:10px 16px;border-radius:12px;background:var(--ink);color:#fff}
+.cycle-steps{list-style:none;margin:0;padding:0;display:grid}
+.cycle-steps li{padding:16px 0 22px}
+.cycle-steps li+li{border-top:1px solid var(--line)}
+.cycle-steps h3{color:#006E74;font-size:clamp(23px,2.1vw,36px)}
+.cycle-steps p{margin-top:8px;color:var(--muted);font-size:clamp(17px,1.45vw,23px)}
+.cycle-equipment{display:flex;flex-wrap:wrap;gap:8px 28px;border-top:1px solid var(--line);margin-top:24px;padding-top:18px;font-size:17px;color:var(--muted)}
+.cycle-equipment strong{color:var(--ink)}
+@media(max-width:980px){.cycle-layout{grid-template-columns:1fr}.cycle-photo{min-height:260px;aspect-ratio:16/9}}
+
+.visit-panel{padding:clamp(24px,3vw,56px)}
+.visit-panel h2{font-size:clamp(30px,3.4vw,58px)}
+.visit-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:clamp(28px,3.8vw,66px)}
+.visit-steps article{padding:0 24px}
+.visit-steps article:first-child{padding-left:0}
+.visit-steps article+article{border-left:1px solid var(--line)}
+.visit-steps b{display:block;color:#006E74;font-size:32px;margin-bottom:16px}
+.visit-steps h3{font-size:clamp(19px,1.55vw,26px);margin-bottom:10px}
+.visit-steps p{color:var(--muted);font-size:clamp(16px,1.35vw,21px)}
+.visit-action{border-top:1px solid var(--line);margin-top:28px;padding-top:24px}
+@media(max-width:980px){.visit-steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}.visit-steps article{padding:0}.visit-steps article+article{border-left:0}}
+@media(max-width:520px){.visit-steps{grid-template-columns:1fr}}
+
+/* Concept 8 */
+:root{--r:22px;--g:18px}
+body{background:#ECEEF0}
+.wrap{max-width:1540px;padding-inline:clamp(20px,4.5vw,76px)}
+header .bar{background:transparent;backdrop-filter:none;padding:0;min-height:78px}
+header nav{display:flex;justify-content:center;flex:1;gap:4px;background:#fff;border-radius:999px;padding:5px}
+header nav a{padding:9px 12px;white-space:nowrap}
+header .btn{border-radius:999px}
+header .tel{display:none}
+section[id]{scroll-margin-top:90px}
+.concept-eight section{padding-top:clamp(65px,8vw,130px)}
+.concept-eight h2{font-weight:500;letter-spacing:-.043em}
+.hero{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.85fr);gap:28px;align-items:center;padding:clamp(40px,7vw,110px) 0 0}
+.hero::before{content:"";position:absolute;z-index:-1;inset:0 -24px 64px;background:radial-gradient(ellipse at 91% 38%,#A9E2DD 0%,transparent 62%);pointer-events:none}
+.hero .main{padding:0;min-height:0;display:block}
+.hero .main>.mono{color:#515C64}
+.hero h1{font-size:clamp(40px,5.5vw,88px);line-height:1.01;letter-spacing:-.052em;margin:20px 0 26px}
+.hero h1 em{display:block;color:#00595A}
+.hero p.lead{color:var(--muted);font-size:clamp(17px,1.5vw,23px);margin:0;max-width:560px}
+.hero-actions{display:flex;align-items:center;flex-wrap:wrap;gap:16px 26px;margin-top:28px}
+.hero-actions .btn{border-radius:999px}
+.hero .next{color:var(--muted);display:flex;align-items:center;gap:10px;border:0;background:none;padding:0;margin:20px 0 0;font-size:15px}
+.hero .next b{color:#00595A}
+.hero>.ph{aspect-ratio:1;min-height:0;border-radius:48% 48% 22px 22px}
+.hero>.ph span{left:50%;translate:-50% 0;width:max-content;max-width:90%;text-align:center}
+.hero .facts{grid-column:1/-1;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;background:#fff;border-radius:var(--r);overflow:hidden;margin-top:8px}
+.hero .facts .card{border-radius:0;padding:22px clamp(14px,2vw,34px)}
+.hero .facts .card+.card{border-left:1px solid var(--line)}
+.hero .facts b{font-size:clamp(25px,3vw,47px)}
+.concept-eight .head{padding:0;margin-bottom:32px}
+.concept-eight .head h2{margin-top:8px}
+.serv{grid-template-columns:repeat(4,minmax(0,1fr))}
+.serv button.card{font:inherit;text-align:left;align-items:flex-start;border:0;background:#fff;color:var(--ink);cursor:pointer;min-height:240px}
+.serv button.card:hover{box-shadow:0 0 0 2px var(--teal) inset}
+.serv button.card .ico{margin:0 0 16px;width:105px;height:105px}
+.serv button.card .mono{display:none}
+.serv .all{min-height:240px}
+.visit-route{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(22px,4vw,70px);margin-top:36px}
+.visit-route img{width:100%;height:100%;min-height:290px;object-fit:cover;border-radius:var(--r)}
+.visit-route .visit-steps{display:grid;grid-template-columns:1fr;margin:0;gap:0}
+.visit-route .visit-steps article{display:grid;grid-template-columns:52px minmax(0,1fr);align-items:start;padding:15px 0;border:0}
+.visit-route .visit-steps article+article{border-top:1px solid var(--line)}
+.visit-route .visit-steps b{grid-row:1/3;margin:0;font-size:22px}
+.visit-route .visit-steps h3{margin:0 0 4px}
+.visit-route .visit-steps p{grid-column:2}
+@media(max-width:1150px){header nav{display:none}header .bar{justify-content:space-between}.serv{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:800px){.hero,.visit-route{grid-template-columns:1fr}.hero>.ph{aspect-ratio:4/3;border-radius:var(--r)}.hero .facts{grid-template-columns:repeat(2,minmax(0,1fr))}.hero .facts .card:nth-child(n+3){border-top:1px solid var(--line)}}
+@media(max-width:540px){.serv{grid-template-columns:1fr}header img{height:auto;width:142px}header .btn{padding:12px 15px}.hero h1{overflow-wrap:anywhere}}
+</style>
+</head>
+<body>
+<!-- Icons: Lucide (https://lucide.dev/icons/) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-calendar-check" viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="14" y="3" width="5" height="18" rx="1"/><rect x="5" y="3" width="5" height="18" rx="1"/></symbol>
+</svg>
+<header><div class="wrap"><div class="bar">
+  <a href="#"><img data-logo></a>
+  <nav aria-label="Разделы страницы"><a href="#services">Услуги</a><a href="#tech">Технологии</a><a href="#team">Врачи</a><a href="#visit">Первый приём</a><a href="#reviews">Отзывы</a><a href="#contact">Контакты</a></nav>
+  <a class="tel" data-phone></a>
+  <button type="button" class="btn" data-book="Запись на осмотр">Записаться</button>
+</div></div></header>
+
+<main class="wrap concept-eight">
+<div class="hero">
+  <div class="main">
+    <p class="mono">Семейная стоматология · Челябинск · Российская, 49</p>
+    <h1>Технологичная стоматология. <em>Под компьютерным контролем</em></h1>
+    <p class="lead">Полный цифровой цикл в одной клинике: 3D-диагностика, компьютерное планирование и собственная лаборатория. Лечим взрослых и детей.</p>
+    <div class="hero-actions">
+      <button type="button" class="btn" data-book="Запись на консультацию">Записаться на&nbsp;консультацию</button>
+      <a class="more" href="#services">Услуги <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+    </div>
+    <p class="next"><svg class="ic" aria-hidden="true"><use href="#i-calendar-check"/></svg><span>Первичная консультация — <b>1&nbsp;759&nbsp;₽</b>: осмотр и&nbsp;план лечения с&nbsp;ценой</span></p>
+  </div>
+  <div class="ph" data-photo="macro"><video data-autovideo src="assets/video/hero-macro-loop.mp4" poster="assets/img/macro.jpg" muted loop playsinline preload="none" aria-hidden="true"></video><span>Собственная цифровая лаборатория</span></div>
+  <div class="facts" data-list="facts"></div>
+</div>
+
+<section id="services">
+  <div class="head"><div><p class="mono">Услуги</p><h2>Инновация в каждой услуге</h2></div></div>
+  <div class="g c4 serv" data-list="services"></div>
+</section>
+
+<section aria-labelledby="digital-title">
+  <div class="digital-layout">
+    <div class="digital-portrait">
+      <img data-photo="chief" alt="Борис Кузнецов">
+      <div class="digital-caption">
+        <div><strong>Борис Кузнецов</strong><p>Главный врач</p></div>
+        <a class="digital-video" href="#"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg>Видео о&nbsp;клинике</a>
+      </div>
+    </div>
+    <div class="digital-story">
+      <h2 id="digital-title">План лечения виден <span>до&nbsp;его начала</span></h2>
+      <p>На&nbsp;консультации врач показывает снимки и&nbsp;3D-модель, объясняет этапы лечения и&nbsp;из&nbsp;чего складывается стоимость.</p>
+      <ol class="digital-steps">
+        <li><h3>Диагностика</h3><p>Снимки и&nbsp;3D-модель вашей челюсти</p></li>
+        <li><h3>Планирование</h3><p>Этапы и&nbsp;стоимость до&nbsp;начала лечения</p></li>
+        <li><h3>Изготовление</h3><p>Коронка или вкладка по&nbsp;вашей 3D-модели</p></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="clinic-about" aria-labelledby="clinic-about-title">
+  <div class="clinic-about-intro">
+    <img src="assets/img/team.jpg" alt="Команда стоматологии «Доминанта»" loading="lazy">
+    <div class="clinic-about-copy">
+      <h2 id="clinic-about-title">Стоматология<br>для&nbsp;всей семьи</h2>
+      <p>Принимаем детей и&nbsp;взрослых.<br>Осмотр, диагностика и&nbsp;лечение<br>на&nbsp;Российской, 49.</p>
+      <button type="button" class="btn" data-book="Запись на осмотр">Записаться на&nbsp;осмотр</button>
+    </div>
+  </div>
+  <div class="clinic-about-facts">
+    <article><h3>Цифровой цикл</h3><p>От&nbsp;снимка до&nbsp;реставрации<br>в&nbsp;одной клинике</p></article>
+    <article><h3>Своя лаборатория</h3><p>Коронки и&nbsp;вкладки<br>по&nbsp;цифровой модели</p></article>
+    <article><h3>С&nbsp;2009 года</h3><p>Работаем по&nbsp;цифровым<br>технологиям</p></article>
+    <article><h3>13&nbsp;специалистов</h3><p>В&nbsp;том числе детский<br>стоматолог</p></article>
+  </div>
+</section>
+
+<section id="tech" aria-labelledby="cycle-heading">
+  <div class="cycle-panel">
+    <h2 id="cycle-heading">Как в&nbsp;клинике делают коронки</h2>
+    <p class="cycle-intro">От&nbsp;3D-снимка до&nbsp;изготовления в&nbsp;собственной лаборатории</p>
+    <div class="cycle-layout">
+      <figure class="cycle-photo">
+        <img src="assets/img/lab.jpg" alt="Фрезерный станок и 3D-принтер в лаборатории клиники" loading="lazy">
+        <figcaption>Цифровая лаборатория «Доминанты»</figcaption>
+      </figure>
+      <ol class="cycle-steps">
+        <li><h3>Сканируем</h3><p>Томография и&nbsp;сканирование помогают создать цифровую модель челюсти.</p></li>
+        <li><h3>Планируем</h3><p>Врач использует модель, чтобы спланировать лечение.</p></li>
+        <li><h3>Изготавливаем</h3><p>Коронку или вкладку фрезеруем по&nbsp;цифровому проекту в&nbsp;клинике.</p></li>
+      </ol>
+    </div>
+    <div class="cycle-equipment"><strong>Оборудование клиники</strong><span>Sirona · CEREC · ASIGA · микроскоп · миограф · лазер</span></div>
+  </div>
+</section>
+
+<section id="team">
+  <div class="head"><div><p class="mono">Команда · 13 специалистов</p><h2>Команда признанных профессионалов</h2></div></div>
+  <div class="dfilter" id="doctor-filter" role="group" aria-label="Направление"></div>
+  <div class="rail" data-carousel data-list="doctors"></div>
+</section>
+
+<section>
+  <div class="head"><div><p class="mono">Сложные случаи</p><h2>Подходим к проблеме комплексно</h2></div><p class="muted" style="max-width:480px;font-weight:400" data-t="complex"></p></div>
+  <div class="g c2 duo">
+    <article class="card"><div class="pic" data-photo="dsd"></div><div class="txt"><p class="mono">Digital Smile Design</p><h3>Компьютерное моделирование улыбки</h3><p data-t="dsd"></p><a class="more" href="#">Узнать больше о DSD <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div></article>
+    <article class="card"><div class="pic" data-photo="tmj"></div><div class="txt"><p class="mono">ВНЧС</p><h3>Лечение дисфункции височно-нижнечелюстного сустава</h3><p data-t="tmj"></p><a class="more" href="#">Подробнее про ВНЧС <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div></article>
+  </div>
+  <div class="lounge" data-photo="lounge"><div class="card"><p class="mono">Атмосфера</p><h3>Домашняя обстановка и экспозиция древних зубов</h3><p data-t="lounge"></p></div></div>
+</section>
+
+<section id="problems">
+  <div class="head"><div><h2>Что вас беспокоит?</h2></div><span class="muted">Нажмите — откроется запись на нужное направление</span></div>
+  <div class="problem-grid" data-list="problems"></div>
+</section>
+
+<section id="visit" aria-labelledby="visit-heading">
+  <div class="card visit-panel">
+    <h2 id="visit-heading">Как проходит первый приём</h2>
+    <div class="visit-route"><img src="assets/img/lounge.jpg" alt="Холл клиники" loading="lazy"><div class="visit-steps" data-list="steps"></div></div>
+    <div class="visit-action">
+      <button type="button" class="btn" data-book="Запись на консультацию">Записаться на&nbsp;консультацию</button>
+    </div>
+  </div>
+</section>
+
+<section id="reviews">
+  <div class="head"><div><p class="mono">Отзывы</p><h2>Пациенты пишут нам от руки</h2></div><a class="more" href="#">Все отзывы <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div>
+  <div class="g c6 scans" data-list="reviews" data-limit="6"></div>
+  <div class="plat"><a href="#">Яндекс Карты</a><a href="#">2ГИС</a><a href="#">ПроДокторов</a></div>
+</section>
+
+<section>
+  <div class="head"><div><p class="mono">Оплата</p><h2>Улыбка сегодня — оплата потом</h2></div></div>
+  <div class="g money">
+    <div class="card"><p class="mono">Кредит</p><h3>Быстрое оформление в клинике</h3><p data-t="credit"></p>
+      <div class="three"><div><b>01</b>Консультация врача</div><div><b>02</b>План лечения</div><div><b>03</b>Паспорт РФ — и оформляем</div></div>
+      <div class="banklogos" data-list="bankLogos"></div><p style="font-size:14px">Вопросы по кредиту: <a class="more" href="tel:+73517009568">+7 351 700-95-68</a></p></div>
+    <div class="card"><p class="mono">ДМС и вычет</p><h3>Лечим по страховому полису</h3><p data-t="insurance"></p><p style="margin:12px 0 24px">Также поможем с документами на налоговый вычет.</p><button type="button" class="btn ink" data-book="Запись по ДМС">Записаться по ДМС</button></div>
+  </div>
+</section>
+
+<section>
+  <div class="head"><div><p class="mono">Журнал</p><h2>Полезные статьи</h2></div><a class="more" href="#">Все статьи <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div>
+  <div class="g c3 arts3" data-list="articles"></div>
+</section>
+
+<section>
+  <div class="faqrow">
+    <div class="head"><div><p class="mono">FAQ</p><h2>Частые вопросы</h2></div></div>
+    <div class="g faq" data-list="faq"></div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="g c2 contact">
+    <div class="card dark info"><p class="mono">Контакты</p><h2>Челябинск, Российская, 49</h2><a class="tel" data-phone></a>
+      <dl><dt>Режим</dt><dd>Ежедневно 9:00–20:00</dd><dt>На авто</dt><dd data-t="car"></dd><dt>Транспорт</dt><dd data-t="transit"></dd><dt>E-mail</dt><dd>info@dominanta74.ru</dd></dl></div>
+    <form class="card" data-booking>
+      <p class="mono">Запись</p><h3>Записаться на осмотр</h3>
+      <div class="pair">
+        <label>Имя<input type="text" name="name" required></label>
+        <label>Телефон<input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required></label>
+      </div>
+      <label>Что беспокоит<span class="sel"><select name="reason"><option>Нужен осмотр</option><option>Болит зуб</option><option>Имплантация или протезирование</option><option>Исправление прикуса</option><option>Запись ребёнка</option><option>Лечение по ДМС</option></select><svg class="ic" aria-hidden="true"><use href="#i-chevron-down"/></svg></span></label>
+      <label class="agree"><input type="checkbox" name="consent" required><span>Даю согласие на&nbsp;обработку моих персональных данных. Условия обработки описаны в&nbsp;<strong><a href="#">Политике конфиденциальности</a></strong> и&nbsp;<strong><a href="#">Политике в&nbsp;отношении обработки персональных данных</a></strong>.</span></label>
+      <label class="agree"><input type="checkbox" name="mailing"><span>Даю <a href="#">согласие на&nbsp;получение информационных и&nbsp;рекламных рассылок</a>.</span></label>
+      <button class="btn">Отправить заявку</button>
+    </form>
+  </div>
+</section>
+
+<footer><div class="card">
+  <div><img data-logo><p data-t="legal"></p><p style="margin-top:10px">© 2006–2026 ООО «Доминанта»</p></div>
+  <div><a href="#">О клинике</a><a href="#">Услуги</a><a href="#">Врачи</a><a href="#">Цены</a><a href="#">Акции</a><a href="#">Вакансии</a></div>
+  <div><a href="#">Отзывы</a><a href="#">Статьи</a><a href="#">Налоговый вычет</a><a href="#">Юридическая информация</a><a href="#">Политика конфиденциальности</a></div>
+  <p class="warn" data-t="warning"></p>
+</div></footer>
+</main>
+
+<dialog class="modal" data-booking-modal aria-labelledby="modal-title">
+  <button type="button" class="x" data-modal-close aria-label="Закрыть"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
+  <form class="card" data-booking>
+    <p class="mono">Запись</p>
+    <h3 id="modal-title" data-modal-title></h3>
+    <p class="note" data-modal-note></p>
+    <input type="hidden" name="service">
+    <div class="pair">
+      <label>Имя<input type="text" name="name" required></label>
+      <label>Телефон<input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required></label>
+    </div>
+    <label class="agree"><input type="checkbox" name="consent" required><span>Даю согласие на&nbsp;обработку моих персональных данных. Условия обработки описаны в&nbsp;<strong><a href="#">Политике конфиденциальности</a></strong> и&nbsp;<strong><a href="#">Политике в&nbsp;отношении обработки персональных данных</a></strong>.</span></label>
+    <label class="agree"><input type="checkbox" name="mailing"><span>Даю <a href="#">согласие на&nbsp;получение информационных и&nbsp;рекламных рассылок</a>.</span></label>
+    <button class="btn">Отправить заявку</button>
+  </form>
+</dialog>
+
+<script>
+const SERVICE_ICONS = ['diagnostics', 'gums', 'implant', 'prosthetics', 'tmj', 'smile', 'braces'];
+const pad = i => String(i + 1).padStart(2, '0');
+window.TPL = {
+  facts: f => `<div class="card"><b>${f.value}</b><span>${f.label}</span></div>`,
+  problems: p => `<button type="button" data-book="${p.to}" data-book-note="${p.title}"><strong>${p.title}</strong><span>${p.to}</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></button>`,
+  services: (s, i) => `<button class="card" type="button" data-book="${s.title}" data-service-icon-area><span class="ico" data-service-icon="${SERVICE_ICONS[i]}"></span><span class="mono">${pad(i)}</span><h3>${s.title}</h3><p>${s.text}</p></button>`,
+  doctors: d => `<article class="card doc" data-role="${d.role}">${d.video ? `<div class="media"><video data-autovideo src="${d.video}" poster="${d.poster}" muted loop playsinline preload="none" aria-label="${d.name}"></video><button type="button" class="vbtn" aria-label="Остановить видео"><svg class="ic" aria-hidden="true"><use href="#i-pause"/></svg><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg></button></div>` : `<img src="${d.photo}" alt="${d.name}" loading="lazy">`}<div><h3>${d.name}</h3><p>${d.role}</p><span class="mono">${d.exp ? 'Стаж ' + d.exp : 'Остеопатия'}</span></div></article>`,
+  steps: (s, i) => `<article><b>${pad(i)}</b><h3>${s.title}</h3><p>${s.text}</p></article>`,
+  reviews: r => `<figure class="card"><img src="${r.scan}" alt="Отзыв: ${r.name}" loading="lazy"><figcaption>${r.name}<span>${r.date}</span></figcaption></figure>`,
+  banks: b => `<span>${b}</span>`,
+  bankLogos: b => `<span><img src="assets/img/banks/${b.file}" alt="${b.name}" style="--h:${b.height}" loading="lazy"></span>`,
+  news: n => `<a href="#"><time>${n.date}</time><span>${n.title}</span></a>`,
+  articles: a => `<a class="card" href="#"><img src="${a.photo}" alt="" loading="lazy"><div><b>${a.title}</b><p>${a.text}</p></div></a>`,
+  faq: f => `<details><summary>${f.q}<span class="tg"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg><svg class="ic" aria-hidden="true"><use href="#i-minus"/></svg></span></summary><p>${f.a}</p></details>`
+};
+</script>
+<script src="assets/common.js"></script>
+<script src="assets/icons/service-icons.js"></script>
+<script>
+/* Doctors with video portraits go first in the carousel */
+DATA.doctors.sort((a, b) => Boolean(b.video) - Boolean(a.video));
+
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  window.ServiceIcons.mountAll();
+
+  /* Doctor filter by direction */
+  const GROUPS = [['Все', /./], ['Терапия', /терапевт|общей/i], ['Хирургия и имплантация', /хирург/i], ['Ортопедия', /ортопед/i], ['Ортодонтия', /ортодонт/i], ['Детям', /детский/i], ['Гигиена', /гигиенист/i], ['Остеопатия', /остеопат/i]];
+  const filter = document.getElementById('doctor-filter');
+  const rail = document.querySelector('.rail');
+  const cards = [...rail.querySelectorAll('.doc')];
+  filter.innerHTML = GROUPS
+    .map(([label, pattern], index) => [label, cards.filter(card => pattern.test(card.dataset.role)).length, index])
+    .filter(([, count]) => count)
+    .map(([label, count, index]) => `<button type="button" data-group="${index}" aria-pressed="${index ? 'false' : 'true'}">${label}<i>${count}</i></button>`)
+    .join('');
+  filter.addEventListener('click', event => {
+    const button = event.target.closest('button');
+    if (!button) return;
+    const pattern = GROUPS[button.dataset.group][1];
+    filter.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === button)));
+    cards.forEach(card => { card.hidden = !pattern.test(card.dataset.role); });
+    rail.scrollTo({ left: 0 });
+    rail.dispatchEvent(new Event('scroll'));
+  });
+
+  /* Pause / resume a video portrait */
+  rail.addEventListener('click', event => {
+    const button = event.target.closest('.vbtn');
+    if (!button) return;
+    const video = button.parentElement.querySelector('video');
+    const stop = !video.paused;
+    if (stop) { video.pause(); video.dataset.hold = '1'; } else { delete video.dataset.hold; video.play().catch(() => {}); }
+    button.classList.toggle('is-paused', stop);
+    button.setAttribute('aria-label', stop ? 'Включить видео' : 'Остановить видео');
+  });
+
+  document.querySelector('.serv').insertAdjacentHTML('beforeend', '<a class="card dark all" href="#problems"><h3>Что вас беспокоит?</h3><svg class="ic ic-xl" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>');
+});
+</script>
+</body>
+</html>
