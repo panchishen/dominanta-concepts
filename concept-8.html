@@ -412,6 +412,25 @@ section[id]{scroll-margin-top:90px}
 @media(max-width:1150px){header nav{display:none}header .bar{justify-content:space-between}.serv{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:800px){.hero,.visit-route{grid-template-columns:1fr}.hero>.ph{aspect-ratio:4/3;border-radius:var(--r)}.hero .facts{grid-template-columns:repeat(2,minmax(0,1fr))}.hero .facts .card:nth-child(n+3){border-top:1px solid var(--line)}}
 @media(max-width:540px){.serv{grid-template-columns:1fr}header img{height:auto;width:142px}header .btn{padding:12px 15px}.hero h1{overflow-wrap:anywhere}}
+
+/* Typography and surfaces inspired by Precise Radiology */
+body{font-size:16px;line-height:1.5;background:radial-gradient(ellipse 660px 560px at 100% 320px,#A9E2DD 0%,transparent 100%),var(--bg)}
+.hero::before{display:none}
+.hero h1{font-size:clamp(38px,6.15vw,96px);font-weight:400;line-height:.94;letter-spacing:-.055em}
+.concept-eight h2{font-size:clamp(30px,4vw,64px);font-weight:400;line-height:1.02;letter-spacing:-.046em}
+.concept-eight h3{font-weight:500;letter-spacing:-.025em}
+.hero p.lead,.cycle-intro,.digital-story>p,.clinic-about-copy p,.visit-steps p,.faq p{font-size:clamp(16px,1.4vw,20px);line-height:1.5}
+.btn,header .btn,.hero-actions .btn,form.card .btn{min-height:52px;padding:16px 24px;border-radius:100px;font-size:14px;font-weight:500;line-height:1.35}
+.hero-actions .btn{min-height:60px;padding:19px 26px;font-size:16px}
+.btn:focus-visible,.hero-actions .more:focus-visible{outline:2px solid var(--teal);outline-offset:4px}
+.hero-actions .more{display:inline-flex;align-items:center;gap:8px;min-height:60px;padding:16px 24px;border:1px solid currentColor;border-radius:100px;font-size:16px;font-weight:500}
+.hero-actions .more:hover{text-decoration:none;background:#ffffff80}
+header .bar{background:#ECEEF0E6;backdrop-filter:blur(14px);border-radius:100px;padding-inline:16px}
+.digital-story,.clinic-about-copy,.contact .info{background:radial-gradient(ellipse at 100% 0%,#00595A,transparent 78%),#141A1E}
+.cycle-panel,.visit-panel,.problem-grid button,.serv button.card{background:linear-gradient(145deg,#fff 50%,#E5F3F2 100%)}
+.problem-grid button:hover,.serv button.card:hover{background:linear-gradient(145deg,#fff,#A9E2DD)}
+.serv .all{background:linear-gradient(145deg,#00848A,#00595A)}
+@media(max-width:800px){.hero h1{font-size:clamp(36px,8vw,64px)}.hero-actions .btn,.hero-actions .more{min-height:52px;padding:14px 20px;font-size:14px}}
 </style>
 </head>
 <body>
@@ -436,7 +455,7 @@ section[id]{scroll-margin-top:90px}
 <main class="wrap concept-eight">
 <div class="hero">
   <div class="main">
-    <p class="mono">Семейная стоматология · Челябинск · Российская, 49</p>
+
     <h1>Технологичная стоматология. <em>Под компьютерным контролем</em></h1>
     <p class="lead">Полный цифровой цикл в одной клинике: 3D-диагностика, компьютерное планирование и собственная лаборатория. Лечим взрослых и детей.</p>
     <div class="hero-actions">
@@ -450,7 +469,7 @@ section[id]{scroll-margin-top:90px}
 </div>
 
 <section id="services">
-  <div class="head"><div><p class="mono">Услуги</p><h2>Инновация в каждой услуге</h2></div></div>
+  <div class="head"><div><h2>Инновация в каждой услуге</h2></div></div>
   <div class="g c4 serv" data-list="services"></div>
 </section>
 
@@ -512,18 +531,18 @@ section[id]{scroll-margin-top:90px}
 </section>
 
 <section id="team">
-  <div class="head"><div><p class="mono">Команда · 13 специалистов</p><h2>Команда признанных профессионалов</h2></div></div>
+  <div class="head"><div><h2>Команда признанных профессионалов</h2></div></div>
   <div class="dfilter" id="doctor-filter" role="group" aria-label="Направление"></div>
   <div class="rail" data-carousel data-list="doctors"></div>
 </section>
 
 <section>
-  <div class="head"><div><p class="mono">Сложные случаи</p><h2>Подходим к проблеме комплексно</h2></div><p class="muted" style="max-width:480px;font-weight:400" data-t="complex"></p></div>
+  <div class="head"><div><h2>Подходим к проблеме комплексно</h2></div><p class="muted" style="max-width:480px;font-weight:400" data-t="complex"></p></div>
   <div class="g c2 duo">
-    <article class="card"><div class="pic" data-photo="dsd"></div><div class="txt"><p class="mono">Digital Smile Design</p><h3>Компьютерное моделирование улыбки</h3><p data-t="dsd"></p><a class="more" href="#">Узнать больше о DSD <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div></article>
-    <article class="card"><div class="pic" data-photo="tmj"></div><div class="txt"><p class="mono">ВНЧС</p><h3>Лечение дисфункции височно-нижнечелюстного сустава</h3><p data-t="tmj"></p><a class="more" href="#">Подробнее про ВНЧС <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div></article>
+    <article class="card"><div class="pic" data-photo="dsd"></div><div class="txt"><h3>Компьютерное моделирование улыбки</h3><p data-t="dsd"></p><a class="more" href="#">Узнать больше о DSD <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div></article>
+    <article class="card"><div class="pic" data-photo="tmj"></div><div class="txt"><h3>Лечение дисфункции височно-нижнечелюстного сустава</h3><p data-t="tmj"></p><a class="more" href="#">Подробнее про ВНЧС <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div></article>
   </div>
-  <div class="lounge" data-photo="lounge"><div class="card"><p class="mono">Атмосфера</p><h3>Домашняя обстановка и экспозиция древних зубов</h3><p data-t="lounge"></p></div></div>
+  <div class="lounge" data-photo="lounge"><div class="card"><h3>Домашняя обстановка и экспозиция древних зубов</h3><p data-t="lounge"></p></div></div>
 </section>
 
 <section id="problems">
@@ -542,39 +561,39 @@ section[id]{scroll-margin-top:90px}
 </section>
 
 <section id="reviews">
-  <div class="head"><div><p class="mono">Отзывы</p><h2>Пациенты пишут нам от руки</h2></div><a class="more" href="#">Все отзывы <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div>
+  <div class="head"><div><h2>Пациенты пишут нам от руки</h2></div><a class="more" href="#">Все отзывы <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div>
   <div class="g c6 scans" data-list="reviews" data-limit="6"></div>
   <div class="plat"><a href="#">Яндекс Карты</a><a href="#">2ГИС</a><a href="#">ПроДокторов</a></div>
 </section>
 
 <section>
-  <div class="head"><div><p class="mono">Оплата</p><h2>Улыбка сегодня — оплата потом</h2></div></div>
+  <div class="head"><div><h2>Улыбка сегодня — оплата потом</h2></div></div>
   <div class="g money">
-    <div class="card"><p class="mono">Кредит</p><h3>Быстрое оформление в клинике</h3><p data-t="credit"></p>
+    <div class="card"><h3>Кредит в&nbsp;клинике</h3><p data-t="credit"></p>
       <div class="three"><div><b>01</b>Консультация врача</div><div><b>02</b>План лечения</div><div><b>03</b>Паспорт РФ — и оформляем</div></div>
       <div class="banklogos" data-list="bankLogos"></div><p style="font-size:14px">Вопросы по кредиту: <a class="more" href="tel:+73517009568">+7 351 700-95-68</a></p></div>
-    <div class="card"><p class="mono">ДМС и вычет</p><h3>Лечим по страховому полису</h3><p data-t="insurance"></p><p style="margin:12px 0 24px">Также поможем с документами на налоговый вычет.</p><button type="button" class="btn ink" data-book="Запись по ДМС">Записаться по ДМС</button></div>
+    <div class="card"><h3>Лечим по страховому полису</h3><p data-t="insurance"></p><p style="margin:12px 0 24px">Также поможем с документами на налоговый вычет.</p><button type="button" class="btn ink" data-book="Запись по ДМС">Записаться по ДМС</button></div>
   </div>
 </section>
 
 <section>
-  <div class="head"><div><p class="mono">Журнал</p><h2>Полезные статьи</h2></div><a class="more" href="#">Все статьи <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div>
+  <div class="head"><div><h2>Полезные статьи</h2></div><a class="more" href="#">Все статьи <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div>
   <div class="g c3 arts3" data-list="articles"></div>
 </section>
 
 <section>
   <div class="faqrow">
-    <div class="head"><div><p class="mono">FAQ</p><h2>Частые вопросы</h2></div></div>
+    <div class="head"><div><h2>Частые вопросы</h2></div></div>
     <div class="g faq" data-list="faq"></div>
   </div>
 </section>
 
 <section id="contact">
   <div class="g c2 contact">
-    <div class="card dark info"><p class="mono">Контакты</p><h2>Челябинск, Российская, 49</h2><a class="tel" data-phone></a>
+    <div class="card dark info"><h2>Челябинск, Российская, 49</h2><a class="tel" data-phone></a>
       <dl><dt>Режим</dt><dd>Ежедневно 9:00–20:00</dd><dt>На авто</dt><dd data-t="car"></dd><dt>Транспорт</dt><dd data-t="transit"></dd><dt>E-mail</dt><dd>info@dominanta74.ru</dd></dl></div>
     <form class="card" data-booking>
-      <p class="mono">Запись</p><h3>Записаться на осмотр</h3>
+      <h3>Записаться на осмотр</h3>
       <div class="pair">
         <label>Имя<input type="text" name="name" required></label>
         <label>Телефон<input type="tel" name="phone" placeholder="+7 (___) ___-__-__" required></label>
@@ -598,7 +617,7 @@ section[id]{scroll-margin-top:90px}
 <dialog class="modal" data-booking-modal aria-labelledby="modal-title">
   <button type="button" class="x" data-modal-close aria-label="Закрыть"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
   <form class="card" data-booking>
-    <p class="mono">Запись</p>
+
     <h3 id="modal-title" data-modal-title></h3>
     <p class="note" data-modal-note></p>
     <input type="hidden" name="service">
@@ -618,7 +637,7 @@ const pad = i => String(i + 1).padStart(2, '0');
 window.TPL = {
   facts: f => `<div class="card"><b>${f.value}</b><span>${f.label}</span></div>`,
   problems: p => `<button type="button" data-book="${p.to}" data-book-note="${p.title}"><strong>${p.title}</strong><span>${p.to}</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></button>`,
-  services: (s, i) => `<button class="card" type="button" data-book="${s.title}" data-service-icon-area><span class="ico" data-service-icon="${SERVICE_ICONS[i]}"></span><span class="mono">${pad(i)}</span><h3>${s.title}</h3><p>${s.text}</p></button>`,
+  services: (s, i) => `<button class="card" type="button" data-book="${s.title}" data-service-icon-area><span class="ico" data-service-icon="${SERVICE_ICONS[i]}"></span><h3>${s.title}</h3><p>${s.text}</p></button>`,
   doctors: d => `<article class="card doc" data-role="${d.role}">${d.video ? `<div class="media"><video data-autovideo src="${d.video}" poster="${d.poster}" muted loop playsinline preload="none" aria-label="${d.name}"></video><button type="button" class="vbtn" aria-label="Остановить видео"><svg class="ic" aria-hidden="true"><use href="#i-pause"/></svg><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg></button></div>` : `<img src="${d.photo}" alt="${d.name}" loading="lazy">`}<div><h3>${d.name}</h3><p>${d.role}</p><span class="mono">${d.exp ? 'Стаж ' + d.exp : 'Остеопатия'}</span></div></article>`,
   steps: (s, i) => `<article><b>${pad(i)}</b><h3>${s.title}</h3><p>${s.text}</p></article>`,
   reviews: r => `<figure class="card"><img src="${r.scan}" alt="Отзыв: ${r.name}" loading="lazy"><figcaption>${r.name}<span>${r.date}</span></figcaption></figure>`,
