@@ -376,7 +376,16 @@ section[id]{scroll-margin-top:90px}
 .concept-eight section{padding-top:clamp(65px,8vw,130px)}
 .concept-eight h2{font-weight:500;letter-spacing:-.043em}
 .hero{position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.85fr);gap:28px;align-items:center;padding:clamp(40px,7vw,110px) 0 0}
-.hero::before{content:"";position:absolute;z-index:-1;inset:0 -24px 64px;background:radial-gradient(ellipse at 91% 38%,#A9E2DD 0%,transparent 62%);pointer-events:none}
+.hero::before{
+  content:"";
+  position:absolute;
+  z-index:-2;
+  inset:0 0 auto;
+  height:min(760px,85%);
+  background:radial-gradient(ellipse 58% 108% at 50% 0%,#A9E2DD 0%,#A9E2DD66 48%,transparent 100%);
+  mask-image:linear-gradient(to bottom,#000,transparent);
+  pointer-events:none;
+}
 .hero .main{padding:0;min-height:0;display:block}
 .hero .main>.mono{color:#515C64}
 .hero h1{font-size:clamp(40px,5.5vw,88px);line-height:1.01;letter-spacing:-.052em;margin:20px 0 26px}
@@ -414,7 +423,6 @@ section[id]{scroll-margin-top:90px}
 
 /* Typography and surfaces inspired by Precise Radiology */
 body{font-size:16px;line-height:1.5;background:radial-gradient(ellipse 660px 560px at 100% 320px,#A9E2DD 0%,transparent 100%),var(--bg)}
-.hero::before{display:none}
 .hero h1{font-size:clamp(38px,6.15vw,96px);font-weight:400;line-height:.94;letter-spacing:-.055em}
 .concept-eight h2{font-size:clamp(30px,4vw,64px);font-weight:400;line-height:1.02;letter-spacing:-.046em}
 .concept-eight h3{font-weight:500;letter-spacing:-.025em}
@@ -445,7 +453,7 @@ header nav a{font-weight:400}
 .hero-actions .btn{min-height:72px;font-size:16px;padding:24px 30px}
 .hero-actions .btn::before,.faq summary::after{content:"";width:18px;height:18px;flex:none;background:radial-gradient(circle,currentColor 1.25px,transparent 1.8px) center 1px/6px 6px no-repeat,radial-gradient(circle,currentColor 1.25px,transparent 1.8px) center bottom/6px 6px no-repeat,radial-gradient(circle,currentColor 1.25px,transparent 1.8px) left center/6px 6px no-repeat,radial-gradient(circle,currentColor 1.25px,transparent 1.8px) right center/6px 6px no-repeat}
 .hero>.ph{width:min(100%,1120px);aspect-ratio:2/1;margin:clamp(80px,12vw,190px) auto 0;border-radius:32px}
-.hero::after{content:"";position:absolute;z-index:-1;inset:39% 0 70px;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cpath d='M45 32v26M32 45h26' stroke='%2300848A' stroke-opacity='.19'/%3E%3C/svg%3E");mask-image:linear-gradient(transparent,#000 35%,#000 80%,transparent)}
+.hero::after{content:"";position:absolute;z-index:-1;inset:12px 0 70px;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cpath d='M45 32v26M32 45h26' stroke='%2300848A' stroke-opacity='.19'/%3E%3C/svg%3E");mask-image:linear-gradient(transparent,#000 12%,#000 78%,transparent)}
 .hero .facts{margin-top:20px}
 .arts3{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none}
 .arts3 .article-slide{position:relative;display:flex;align-items:end;flex:1 0 0;min-width:0;min-height:clamp(310px,33vw,465px);overflow:hidden;isolation:isolate;border:0;border-radius:30px;background:#141A1E;color:#fff;font:inherit;text-align:left;cursor:pointer;scroll-snap-align:center;transition:flex-grow .35s ease}
