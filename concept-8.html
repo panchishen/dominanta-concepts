@@ -504,16 +504,28 @@ main .car-nav button:focus-visible, main .article-controls button:focus-visible{
 .contact dt{color:#515C64}
 .contact dd{margin:0;overflow-wrap:anywhere}
 .serv .all{background:linear-gradient(145deg,#D9F0EE,#A9E2DD);color:#00595A}
-@keyframes eight-rule{from{scale:0 1}to{scale:1 1}}
-@keyframes eight-photo-settle{from{scale:.97;opacity:.72}to{scale:1;opacity:1}}
+/* Entrance effects run once, when the element reaches the viewport. */
+@keyframes eight-type-reveal {
+  from { clip-path: inset(100% -8px -8px); translate: 0 22px; }
+  to { clip-path: inset(-8px); translate: 0 0; }
+}
+@keyframes eight-photo-reveal {
+  from { clip-path: inset(0 100% 0 0 round 22px); }
+  to { clip-path: inset(0 round 22px); }
+}
+@keyframes eight-card-reveal {
+  from { opacity: 0; translate: 0 24px; }
+  to { opacity: 1; translate: 0 0; }
+}
 @media(prefers-reduced-motion:no-preference){
-  .eight-heading-mark{position:relative}
-  .eight-heading-mark::after{
-    content:"";position:absolute;left:0;bottom:-9px;width:40px;height:2px;
-    background:var(--teal);transform-origin:left;pointer-events:none;
-    animation:eight-rule .6s var(--ease-out,cubic-bezier(.23,1,.32,1)) both;
+  [data-eight-motion]:not(.eight-visible):not(:focus-within) { opacity: 0; }
+  .eight-visible:not(:focus-within) {
+    animation: var(--eight-animation) var(--eight-duration,600ms)
+      var(--ease-out,cubic-bezier(.23,1,.32,1)) var(--eight-delay,0ms) both;
   }
-  .eight-photo-settle{animation:eight-photo-settle .6s var(--ease-out,cubic-bezier(.23,1,.32,1))}
+  [data-eight-motion="heading"] { --eight-animation: eight-type-reveal; }
+  [data-eight-motion="photo"] { --eight-animation: eight-photo-reveal; }
+  [data-eight-motion="card"] { --eight-animation: eight-card-reveal; --eight-duration: 400ms; }
 }
 .hero>.ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 46%}
 @media(max-width:540px){.hero>.ph{aspect-ratio:4/3}}
@@ -818,18 +830,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (window.self === window.top && 'IntersectionObserver' in window &&
       !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const photoSelector = '.clinic-about-intro > img, .cycle-photo img, .visit-route > img';
+    const motionGroups = {
+      heading: 'main section h2',
+      photo: '.hero > .ph, .clinic-about-intro > img, .cycle-photo, .visit-route > img',
+      card: '.serv > .card, .clinic-about-facts > article, .problem-grid > button, .scans > figure'
+    };
     const observer = new IntersectionObserver(entries => {
       for (const entry of entries) {
         if (!entry.isIntersecting) continue;
-        entry.target.classList.add(entry.target.matches(photoSelector) ? 'eight-photo-settle' : 'eight-heading-mark');
+        entry.target.classList.add('eight-visible');
         observer.unobserve(entry.target);
       }
-    }, {rootMargin: '0px 0px -16% 0px'});
-    document.querySelectorAll('main section:not(#contact) .head h2:not(.faqrow h2), ' + photoSelector)
-      .forEach(element => {
-        if (element.getBoundingClientRect().top >= window.innerHeight) observer.observe(element);
-      });
+    }, { rootMargin: '0px 0px -4% 0px' });
+
+    for (const [type, selector] of Object.entries(motionGroups)) {
+      for (const element of document.querySelectorAll(selector)) {
+        if (element.getBoundingClientRect().top < innerHeight) continue;
+        element.dataset.eightMotion = type;
+        if (type === 'card') {
+          const index = [...element.parentElement.children].indexOf(element);
+          element.style.setProperty('--eight-delay', Math.min(index % 4, 3) * 50 + 'ms');
+        }
+        const finish = () => {
+          observer.unobserve(element);
+          delete element.dataset.eightMotion;
+          element.classList.remove('eight-visible');
+          element.style.removeProperty('--eight-delay');
+          element.removeEventListener('animationend', finish);
+          element.removeEventListener('focusin', finish);
+        };
+        element.addEventListener('animationend', finish);
+        element.addEventListener('focusin', finish);
+        observer.observe(element);
+      }
+    }
   }
 
   const slides = [...document.querySelectorAll('.article-slide')];
