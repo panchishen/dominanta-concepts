@@ -504,11 +504,16 @@ main .car-nav button:focus-visible, main .article-controls button:focus-visible{
 .contact dt{color:#515C64}
 .contact dd{margin:0;overflow-wrap:anywhere}
 .serv .all{background:linear-gradient(145deg,#D9F0EE,#A9E2DD);color:#00595A}
-@keyframes concept-eight-rise{from{opacity:.15;translate:0 16px}to{opacity:1;translate:0 0}}
-@keyframes concept-eight-image{from{clip-path:inset(0 0 12% 0 round 20px);opacity:.4}to{clip-path:inset(0 0 0 0);opacity:1}}
+@keyframes eight-rule{from{scale:0 1}to{scale:1 1}}
+@keyframes eight-photo-settle{from{scale:.97;opacity:.72}to{scale:1;opacity:1}}
 @media(prefers-reduced-motion:no-preference){
- .eight-rise{animation:concept-eight-rise .6s cubic-bezier(.23,1,.32,1) both}
- .eight-image{animation:concept-eight-image .6s cubic-bezier(.23,1,.32,1) both}
+  .eight-heading-mark{position:relative}
+  .eight-heading-mark::after{
+    content:"";position:absolute;left:0;bottom:-9px;width:40px;height:2px;
+    background:var(--teal);transform-origin:left;pointer-events:none;
+    animation:eight-rule .6s var(--ease-out,cubic-bezier(.23,1,.32,1)) both;
+  }
+  .eight-photo-settle{animation:eight-photo-settle .6s var(--ease-out,cubic-bezier(.23,1,.32,1))}
 }
 .hero>.ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 46%}
 @media(max-width:540px){.hero>.ph{aspect-ratio:4/3}}
@@ -813,17 +818,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (window.self === window.top && 'IntersectionObserver' in window &&
       !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const photoSelector = '.hero > .ph, .clinic-about-intro > img, .cycle-photo, .visit-route > img';
+    const photoSelector = '.clinic-about-intro > img, .cycle-photo img, .visit-route > img';
     const observer = new IntersectionObserver(entries => {
       for (const entry of entries) {
         if (!entry.isIntersecting) continue;
-        entry.target.classList.add(entry.target.matches(photoSelector) ? 'eight-image' : 'eight-rise');
+        entry.target.classList.add(entry.target.matches(photoSelector) ? 'eight-photo-settle' : 'eight-heading-mark');
         observer.unobserve(entry.target);
       }
     }, {rootMargin: '0px 0px -16% 0px'});
-    document.querySelectorAll('main h2, .hero h1, ' + photoSelector)
+    document.querySelectorAll('main section:not(#contact) .head h2:not(.faqrow h2), ' + photoSelector)
       .forEach(element => {
-        if (element.getBoundingClientRect().top >= 0) observer.observe(element);
+        if (element.getBoundingClientRect().top >= window.innerHeight) observer.observe(element);
       });
   }
 
