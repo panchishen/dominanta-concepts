@@ -498,6 +498,62 @@ header nav a{font-weight:400}
 }
 .hero>.ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 46%}
 @media(max-width:540px){.hero>.ph{aspect-ratio:4/3}}
+
+/* Shared spacing and type hierarchy for concept 8 */
+:root {
+  --section-space: clamp(64px, 7vw, 112px);
+  --panel-space: clamp(24px, 3vw, 48px);
+  --heading-space: clamp(22px, 2.5vw, 36px);
+}
+.concept-eight section { padding-top: var(--section-space); }
+.concept-eight .head { gap: 16px 32px; margin-bottom: var(--heading-space); }
+.concept-eight .head h2 { margin: 0; }
+.concept-eight h3,
+.article-copy strong {
+  font-size: clamp(20px, 1.65vw, 26px);
+  line-height: 1.2;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+}
+.concept-eight h2 { text-wrap: balance; }
+.digital-story, .clinic-about-copy, .cycle-panel, .visit-panel,
+.contact .info, .money .card, form.card { padding: var(--panel-space); }
+.digital-story > p, .clinic-about-copy p, .cycle-intro { margin: 12px 0 28px; }
+.digital-steps h3, .clinic-about-facts h3, .visit-steps h3,
+.cycle-steps h3, .money h3, .lounge h3 { margin: 0 0 8px; }
+.digital-steps p, .clinic-about-facts p, .cycle-steps p, .visit-steps p,
+.lounge p, .doc p, .money p { font-size: 16px; line-height: 1.5; }
+.digital-steps { row-gap: 20px; }
+.clinic-about-facts article { min-height: 0; }
+.clinic-about-facts article::before { content: none; }
+.visit-route { margin-top: var(--heading-space); }
+.dfilter { margin: 0 0 18px; padding: 0; }
+.dfilter button, .plat a { min-height: 44px; font-size: 14px; font-weight: 500; }
+.dfilter button[aria-pressed=true] { background: #00595A; }
+.dfilter button[aria-pressed=true] i { background: #ffffff24; color: #fff; }
+.doc .mono { margin-top: 12px; padding: 0; background: none; color: var(--muted); }
+.doc p { min-height: 0; }
+.doc .media { padding: 0; }
+.article-copy > span { margin-top: 8px; }
+.article-controls { margin-top: 18px; }
+.faqrow .head { gap: 24px; margin: 0; }
+.faqrow .faq summary { min-height: 44px; }
+.faqrow .faq p { margin-top: 8px; }
+.contact .tel { font-size: min(8.4cqw, 46px); margin-bottom: 24px; }
+.contact dl { row-gap: 12px; }
+form.card h3 { margin: 0; }
+form.card label { text-transform: none; font-size: 14px; }
+form.card .agree { margin-top: 12px; }
+form.card .agree + .btn { margin-top: 24px; }
+form.card input[type=text], form.card input[type=tel], form.card select {
+  margin-top: 6px; padding-block: 14px; font-size: 16px;
+}
+@media(max-width:540px) {
+  .concept-eight .head { align-items: start; }
+  .digital-steps { grid-template-columns: 1fr; }
+  .cycle-layout { grid-template-columns: minmax(0,1fr); }
+  .cycle-photo { width: 100%; min-width: 0; }
+}
 </style>
 </head>
 <body data-custom-reveal>
@@ -536,7 +592,7 @@ header nav a{font-weight:400}
 </div>
 
 <section id="services">
-  <div class="head"><div><h2>Инновация в каждой услуге</h2></div></div>
+  <div class="head"><div><h2>Инновация в&nbsp;каждой услуге</h2></div></div>
   <div class="g c4 serv" data-list="services"></div>
 </section>
 
@@ -604,7 +660,7 @@ header nav a{font-weight:400}
 </section>
 
 <section>
-  <div class="head"><div><h2>Подходим к проблеме комплексно</h2></div><p class="muted" style="max-width:480px;font-weight:400" data-t="complex"></p></div>
+  <div class="head"><div><h2>Подходим к&nbsp;проблеме комплексно</h2></div><p class="muted" style="max-width:480px;font-weight:400" data-t="complex"></p></div>
   <div class="g c2 duo">
     <article class="card"><div class="pic" data-photo="dsd"></div><div class="txt"><h3>Компьютерное моделирование улыбки</h3><p data-t="dsd"></p><a class="more" href="#">Узнать больше о DSD <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div></article>
     <article class="card"><div class="pic" data-photo="tmj"></div><div class="txt"><h3>Лечение дисфункции височно-нижнечелюстного сустава</h3><p data-t="tmj"></p><a class="more" href="#">Подробнее про ВНЧС <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div></article>
@@ -628,7 +684,7 @@ header nav a{font-weight:400}
 </section>
 
 <section id="reviews">
-  <div class="head"><div><h2>Пациенты пишут нам от руки</h2></div><a class="more" href="#">Все отзывы <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div>
+  <div class="head"><div><h2>Пациенты пишут нам от&nbsp;руки</h2></div></div>
   <div class="g c6 scans" data-list="reviews" data-limit="6"></div>
   <div class="plat"><a href="#">Яндекс Карты</a><a href="#">2ГИС</a><a href="#">ПроДокторов</a></div>
 </section>
@@ -644,7 +700,7 @@ header nav a{font-weight:400}
 </section>
 
 <section>
-  <div class="head"><div><h2>Полезные статьи</h2></div><a class="more" href="#">Все статьи <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div>
+  <div class="head"><div><h2>Полезные статьи</h2></div></div>
   <div class="arts3" data-list="articles"></div>
   <div class="article-controls" aria-label="Листание статей">
     <button type="button" data-article-step="-1" aria-label="Предыдущая статья">‹</button>
