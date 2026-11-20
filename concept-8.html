@@ -830,39 +830,57 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (window.self === window.top && 'IntersectionObserver' in window &&
       !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const motionGroups = {
-      heading: 'main section h2',
-      photo: '.hero > .ph, .clinic-about-intro > img, .cycle-photo, .visit-route > img',
-      card: '.serv > .card, .clinic-about-facts > article, .problem-grid > button, .scans > figure'
-    };
     const observer = new IntersectionObserver(entries => {
       for (const entry of entries) {
         if (!entry.isIntersecting) continue;
-        entry.target.classList.add('eight-visible');
-        observer.unobserve(entry.target);
+        startMotion(entry.target);
       }
-    }, { rootMargin: '0px 0px -4% 0px' });
+    });
 
-    for (const [type, selector] of Object.entries(motionGroups)) {
-      for (const element of document.querySelectorAll(selector)) {
-        if (element.getBoundingClientRect().top < innerHeight) continue;
-        element.dataset.eightMotion = type;
-        if (type === 'card') {
-          const index = [...element.parentElement.children].indexOf(element);
-          element.style.setProperty('--eight-delay', Math.min(index % 4, 3) * 50 + 'ms');
-        }
-        const finish = () => {
-          observer.unobserve(element);
-          delete element.dataset.eightMotion;
-          element.classList.remove('eight-visible');
-          element.style.removeProperty('--eight-delay');
-          element.removeEventListener('animationend', finish);
-          element.removeEventListener('focusin', finish);
-        };
-        element.addEventListener('animationend', finish);
-        element.addEventListener('focusin', finish);
-        observer.observe(element);
-      }
+    function startMotion(element) {
+      observer.unobserve(element);
+      element.classList.add('eight-visible');
+    }
+
+    function prepareMotion(element, type, delay) {
+      element.dataset.eightMotion = type;
+      element.style.setProperty('--eight-delay', delay + 'ms');
+      const finish = event => {
+        if (event.type === 'animationend' && event.target !== element) return;
+        observer.unobserve(element);
+        delete element.dataset.eightMotion;
+        element.classList.remove('eight-visible');
+        element.style.removeProperty('--eight-delay');
+        element.removeEventListener('animationend', finish);
+        element.removeEventListener('focusin', finish);
+      };
+      element.addEventListener('animationend', finish);
+      element.addEventListener('focusin', finish);
+      if (element.getBoundingClientRect().top < innerHeight) startMotion(element);
+      else observer.observe(element);
+    }
+
+    const hero = document.querySelector('.hero');
+    const heroParts = [
+      [hero.querySelector('h1'), 'heading'],
+      [hero.querySelector('.lead'), 'card'],
+      [hero.querySelector('.hero-actions'), 'card'],
+      [hero.querySelector('.next'), 'card'],
+      [hero.querySelector('.ph'), 'photo'],
+      ...[...hero.querySelectorAll('.facts > *')].map(element => [element, 'card'])
+    ];
+    heroParts.forEach(([element, type], index) => prepareMotion(element, type, Math.min(index, 6) * 60));
+
+    const headlineSelector = 'h2, h3, .head > .muted';
+    const pictureSelector = '.digital-portrait, .clinic-about-intro > img, .cycle-photo, .visit-route > img, .lounge';
+    const groupSelector = '.serv > *, .clinic-about-facts > *, .doc, .duo > *, .problem-grid > *, .visit-steps > *, .scans > *, .plat, .money > *, .arts3, .faq details, .contact > *, .cycle-steps > *, .cycle-equipment, .dfilter';
+    for (const section of document.querySelectorAll('main > section')) {
+      const targets = [...section.querySelectorAll(headlineSelector + ', ' + pictureSelector + ', ' + groupSelector)];
+      targets.forEach((element, index) => {
+        const type = element.matches(pictureSelector) ? 'photo' : element.matches(headlineSelector) ? 'heading' : 'card';
+        const delay = type === 'card' ? (index % 4) * 50 : 0;
+        prepareMotion(element, type, delay);
+      });
     }
   }
 
