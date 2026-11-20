@@ -431,6 +431,49 @@ header .bar{background:#ECEEF0E6;backdrop-filter:blur(14px);border-radius:100px;
 .problem-grid button:hover,.serv button.card:hover{background:linear-gradient(145deg,#fff,#A9E2DD)}
 .serv .all{background:linear-gradient(145deg,#00848A,#00595A)}
 @media(max-width:800px){.hero h1{font-size:clamp(36px,8vw,64px)}.hero-actions .btn,.hero-actions .more{min-height:52px;padding:14px 20px;font-size:14px}}
+
+/* Centered hero, photo carousel and shared FAQ surface */
+body{background:radial-gradient(ellipse 80% 700px at 0% 34%,#A9E2DD 0%,transparent 96%),radial-gradient(ellipse 70% 780px at 100% 73%,#A9E2DD 0%,transparent 95%),var(--bg)}
+header .bar{position:relative;background:transparent;justify-content:space-between}
+header nav{flex:0 1 auto;padding:12px 18px}
+header nav a{font-weight:400}
+.hero{display:grid;grid-template-columns:minmax(0,1fr);text-align:center;padding-top:clamp(54px,7vw,104px);gap:0}
+.hero .main{max-width:1120px;margin-inline:auto}
+.hero h1{font-size:clamp(38px,6.2vw,96px);text-wrap:balance;margin:0 0 30px}
+.hero h1 em{color:inherit}
+.hero p.lead{max-width:780px;margin:auto;font-size:16px}
+.hero-actions,.hero .next{justify-content:center}
+.hero-actions .btn{min-height:72px;font-size:16px;padding:24px 30px}
+.hero-actions .btn::before,.faq summary::after{content:"";width:18px;height:18px;flex:none;background:radial-gradient(circle,currentColor 1.25px,transparent 1.8px) center 1px/6px 6px no-repeat,radial-gradient(circle,currentColor 1.25px,transparent 1.8px) center bottom/6px 6px no-repeat,radial-gradient(circle,currentColor 1.25px,transparent 1.8px) left center/6px 6px no-repeat,radial-gradient(circle,currentColor 1.25px,transparent 1.8px) right center/6px 6px no-repeat}
+.hero>.ph{width:min(100%,820px);aspect-ratio:16/9;margin:clamp(80px,12vw,190px) auto 0;border-radius:32px}
+.hero::after{content:"";position:absolute;z-index:-1;inset:39% 0 70px;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cpath d='M45 32v26M32 45h26' stroke='%2300848A' stroke-opacity='.19'/%3E%3C/svg%3E");mask-image:linear-gradient(transparent,#000 35%,#000 80%,transparent)}
+.hero .facts{margin-top:20px}
+.arts3{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none}
+.arts3 .article-slide{position:relative;display:flex;align-items:end;flex:1 0 0;min-width:0;min-height:clamp(310px,33vw,465px);overflow:hidden;isolation:isolate;border:0;border-radius:30px;background:#141A1E;color:#fff;font:inherit;text-align:left;cursor:pointer;scroll-snap-align:center;transition:flex-grow .35s ease}
+.arts3 .article-slide[aria-pressed=true]{flex-grow:2.08}
+.arts3 .article-slide img{position:absolute;inset:0;width:100%;height:100%;border-radius:0;z-index:-2}
+.article-slide::before{content:"";position:absolute;inset:0;background:linear-gradient(transparent 25%,#141A1EEE);z-index:-1}
+.article-copy{display:block;padding:24px}
+.article-copy strong{display:block;font-size:clamp(19px,2vw,32px);font-weight:400;line-height:1.1}
+.article-copy>span{display:none;margin-top:14px;max-width:36ch}
+.article-slide[aria-pressed=true] .article-copy>span{display:block}
+.article-controls{display:flex;justify-content:center;gap:8px;margin-top:24px}
+.article-controls button{height:56px;width:56px;border:0;border-radius:50%;background:#fff;color:var(--teal);font:inherit;font-size:25px;cursor:pointer}
+.article-slide:focus-visible,.article-controls button:focus-visible{outline:2px solid var(--teal);outline-offset:-4px}
+.faqrow{grid-template-columns:minmax(190px,1fr) minmax(0,3.5fr);align-items:stretch;gap:clamp(32px,6vw,100px);background:#fff;border-radius:32px;padding:clamp(24px,4vw,64px)}
+.faqrow .head{position:static;display:flex;flex-direction:column;align-items:start;justify-content:space-between;border-right:1px solid var(--line);padding:0 20px 0 0;margin:0}
+.faqrow .head h2{font-size:16px;font-weight:500;letter-spacing:0}
+.faqrow .head .btn{border:1px solid var(--ink);background:transparent}
+.faqrow .faq{gap:0}
+.faqrow .faq details{border-radius:0;padding:24px 0;border-bottom:1px solid var(--line);background:none}
+.faqrow .faq details:first-child{padding-top:0}
+.faqrow .faq details:last-child{border-bottom:0}
+.faqrow .faq summary{font-size:clamp(20px,2vw,30px);font-weight:400;align-items:center}
+.faqrow .faq summary::after{color:var(--ink)}
+.faqrow .faq details[open] summary::after{color:var(--teal);rotate:45deg}
+.faqrow .faq .tg{display:none}
+@media(max-width:800px){.arts3 .article-slide{flex:0 0 82%}.faqrow{grid-template-columns:1fr;gap:24px}.faqrow .head{border:0;gap:16px}.hero-actions .btn{min-height:60px;padding:16px 22px}}
+@media(prefers-reduced-motion:reduce){.arts3 .article-slide{transition:none}}
 </style>
 </head>
 <body>
@@ -460,7 +503,7 @@ header .bar{background:#ECEEF0E6;backdrop-filter:blur(14px);border-radius:100px;
     <p class="lead">Полный цифровой цикл в одной клинике: 3D-диагностика, компьютерное планирование и собственная лаборатория. Лечим взрослых и детей.</p>
     <div class="hero-actions">
       <button type="button" class="btn" data-book="Запись на консультацию">Записаться на&nbsp;консультацию</button>
-      <a class="more" href="#services">Услуги <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+
     </div>
     <p class="next"><svg class="ic" aria-hidden="true"><use href="#i-calendar-check"/></svg><span>Первичная консультация — <b>1&nbsp;759&nbsp;₽</b>: осмотр и&nbsp;план лечения с&nbsp;ценой</span></p>
   </div>
@@ -578,12 +621,16 @@ header .bar{background:#ECEEF0E6;backdrop-filter:blur(14px);border-radius:100px;
 
 <section>
   <div class="head"><div><h2>Полезные статьи</h2></div><a class="more" href="#">Все статьи <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div>
-  <div class="g c3 arts3" data-list="articles"></div>
+  <div class="arts3" data-list="articles"></div>
+  <div class="article-controls" aria-label="Листание статей">
+    <button type="button" data-article-step="-1" aria-label="Предыдущая статья">‹</button>
+    <button type="button" data-article-step="1" aria-label="Следующая статья">›</button>
+  </div>
 </section>
 
 <section>
   <div class="faqrow">
-    <div class="head"><div><h2>Частые вопросы</h2></div></div>
+    <div class="head"><h2>Частые вопросы</h2><a class="btn soft" href="#contact">Связаться с&nbsp;клиникой</a></div>
     <div class="g faq" data-list="faq"></div>
   </div>
 </section>
@@ -644,7 +691,7 @@ window.TPL = {
   banks: b => `<span>${b}</span>`,
   bankLogos: b => `<span><img src="assets/img/banks/${b.file}" alt="${b.name}" style="--h:${b.height}" loading="lazy"></span>`,
   news: n => `<a href="#"><time>${n.date}</time><span>${n.title}</span></a>`,
-  articles: a => `<a class="card" href="#"><img src="${a.photo}" alt="" loading="lazy"><div><b>${a.title}</b><p>${a.text}</p></div></a>`,
+  articles: a => `<button type="button" class="article-slide" aria-pressed="false"><img src="${a.photo}" alt="" loading="lazy"><span class="article-copy"><strong>${a.title}</strong><span>${a.text}</span></span></button>`,
   faq: f => `<details><summary>${f.q}<span class="tg"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg><svg class="ic" aria-hidden="true"><use href="#i-minus"/></svg></span></summary><p>${f.a}</p></details>`
 };
 </script>
@@ -658,6 +705,25 @@ DATA.doctors.sort((a, b) => Boolean(b.video) - Boolean(a.video));
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   window.ServiceIcons.mountAll();
+
+  const slides = [...document.querySelectorAll('.article-slide')];
+  let currentArticle = 0;
+  function selectArticle(index, reveal = false) {
+    currentArticle = (index + slides.length) % slides.length;
+    slides.forEach((slide, i) => slide.setAttribute('aria-pressed', String(i === currentArticle)));
+    if (reveal && matchMedia('(max-width:800px)').matches) {
+      const slide = slides[currentArticle];
+      slide.parentElement.scrollTo({left: slide.offsetLeft - slides[0].offsetLeft, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'});
+    }
+  }
+  if (slides.length) {
+    selectArticle(0);
+    slides.forEach((slide, index) => slide.addEventListener('click', () => selectArticle(index, true)));
+    document.querySelectorAll('[data-article-step]').forEach(button => {
+      button.addEventListener('click', () => selectArticle(currentArticle + Number(button.dataset.articleStep), true));
+    });
+  }
+
 
   /* Doctor filter by direction */
   const GROUPS = [['Все', /./], ['Терапия', /терапевт|общей/i], ['Хирургия и имплантация', /хирург/i], ['Ортопедия', /ортопед/i], ['Ортодонтия', /ортодонт/i], ['Детям', /детский/i], ['Гигиена', /гигиенист/i], ['Остеопатия', /остеопат/i]];
